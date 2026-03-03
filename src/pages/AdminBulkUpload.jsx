@@ -137,7 +137,7 @@ export default function AdminBulkUpload() {
               <div className="flex-1">
                 <h3 className="text-white font-semibold mb-1">Download Sample CSV</h3>
                 <p className="text-zinc-400 text-sm mb-3">
-                  Use this template to format your products correctly. Required columns: <code className="text-pink-400">title, base_price, status</code>
+                Use this template to format your products correctly. Required columns: <code className="text-pink-400">title, base_price, status</code>. For images, use the full URL from the Image Manager (copy URL after uploading).
                 </p>
                 <Button variant="outline" className="border-zinc-700 text-white hover:text-white" onClick={downloadSampleCSV}>
                   <Download className="w-4 h-4 mr-2" />
