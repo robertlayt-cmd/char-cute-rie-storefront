@@ -147,30 +147,30 @@ export default function AdminSettings() {
                 </div>
 
                 <div>
-                  <Label>Contact Email</Label>
+                  <Label className="text-zinc-200">Contact Email</Label>
                   <Input
                     type="email"
                     value={settings.contact_email}
                     onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                 </div>
 
                 <div>
-                  <Label>TikTok URL</Label>
+                  <Label className="text-zinc-200">TikTok URL</Label>
                   <Input
                     value={settings.tiktok_url}
                     onChange={(e) => setSettings({ ...settings, tiktok_url: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                 </div>
 
                 <div>
-                  <Label>Instagram URL</Label>
+                  <Label className="text-zinc-200">Instagram URL</Label>
                   <Input
                     value={settings.instagram_url}
                     onChange={(e) => setSettings({ ...settings, instagram_url: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                 </div>
               </CardContent>
@@ -188,24 +188,24 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label>Flat Rate Shipping (AUD)</Label>
+                  <Label className="text-zinc-200">Flat Rate Shipping (AUD)</Label>
                   <Input
                     type="number"
                     step="0.01"
                     value={settings.shipping_flat_rate}
                     onChange={(e) => setSettings({ ...settings, shipping_flat_rate: parseFloat(e.target.value) || 0 })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                 </div>
 
                 <div>
-                  <Label>Free Shipping Threshold (AUD)</Label>
+                  <Label className="text-zinc-200">Free Shipping Threshold (AUD)</Label>
                   <Input
                     type="number"
                     step="0.01"
                     value={settings.free_shipping_threshold}
                     onChange={(e) => setSettings({ ...settings, free_shipping_threshold: parseFloat(e.target.value) || 0 })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                   <p className="text-zinc-500 text-sm mt-1">Orders over this amount get free shipping</p>
                 </div>
@@ -224,9 +224,9 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label>Currency</Label>
+                  <Label className="text-zinc-200">Currency</Label>
                   <Select value={settings.currency} onValueChange={(v) => setSettings({ ...settings, currency: v })}>
-                    <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                    <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-zinc-800 border-zinc-700">
@@ -238,9 +238,9 @@ export default function AdminSettings() {
                 </div>
 
                 <div>
-                  <Label>PayPal Mode</Label>
+                  <Label className="text-zinc-200">PayPal Mode</Label>
                   <Select value={settings.paypal_mode} onValueChange={(v) => setSettings({ ...settings, paypal_mode: v })}>
-                    <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                    <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-zinc-800 border-zinc-700">
@@ -251,11 +251,11 @@ export default function AdminSettings() {
                 </div>
 
                 <div>
-                  <Label>PayPal Client ID</Label>
+                  <Label className="text-zinc-200">PayPal Client ID</Label>
                   <Input
                     value={settings.paypal_client_id}
                     onChange={(e) => setSettings({ ...settings, paypal_client_id: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700 font-mono"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 font-mono"
                     placeholder="Your PayPal Client ID"
                   />
                 </div>
@@ -274,31 +274,31 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label>About Us</Label>
+                  <Label className="text-zinc-200">About Us</Label>
                   <Textarea
                     value={settings.about_text}
                     onChange={(e) => setSettings({ ...settings, about_text: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700 min-h-[150px]"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 min-h-[150px]"
                     placeholder="Tell your customers about your brand..."
                   />
                 </div>
 
                 <div>
-                  <Label>Shipping Policy</Label>
+                  <Label className="text-zinc-200">Shipping Policy</Label>
                   <Textarea
                     value={settings.shipping_policy}
                     onChange={(e) => setSettings({ ...settings, shipping_policy: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700 min-h-[150px]"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 min-h-[150px]"
                     placeholder="Describe your shipping policies..."
                   />
                 </div>
 
                 <div>
-                  <Label>Returns & Refunds Policy</Label>
+                  <Label className="text-zinc-200">Returns & Refunds Policy</Label>
                   <Textarea
                     value={settings.returns_policy}
                     onChange={(e) => setSettings({ ...settings, returns_policy: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700 min-h-[150px]"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 min-h-[150px]"
                     placeholder="Describe your return and refund policies..."
                   />
                 </div>
