@@ -67,6 +67,22 @@ export default function AdminOrders() {
     if (selectedOrder?.id === order.id) {
       setSelectedOrder({ ...selectedOrder, status: newStatus });
     }
+
+    // Send email notification to customer
+    const statusMessages = {
+      paid: { subject: `Order ${order.order_number} - Payment Confirmed! 🎉`, msg: 'Great news! Your payment has been confirmed and we\'re preparing your order.' },
+      shipped: { subject: `Order ${order.order_number} - Your order is on its way! 📦`, msg: 'Exciting news! Your Char\'Cute\'rie order has been shipped and is on its way to you.' },
+      cancelled: { subject: `Order ${order.order_number} - Order Cancelled`, msg: 'Your order has been cancelled. If you have any questions, please contact us.' },
+    };
+
+    const notification = statusMessages[newStatus];
+    if (notification && order.customer_email) {
+      base44.integrations.Core.SendEmail({
+        to: order.customer_email,
+        subject: notification.subject,
+        body: `Hi ${order.customer_name},\n\n${notification.msg}\n\nOrder: ${order.order_number}\nTotal: $${order.total?.toFixed(2)} AUD\n\nThank you for shopping with Char'Cute'rie! 💕\n\nhttps://www.tiktok.com/@char.cute.rie`
+      });
+    }
   };
 
   return (
