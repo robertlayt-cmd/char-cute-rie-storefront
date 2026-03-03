@@ -7,9 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Download, CheckCircle, XCircle, AlertCircle, FileText } from 'lucide-react';
 
-const SAMPLE_CSV = `title,slug,description,short_description,base_price,compare_price,category_name,materials,badge,status,is_featured,is_tiktok_featured,rating,review_count,tags
-Strawberry Stud Earrings,strawberry-studs,"Adorable hand-sculpted strawberry studs","Cute strawberry polymer clay studs",24.00,30.00,Earrings,"Polymer clay, stainless steel posts",new,published,false,true,5,10,"strawberry,fruit,cute"
-Croissant Hoop Earrings,croissant-hoops,"Buttery croissant charm hoops","French croissant on gold hoops",26.00,,Earrings,"Polymer clay, gold hoops",hot,published,true,false,5,8,"croissant,pastry,french"
+const SAMPLE_CSV = `title,slug,description,short_description,base_price,compare_price,category_name,materials,badge,status,is_featured,is_tiktok_featured,rating,review_count,tags,main_image_url
+Strawberry Stud Earrings,strawberry-studs,"Adorable hand-sculpted strawberry studs","Cute strawberry polymer clay studs",24.00,30.00,Earrings,"Polymer clay, stainless steel posts",new,published,false,true,5,10,"strawberry,fruit,cute",https://example.com/your-image-url.jpg
+Croissant Hoop Earrings,croissant-hoops,"Buttery croissant charm hoops","French croissant on gold hoops",26.00,,Earrings,"Polymer clay, gold hoops",hot,published,true,false,5,8,"croissant,pastry,french",
 `;
 
 function downloadSampleCSV() {
