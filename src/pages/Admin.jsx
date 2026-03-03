@@ -237,11 +237,12 @@ export default function Admin() {
                     <p className="text-white font-medium">Settings</p>
                     <p className="text-zinc-400 text-sm">Store configuration</p>
                   </div>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-      </div>
-    </AdminLayout>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  </div>
+                  </div>
+                  </AdminLayout>
   );
 }
