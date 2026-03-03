@@ -82,7 +82,7 @@ export default function Admin() {
   };
 
   return (
-    <div className="dark min-h-screen bg-zinc-950 p-6">
+    <AdminLayout currentPage="Admin">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
