@@ -495,6 +495,6 @@ export default function AdminProducts() {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
