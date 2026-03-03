@@ -242,7 +242,6 @@ export default function Admin() {
             </Card>
           </div>
         </div>
-      </div>
     </AdminLayout>
   );
 }
