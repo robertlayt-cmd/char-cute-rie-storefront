@@ -47,41 +47,45 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import Product from './pages/Product';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import ThankYou from './pages/ThankYou';
+import About from './pages/About';
 import Admin from './pages/Admin';
-import AdminProducts from './pages/AdminProducts';
-import AdminOrders from './pages/AdminOrders';
 import AdminCategories from './pages/AdminCategories';
 import AdminDiscounts from './pages/AdminDiscounts';
+import AdminOrders from './pages/AdminOrders';
+import AdminProducts from './pages/AdminProducts';
 import AdminSettings from './pages/AdminSettings';
-import About from './pages/About';
-import Shipping from './pages/Shipping';
-import Returns from './pages/Returns';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
+import Home from './pages/Home';
+import Product from './pages/Product';
+import Returns from './pages/Returns';
+import Shipping from './pages/Shipping';
+import Shop from './pages/Shop';
+import ThankYou from './pages/ThankYou';
+import AdminBulkUpload from './pages/AdminBulkUpload';
+import AdminImages from './pages/AdminImages';
 
 
 export const PAGES = {
-    "Home": Home,
-    "Shop": Shop,
-    "Product": Product,
-    "Cart": Cart,
-    "Checkout": Checkout,
-    "ThankYou": ThankYou,
+    "About": About,
     "Admin": Admin,
-    "AdminProducts": AdminProducts,
-    "AdminOrders": AdminOrders,
     "AdminCategories": AdminCategories,
     "AdminDiscounts": AdminDiscounts,
+    "AdminOrders": AdminOrders,
+    "AdminProducts": AdminProducts,
     "AdminSettings": AdminSettings,
-    "About": About,
-    "Shipping": Shipping,
-    "Returns": Returns,
+    "Cart": Cart,
+    "Checkout": Checkout,
     "Contact": Contact,
+    "Home": Home,
+    "Product": Product,
+    "Returns": Returns,
+    "Shipping": Shipping,
+    "Shop": Shop,
+    "ThankYou": ThankYou,
+    "AdminBulkUpload": AdminBulkUpload,
+    "AdminImages": AdminImages,
 }
 
 export const pagesConfig = {
