@@ -3,6 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -182,20 +183,13 @@ export default function AdminProducts() {
   };
 
   return (
-    <div className="dark min-h-screen bg-zinc-950 p-6">
+    <AdminLayout currentPage="AdminProducts">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-4">
-            <Link to={createPageUrl('Admin')}>
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-3xl font-bold text-white">Products</h1>
-              <p className="text-zinc-400">{products.length} products</p>
-            </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Products</h1>
+            <p className="text-zinc-400">{products.length} products</p>
           </div>
           <Button onClick={() => openEditDialog()} className="bg-pink-500 hover:bg-pink-600">
             <Plus className="w-4 h-4 mr-2" />
@@ -295,43 +289,43 @@ export default function AdminProducts() {
                 {/* Basic Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2">
-                    <Label>Title</Label>
+                    <Label className="text-zinc-200">Title</Label>
                     <Input
                       value={editingProduct.title}
                       onChange={(e) => setEditingProduct({ ...editingProduct, title: e.target.value })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400"
                     />
                   </div>
                   <div>
-                    <Label>Base Price (AUD)</Label>
+                    <Label className="text-zinc-200">Base Price (AUD)</Label>
                     <Input
                       type="number"
                       step="0.01"
                       value={editingProduct.base_price}
                       onChange={(e) => setEditingProduct({ ...editingProduct, base_price: parseFloat(e.target.value) || 0 })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                   <div>
-                    <Label>Compare Price</Label>
+                    <Label className="text-zinc-200">Compare Price</Label>
                     <Input
                       type="number"
                       step="0.01"
                       value={editingProduct.compare_price}
                       onChange={(e) => setEditingProduct({ ...editingProduct, compare_price: parseFloat(e.target.value) || 0 })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                   <div>
-                    <Label>Category</Label>
+                    <Label className="text-zinc-200">Category</Label>
                     <Select 
                       value={editingProduct.category_id} 
                       onValueChange={(v) => setEditingProduct({ ...editingProduct, category_id: v })}
                     >
-                      <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                      <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-700">
+                      <SelectContent className="bg-zinc-800 border-zinc-600">
                         {categories.map(c => (
                           <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                         ))}
@@ -339,15 +333,15 @@ export default function AdminProducts() {
                     </Select>
                   </div>
                   <div>
-                    <Label>Status</Label>
+                    <Label className="text-zinc-200">Status</Label>
                     <Select 
                       value={editingProduct.status} 
                       onValueChange={(v) => setEditingProduct({ ...editingProduct, status: v })}
                     >
-                      <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                      <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-700">
+                      <SelectContent className="bg-zinc-800 border-zinc-600">
                         <SelectItem value="draft">Draft</SelectItem>
                         <SelectItem value="published">Published</SelectItem>
                         <SelectItem value="archived">Archived</SelectItem>
@@ -355,15 +349,15 @@ export default function AdminProducts() {
                     </Select>
                   </div>
                   <div>
-                    <Label>Badge</Label>
+                    <Label className="text-zinc-200">Badge</Label>
                     <Select 
                       value={editingProduct.badge || ''} 
                       onValueChange={(v) => setEditingProduct({ ...editingProduct, badge: v })}
                     >
-                      <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                      <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                         <SelectValue placeholder="No badge" />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-700">
+                      <SelectContent className="bg-zinc-800 border-zinc-600">
                         <SelectItem value={null}>None</SelectItem>
                         <SelectItem value="new">New</SelectItem>
                         <SelectItem value="hot">Hot</SelectItem>
@@ -374,11 +368,11 @@ export default function AdminProducts() {
                     </Select>
                   </div>
                   <div className="col-span-2">
-                    <Label>Description</Label>
+                    <Label className="text-zinc-200">Description</Label>
                     <Textarea
                       value={editingProduct.description}
                       onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
-                      className="bg-zinc-800 border-zinc-700 min-h-[100px]"
+                      className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 min-h-[100px]"
                     />
                   </div>
                 </div>
@@ -446,7 +440,7 @@ export default function AdminProducts() {
                             updated[i].name = e.target.value;
                             setEditingVariants(updated);
                           }}
-                          className="flex-1 bg-zinc-700 border-zinc-600"
+                          className="flex-1 bg-zinc-700 border-zinc-500 text-white placeholder:text-zinc-400"
                         />
                         <Input
                           type="number"
@@ -457,7 +451,7 @@ export default function AdminProducts() {
                             updated[i].stock_quantity = parseInt(e.target.value) || 0;
                             setEditingVariants(updated);
                           }}
-                          className="w-20 bg-zinc-700 border-zinc-600"
+                          className="w-20 bg-zinc-700 border-zinc-500 text-white"
                         />
                         <label className="w-10 h-10 border border-dashed border-zinc-600 rounded flex items-center justify-center cursor-pointer hover:border-pink-500">
                           {variant.image_url ? (
