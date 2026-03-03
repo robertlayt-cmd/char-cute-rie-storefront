@@ -70,15 +70,10 @@ export default function AdminOrders() {
   };
 
   return (
-    <div className="dark min-h-screen bg-zinc-950 p-6">
+    <AdminLayout currentPage="AdminOrders">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link to={createPageUrl('Admin')}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
           <div>
             <h1 className="text-3xl font-bold text-white">Orders</h1>
             <p className="text-zinc-400">{orders.length} total orders</p>
@@ -296,6 +291,6 @@ export default function AdminOrders() {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
+    </AdminLayout>
   );
 }

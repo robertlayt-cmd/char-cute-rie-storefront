@@ -74,23 +74,20 @@ export default function AdminSettings() {
 
   if (isLoading || !settings) {
     return (
-      <div className="dark min-h-screen bg-zinc-950 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-pink-500" />
-      </div>
+      <AdminLayout currentPage="AdminSettings">
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="w-8 h-8 animate-spin text-pink-500" />
+        </div>
+      </AdminLayout>
     );
   }
 
   return (
-    <div className="dark min-h-screen bg-zinc-950 p-6">
+    <AdminLayout currentPage="AdminSettings">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-4">
-            <Link to={createPageUrl('Admin')}>
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
+          <div>
             <h1 className="text-3xl font-bold text-white">Store Settings</h1>
           </div>
           <Button onClick={handleSave} className="bg-pink-500 hover:bg-pink-600" disabled={isSaving}>
@@ -310,6 +307,6 @@ export default function AdminSettings() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </AdminLayout>
   );
 }

@@ -75,20 +75,13 @@ export default function AdminDiscounts() {
   };
 
   return (
-    <div className="dark min-h-screen bg-zinc-950 p-6">
+    <AdminLayout currentPage="AdminDiscounts">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-4">
-            <Link to={createPageUrl('Admin')}>
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-3xl font-bold text-white">Discount Codes</h1>
-              <p className="text-zinc-400">{codes.length} codes</p>
-            </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Discount Codes</h1>
+            <p className="text-zinc-400">{codes.length} codes</p>
           </div>
           <Button onClick={() => openEditDialog()} className="bg-pink-500 hover:bg-pink-600">
             <Plus className="w-4 h-4 mr-2" />
@@ -281,6 +274,6 @@ export default function AdminDiscounts() {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
