@@ -115,20 +115,20 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label>Store Name</Label>
+                  <Label className="text-zinc-200">Store Name</Label>
                   <Input
                     value={settings.store_name}
                     onChange={(e) => setSettings({ ...settings, store_name: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                 </div>
 
                 <div>
-                  <Label>Tagline</Label>
+                  <Label className="text-zinc-200">Tagline</Label>
                   <Input
                     value={settings.tagline}
                     onChange={(e) => setSettings({ ...settings, tagline: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white"
                   />
                 </div>
 

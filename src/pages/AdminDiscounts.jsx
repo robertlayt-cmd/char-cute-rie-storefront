@@ -175,80 +175,80 @@ export default function AdminDiscounts() {
             {editingCode && (
               <div className="space-y-4">
                 <div>
-                  <Label>Code</Label>
+                  <Label className="text-zinc-200">Code</Label>
                   <Input
                     value={editingCode.code}
                     onChange={(e) => setEditingCode({ ...editingCode, code: e.target.value.toUpperCase() })}
                     placeholder="e.g. SAVE20"
-                    className="bg-zinc-800 border-zinc-700 font-mono"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 font-mono"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Type</Label>
+                    <Label className="text-zinc-200">Type</Label>
                     <Select 
                       value={editingCode.discount_type} 
                       onValueChange={(v) => setEditingCode({ ...editingCode, discount_type: v })}
                     >
-                      <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                      <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-700">
+                      <SelectContent className="bg-zinc-800 border-zinc-600">
                         <SelectItem value="percentage">Percentage</SelectItem>
                         <SelectItem value="fixed">Fixed Amount</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <Label>Value</Label>
+                    <Label className="text-zinc-200">Value</Label>
                     <Input
                       type="number"
                       value={editingCode.discount_value}
                       onChange={(e) => setEditingCode({ ...editingCode, discount_value: parseFloat(e.target.value) || 0 })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Minimum Order ($)</Label>
+                    <Label className="text-zinc-200">Minimum Order ($)</Label>
                     <Input
                       type="number"
                       value={editingCode.minimum_order}
                       onChange={(e) => setEditingCode({ ...editingCode, minimum_order: parseFloat(e.target.value) || 0 })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                   <div>
-                    <Label>Max Uses (-1 = unlimited)</Label>
+                    <Label className="text-zinc-200">Max Uses (-1 = unlimited)</Label>
                     <Input
                       type="number"
                       value={editingCode.max_uses}
                       onChange={(e) => setEditingCode({ ...editingCode, max_uses: parseInt(e.target.value) || -1 })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Valid From</Label>
+                    <Label className="text-zinc-200">Valid From</Label>
                     <Input
                       type="date"
                       value={editingCode.valid_from}
                       onChange={(e) => setEditingCode({ ...editingCode, valid_from: e.target.value })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                   <div>
-                    <Label>Valid Until (optional)</Label>
+                    <Label className="text-zinc-200">Valid Until (optional)</Label>
                     <Input
                       type="date"
                       value={editingCode.valid_until}
                       onChange={(e) => setEditingCode({ ...editingCode, valid_until: e.target.value })}
-                      className="bg-zinc-800 border-zinc-700"
+                      className="bg-zinc-800 border-zinc-600 text-white"
                     />
                   </div>
                 </div>

@@ -166,30 +166,30 @@ export default function AdminCategories() {
             {editingCategory && (
               <div className="space-y-4">
                 <div>
-                  <Label>Name</Label>
+                  <Label className="text-zinc-200">Name</Label>
                   <Input
                     value={editingCategory.name}
                     onChange={(e) => setEditingCategory({ ...editingCategory, name: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400"
                   />
                 </div>
 
                 <div>
-                  <Label>Slug (URL)</Label>
+                  <Label className="text-zinc-200">Slug (URL)</Label>
                   <Input
                     value={editingCategory.slug}
                     onChange={(e) => setEditingCategory({ ...editingCategory, slug: e.target.value })}
                     placeholder="auto-generated from name"
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400"
                   />
                 </div>
 
                 <div>
-                  <Label>Description</Label>
+                  <Label className="text-zinc-200">Description</Label>
                   <Textarea
                     value={editingCategory.description}
                     onChange={(e) => setEditingCategory({ ...editingCategory, description: e.target.value })}
-                    className="bg-zinc-800 border-zinc-700"
+                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400"
                   />
                 </div>
 
