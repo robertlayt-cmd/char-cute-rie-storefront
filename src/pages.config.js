@@ -53,6 +53,12 @@ import Product from './pages/Product';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import ThankYou from './pages/ThankYou';
+import Admin from './pages/Admin';
+import AdminProducts from './pages/AdminProducts';
+import AdminOrders from './pages/AdminOrders';
+import AdminCategories from './pages/AdminCategories';
+import AdminDiscounts from './pages/AdminDiscounts';
+import AdminSettings from './pages/AdminSettings';
 
 
 export const PAGES = {
@@ -62,6 +68,12 @@ export const PAGES = {
     "Cart": Cart,
     "Checkout": Checkout,
     "ThankYou": ThankYou,
+    "Admin": Admin,
+    "AdminProducts": AdminProducts,
+    "AdminOrders": AdminOrders,
+    "AdminCategories": AdminCategories,
+    "AdminDiscounts": AdminDiscounts,
+    "AdminSettings": AdminSettings,
 }
 
 export const pagesConfig = {
