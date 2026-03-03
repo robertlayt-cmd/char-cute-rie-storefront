@@ -203,10 +203,11 @@ export default function AdminBulkUpload() {
                       <th className="text-left p-3 text-zinc-400">Category</th>
                       <th className="text-left p-3 text-zinc-400">Status</th>
                       <th className="text-left p-3 text-zinc-400">Badge</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {preview.map((row, i) => (
+                      <th className="text-left p-3 text-zinc-400">Image</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {preview.map((row, i) => (
                       <tr key={i} className="border-b border-zinc-800/50">
                         <td className="p-3 text-white">{row.title}</td>
                         <td className="p-3 text-pink-400">${row.base_price}</td>
@@ -217,8 +218,13 @@ export default function AdminBulkUpload() {
                           </Badge>
                         </td>
                         <td className="p-3 text-zinc-300">{row.badge || '-'}</td>
+                        <td className="p-3">
+                          {row.main_image_url ? (
+                            <img src={row.main_image_url} alt="" className="w-10 h-10 object-cover rounded" onError={(e) => { e.target.style.display='none'; }} />
+                          ) : <span className="text-zinc-600">-</span>}
+                        </td>
                       </tr>
-                    ))}
+                      ))}
                   </tbody>
                 </table>
               </div>
