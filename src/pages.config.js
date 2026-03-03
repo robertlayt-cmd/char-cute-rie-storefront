@@ -59,6 +59,10 @@ import AdminOrders from './pages/AdminOrders';
 import AdminCategories from './pages/AdminCategories';
 import AdminDiscounts from './pages/AdminDiscounts';
 import AdminSettings from './pages/AdminSettings';
+import About from './pages/About';
+import Shipping from './pages/Shipping';
+import Returns from './pages/Returns';
+import Contact from './pages/Contact';
 
 
 export const PAGES = {
@@ -74,6 +78,10 @@ export const PAGES = {
     "AdminCategories": AdminCategories,
     "AdminDiscounts": AdminDiscounts,
     "AdminSettings": AdminSettings,
+    "About": About,
+    "Shipping": Shipping,
+    "Returns": Returns,
+    "Contact": Contact,
 }
 
 export const pagesConfig = {
