@@ -144,16 +144,18 @@ export default function Checkout() {
       },
       onApprove: async (data) => {
         setIsProcessing(true);
-        const internalOrderId = sessionStorage.getItem('internalOrderId');
         const orderNumber = sessionStorage.getItem('orderNumber');
+        const pendingOrder = JSON.parse(sessionStorage.getItem('pendingOrder') || '{}');
+        // Now create the order in DB since payment is approved
+        const createdOrder = await base44.entities.Order.create(pendingOrder);
         await base44.functions.invoke('paypalCaptureOrder', {
           paypalOrderId: data.orderID,
-          internalOrderId,
+          internalOrderId: createdOrder.id,
         });
         sendConfirmationEmail(orderNumber);
         localStorage.removeItem('cart');
         localStorage.removeItem('appliedDiscount');
-        sessionStorage.removeItem('internalOrderId');
+        sessionStorage.removeItem('pendingOrder');
         sessionStorage.removeItem('orderNumber');
         navigate(createPageUrl('ThankYou') + '?order=' + orderNumber);
       },
