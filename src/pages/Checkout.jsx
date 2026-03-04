@@ -254,12 +254,6 @@ export default function Checkout() {
 </html>`
     });
 
-    // Clear cart
-    localStorage.removeItem('cart');
-    localStorage.removeItem('appliedDiscount');
-    
-    // Redirect to thank you page
-    navigate(`${createPageUrl('ThankYou')}?order=${orderNumber}`);
   };
 
   if (cartItems.length === 0) {
