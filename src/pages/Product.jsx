@@ -330,10 +330,10 @@ export default function Product() {
                   )}
                 </Button>
 
-                <Button variant="outline" size="icon" className="border-zinc-700">
+                <Button variant="outline" size="icon" className="border-zinc-700 text-white hover:text-pink-400 hover:bg-zinc-800">
                   <Heart className="w-5 h-5" />
                 </Button>
-                <Button variant="outline" size="icon" className="border-zinc-700">
+                <Button variant="outline" size="icon" className="border-zinc-700 text-white hover:text-pink-400 hover:bg-zinc-800">
                   <Share2 className="w-5 h-5" />
                 </Button>
               </div>
