@@ -35,6 +35,8 @@ Deno.serve(async (req) => {
     const paypalBase = await getPaypalBase(base44);
     const accessToken = await getAccessToken(paypalBase);
 
+    const { amount, currency = 'AUD', orderId, shippingAddress } = await req.json();
+
     const res = await fetch(paypalBase + '/v2/checkout/orders', {
       method: 'POST',
       headers: {
@@ -49,7 +51,22 @@ Deno.serve(async (req) => {
             currency_code: currency,
             value: parseFloat(amount).toFixed(2),
           },
+          shipping: shippingAddress ? {
+            name: { full_name: shippingAddress.name },
+            address: {
+              address_line_1: shippingAddress.street,
+              admin_area_2: shippingAddress.city,
+              admin_area_1: shippingAddress.state,
+              postal_code: shippingAddress.postcode,
+              country_code: 'AU',
+            }
+          } : undefined,
         }],
+        payer: {
+          address: {
+            country_code: 'AU',
+          }
+        },
       }),
     });
 
