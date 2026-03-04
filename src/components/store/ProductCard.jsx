@@ -133,6 +133,7 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
                 )}
               </div>
             )}
+            </div>
 
             {/* Title */}
             <h3 className="text-white font-medium mb-1 line-clamp-2 group-hover:text-pink-400 transition-colors">
