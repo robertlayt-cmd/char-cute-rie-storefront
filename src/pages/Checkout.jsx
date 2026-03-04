@@ -74,7 +74,10 @@ export default function Checkout() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const updated = { ...formData, [name]: value };
+    setFormData(updated);
+    const valid = updated.email && updated.phone && updated.firstName && updated.lastName && updated.street && updated.city && updated.state && updated.postcode;
+    setFormValid(!!valid);
   };
 
   const generateOrderNumber = () => {
