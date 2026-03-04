@@ -26,11 +26,15 @@ const AU_STATES = [
 
 export default function Checkout() {
   const navigate = useNavigate();
+  const paypalContainerRef = useRef(null);
+  const paypalRendered = useRef(false);
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
   });
   const [isProcessing, setIsProcessing] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [formValid, setFormValid] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
