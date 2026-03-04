@@ -36,6 +36,8 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [formError, setFormError] = useState('');
   const [formValid, setFormValid] = useState(false);
+  const [differentShipping, setDifferentShipping] = useState(false);
+  const [orderNotes, setOrderNotes] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -46,6 +48,32 @@ export default function Checkout() {
     state: '',
     postcode: '',
   });
+  const [shippingData, setShippingData] = useState({
+    firstName: '', lastName: '', street: '', city: '', state: '', postcode: '',
+  });
+
+  const { data: currentUser } = useQuery({
+    queryKey: ['me'],
+    queryFn: () => base44.auth.me().catch(() => null),
+  });
+
+  // Prefill from user profile
+  useEffect(() => {
+    if (currentUser) {
+      const addr = currentUser.default_address || {};
+      setFormData(f => ({
+        ...f,
+        email: currentUser.email || f.email,
+        phone: currentUser.phone || f.phone,
+        firstName: addr.first_name || f.firstName,
+        lastName: addr.last_name || f.lastName,
+        street: addr.street || f.street,
+        city: addr.city || f.city,
+        state: addr.state || f.state,
+        postcode: addr.postcode || f.postcode,
+      }));
+    }
+  }, [currentUser]);
 
   const { data: settings } = useQuery({
     queryKey: ['settings'],
