@@ -124,11 +124,13 @@ export default function Checkout() {
       createOrder: async () => {
         setFormError('');
         const orderNumber = generateOrderNumber();
-        const createdOrder = await base44.entities.Order.create(buildOrder(orderNumber));
+        // Store order details in session — only create the DB record after PayPal approves
+        sessionStorage.setItem('pendingOrder', JSON.stringify(buildOrder(orderNumber)));
+        sessionStorage.setItem('orderNumber', orderNumber);
         const paypalRes = await base44.functions.invoke('paypalCreateOrder', {
           amount: total,
           currency: 'AUD',
-          orderId: createdOrder.id,
+          orderId: orderNumber,
           shippingAddress: {
             name: formData.firstName + ' ' + formData.lastName,
             street: formData.street,
@@ -138,8 +140,6 @@ export default function Checkout() {
           },
         });
         if (!paypalRes.data?.id) throw new Error('Failed to create PayPal order');
-        sessionStorage.setItem('internalOrderId', createdOrder.id);
-        sessionStorage.setItem('orderNumber', orderNumber);
         return paypalRes.data.id;
       },
       onApprove: async (data) => {
