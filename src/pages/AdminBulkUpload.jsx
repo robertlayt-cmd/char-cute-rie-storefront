@@ -81,8 +81,25 @@ export default function AdminBulkUpload() {
     setResults([]);
     const newResults = [];
 
+    // Build a mutable category lookup so newly created ones are found by subsequent rows
+    const categoryLookup = [...categories];
+
     for (const row of preview) {
-      const cat = categories.find(c => c.name.toLowerCase() === (row.category_name || '').toLowerCase());
+      let cat = categoryLookup.find(c => c.name.toLowerCase() === (row.category_name || '').toLowerCase());
+      
+      // Auto-create category if it doesn't exist
+      if (!cat && row.category_name) {
+        const slug = row.category_name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        cat = await base44.entities.Category.create({
+          name: row.category_name,
+          slug,
+          is_active: true,
+          display_order: categoryLookup.length
+        });
+        categoryLookup.push(cat);
+        queryClient.invalidateQueries(['admin-categories']);
+      }
+
       const productData = {
         title: row.title,
         slug: row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),

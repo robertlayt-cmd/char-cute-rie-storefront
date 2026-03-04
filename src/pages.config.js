@@ -49,8 +49,10 @@
  */
 import About from './pages/About';
 import Admin from './pages/Admin';
+import AdminBulkUpload from './pages/AdminBulkUpload';
 import AdminCategories from './pages/AdminCategories';
 import AdminDiscounts from './pages/AdminDiscounts';
+import AdminImages from './pages/AdminImages';
 import AdminOrders from './pages/AdminOrders';
 import AdminProducts from './pages/AdminProducts';
 import AdminSettings from './pages/AdminSettings';
@@ -63,15 +65,15 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
-import AdminBulkUpload from './pages/AdminBulkUpload';
-import AdminImages from './pages/AdminImages';
 
 
 export const PAGES = {
     "About": About,
     "Admin": Admin,
+    "AdminBulkUpload": AdminBulkUpload,
     "AdminCategories": AdminCategories,
     "AdminDiscounts": AdminDiscounts,
+    "AdminImages": AdminImages,
     "AdminOrders": AdminOrders,
     "AdminProducts": AdminProducts,
     "AdminSettings": AdminSettings,
@@ -84,8 +86,6 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
-    "AdminBulkUpload": AdminBulkUpload,
-    "AdminImages": AdminImages,
 }
 
 export const pagesConfig = {
