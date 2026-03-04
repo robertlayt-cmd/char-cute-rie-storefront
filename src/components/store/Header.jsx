@@ -103,7 +103,7 @@ export default function Header({ cartCount = 0, onCartClick, categories = [] }) 
                 variant="ghost"
                 size="icon"
                 className="relative text-white hover:bg-white/10"
-                onClick={onCartClick}
+                onClick={onCartClick || (() => window.location.href = createPageUrl('Cart'))}
               >
                 <ShoppingBag className="h-5 w-5" />
                 {cartCount > 0 && (
