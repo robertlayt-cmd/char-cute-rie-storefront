@@ -407,6 +407,70 @@ export default function Checkout() {
                   </div>
                 </div>
 
+                {/* Different Shipping Address */}
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <Checkbox
+                      id="diffShip"
+                      checked={differentShipping}
+                      onCheckedChange={setDifferentShipping}
+                      className="border-zinc-600"
+                    />
+                    <Label htmlFor="diffShip" className="text-zinc-300 cursor-pointer">Ship to a different address</Label>
+                  </div>
+                  {differentShipping && (
+                    <div className="space-y-4 bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label className="text-zinc-300">First Name</Label>
+                          <Input value={shippingData.firstName} onChange={e => setShippingData(s => ({ ...s, firstName: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white mt-1" />
+                        </div>
+                        <div>
+                          <Label className="text-zinc-300">Last Name</Label>
+                          <Input value={shippingData.lastName} onChange={e => setShippingData(s => ({ ...s, lastName: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white mt-1" />
+                        </div>
+                      </div>
+                      <div>
+                        <Label className="text-zinc-300">Street Address</Label>
+                        <Input value={shippingData.street} onChange={e => setShippingData(s => ({ ...s, street: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white mt-1" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label className="text-zinc-300">City / Suburb</Label>
+                          <Input value={shippingData.city} onChange={e => setShippingData(s => ({ ...s, city: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white mt-1" />
+                        </div>
+                        <div>
+                          <Label className="text-zinc-300">Postcode</Label>
+                          <Input value={shippingData.postcode} onChange={e => setShippingData(s => ({ ...s, postcode: e.target.value }))} className="bg-zinc-800 border-zinc-700 text-white mt-1" />
+                        </div>
+                      </div>
+                      <div>
+                        <Label className="text-zinc-300">State</Label>
+                        <Select value={shippingData.state} onValueChange={val => setShippingData(s => ({ ...s, state: val }))}>
+                          <SelectTrigger className="bg-zinc-800 border-zinc-700 text-white mt-1">
+                            <SelectValue placeholder="Select state" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-zinc-800 border-zinc-700">
+                            {AU_STATES.map(st => <SelectItem key={st} value={st} className="text-white focus:bg-zinc-700">{st}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Order Notes */}
+                <div>
+                  <h2 className="text-xl font-semibold text-white mb-4">Order Notes <span className="text-zinc-500 text-sm font-normal">(optional)</span></h2>
+                  <Textarea
+                    value={orderNotes}
+                    onChange={e => setOrderNotes(e.target.value)}
+                    placeholder="Any special requests or delivery instructions…"
+                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 resize-none"
+                    rows={3}
+                  />
+                </div>
+
                 {/* Payment */}
                 <div>
                   <h2 className="text-xl font-semibold text-white mb-4">Payment</h2>
