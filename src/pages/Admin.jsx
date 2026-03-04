@@ -83,6 +83,7 @@ export default function Admin() {
   };
 
   return (
+    <AdminGuard>
     <AdminLayout currentPage="Admin">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
