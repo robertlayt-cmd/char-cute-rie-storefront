@@ -56,17 +56,17 @@ import AdminImages from './pages/AdminImages';
 import AdminOrders from './pages/AdminOrders';
 import AdminProducts from './pages/AdminProducts';
 import AdminSettings from './pages/AdminSettings';
+import AdminUsers from './pages/AdminUsers';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
 import Product from './pages/Product';
+import Profile from './pages/Profile';
 import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
-import AdminUsers from './pages/AdminUsers';
-import Profile from './pages/Profile';
 import __Layout from './Layout.jsx';
 
 
@@ -80,17 +80,17 @@ export const PAGES = {
     "AdminOrders": AdminOrders,
     "AdminProducts": AdminProducts,
     "AdminSettings": AdminSettings,
+    "AdminUsers": AdminUsers,
     "Cart": Cart,
     "Checkout": Checkout,
     "Contact": Contact,
     "Home": Home,
     "Product": Product,
+    "Profile": Profile,
     "Returns": Returns,
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
-    "AdminUsers": AdminUsers,
-    "Profile": Profile,
 }
 
 export const pagesConfig = {
