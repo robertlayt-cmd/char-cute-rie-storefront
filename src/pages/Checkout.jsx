@@ -79,6 +79,7 @@ export default function Checkout() {
 
   const renderPaypalButtons = (paypal) => {
     if (!paypalContainerRef.current || paypalRendered.current) return;
+    if (!paypal?.Buttons) { console.error('PayPal SDK not available'); return; }
     paypalRendered.current = true;
     paypalContainerRef.current.innerHTML = '';
 
