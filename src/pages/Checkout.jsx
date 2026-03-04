@@ -368,22 +368,25 @@ export default function Checkout() {
                 {/* Payment */}
                 <div>
                   <h2 className="text-xl font-semibold text-white mb-4">Payment</h2>
-                  {!formValid ? (
+                  {!formValid && (
                     <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800 text-center">
                       <Lock className="w-8 h-8 text-zinc-600 mx-auto mb-3" />
                       <p className="text-zinc-400 text-sm">Complete the form above to continue to payment</p>
                     </div>
-                  ) : isProcessing ? (
+                  )}
+                  {isProcessing && (
                     <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800 text-center">
                       <Loader2 className="w-8 h-8 text-pink-500 mx-auto mb-3 animate-spin" />
                       <p className="text-zinc-400 text-sm">Processing your order...</p>
                     </div>
-                  ) : (
+                  )}
+                  {/* Always keep container in DOM so ref is always available */}
+                  <div className={formValid && !isProcessing ? '' : 'hidden'}>
                     <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
                       {formError && <p className="text-red-400 text-sm mb-4">{formError}</p>}
                       <div ref={paypalContainerRef} id="paypal-button-container" />
                     </div>
-                  )}
+                  </div>
                 </div>
               </form>
             </div>
