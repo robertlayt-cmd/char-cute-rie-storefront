@@ -131,17 +131,24 @@ export default function Checkout() {
   useEffect(() => {
     base44.functions.invoke('paypalClientId').then(res => {
       const clientId = res.data?.clientId || 'sb';
-      const existing = document.querySelector('script[data-namespace="paypal_sdk"]');
-      if (existing) return; // already loaded
+      if (document.querySelector('#paypal-sdk-script')) return;
       const script = document.createElement('script');
-      script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD&locale=en_AU&buyer-country=AU';
-      script.setAttribute('data-namespace', 'paypal_sdk');
+      script.id = 'paypal-sdk-script';
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD';
+      script.onload = () => {
+        window.__paypalSdkReady = true;
+        // If form is already valid, render now
+        if (window.__paypalFormValid && !paypalRendered.current && paypalContainerRef.current) {
+          renderPaypalButtons(window.paypal);
+        }
+      };
       document.body.appendChild(script);
     });
     return () => {
-      const existing = document.querySelector('script[data-namespace="paypal_sdk"]');
-      if (existing) existing.remove();
-      delete window.paypal_sdk;
+      const s = document.querySelector('#paypal-sdk-script');
+      if (s) s.remove();
+      window.__paypalSdkReady = false;
+      window.__paypalFormValid = false;
     };
   }, []); // eslint-disable-line
 
@@ -149,25 +156,15 @@ export default function Checkout() {
   useEffect(() => {
     if (!formValid) {
       paypalRendered.current = false;
+      window.__paypalFormValid = false;
       return;
     }
-    // Use a small timeout to ensure the container is in the DOM after React re-render
-    const timer = setTimeout(() => {
-      if (paypalRendered.current) return;
-      if (!paypalContainerRef.current) return;
-      if (window.paypal_sdk) {
-        renderPaypalButtons(window.paypal_sdk);
-      } else {
-        // Poll until SDK is ready
-        const interval = setInterval(() => {
-          if (window.paypal_sdk && paypalContainerRef.current && !paypalRendered.current) {
-            clearInterval(interval);
-            renderPaypalButtons(window.paypal_sdk);
-          }
-        }, 200);
-      }
-    }, 100);
-    return () => clearTimeout(timer);
+    window.__paypalFormValid = true;
+    if (paypalRendered.current) return;
+    if (window.__paypalSdkReady && window.paypal && paypalContainerRef.current) {
+      renderPaypalButtons(window.paypal);
+    }
+    // else onload callback above will handle it
   }, [formValid]); // eslint-disable-line
 
   const generateOrderNumber = () => {
