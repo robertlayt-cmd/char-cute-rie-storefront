@@ -75,6 +75,12 @@ export default function Checkout() {
     }
   }, [currentUser]);
 
+  // Recheck form validity whenever formData changes (e.g. prefilled from profile)
+  useEffect(() => {
+    const valid = !!(formData.email && formData.phone && formData.firstName && formData.lastName && formData.street && formData.city && formData.state && formData.postcode);
+    setFormValid(valid);
+  }, [formData]);
+
   const { data: settings } = useQuery({
     queryKey: ['settings'],
     queryFn: async () => {
