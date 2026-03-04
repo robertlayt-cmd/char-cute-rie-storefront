@@ -248,4 +248,5 @@ export default function Admin() {
                   </AdminLayout>
                   </AdminGuard>
                   );
+                  }
 }
