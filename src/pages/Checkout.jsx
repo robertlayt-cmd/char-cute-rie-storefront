@@ -138,12 +138,14 @@ export default function Checkout() {
           setIsProcessing(false);
         },
       }).render(paypalContainerRef.current);
-    };
-    document.body.appendChild(script);
+      };
+      document.body.appendChild(script);
+    });
 
     return () => {
       const existing = document.querySelector('script[data-namespace="paypal_sdk"]');
       if (existing) document.body.removeChild(existing);
+      paypalRendered.current = false;
     };
   }, [formValid]);
 
