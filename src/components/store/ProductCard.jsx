@@ -68,6 +68,13 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
               </div>
             )}
 
+            {/* Sold Out Flag */}
+            {!inStock && (
+              <div className="absolute top-0 right-0 bg-zinc-900 text-white text-xs font-bold px-3 py-1.5 rounded-bl-xl z-10">
+                SOLD OUT
+              </div>
+            )}
+
             {/* Quick Add + Actions */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
