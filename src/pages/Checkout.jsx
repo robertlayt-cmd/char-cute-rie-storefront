@@ -334,6 +334,14 @@ export default function Checkout() {
             <div>
               <h1 className="text-3xl font-bold text-white mb-8">Checkout</h1>
 
+              {currentUser && (
+                <div className="mb-6 flex items-center gap-3 bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+                  <User className="w-4 h-4 text-pink-400" />
+                  <p className="text-zinc-300 text-sm flex-1">Signed in as <span className="text-white font-medium">{currentUser.full_name}</span> — form prefilled from your profile</p>
+                  <Link to={createPageUrl('Profile')} className="text-pink-400 text-sm hover:underline">Edit Profile</Link>
+                </div>
+              )}
+
               <form className="space-y-8">
                 {/* Contact */}
                 <div>
