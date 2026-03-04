@@ -216,52 +216,92 @@ export default function AdminSettings() {
 
           {/* Payments */}
           <TabsContent value="payments">
-            <Card className="bg-zinc-900 border-zinc-800">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">
-                  <CreditCard className="w-5 h-5 text-pink-400" />
-                  PayPal Settings
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label className="text-zinc-200">Currency</Label>
-                  <Select value={settings.currency} onValueChange={(v) => setSettings({ ...settings, currency: v })}>
-                    <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-zinc-800 border-zinc-700">
-                      <SelectItem value="AUD">AUD - Australian Dollar</SelectItem>
-                      <SelectItem value="USD">USD - US Dollar</SelectItem>
-                      <SelectItem value="GBP">GBP - British Pound</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+            <div className="space-y-4">
+              {/* Setup Guide */}
+              <Card className="bg-zinc-900 border-zinc-800">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2 text-base">
+                    <CreditCard className="w-5 h-5 text-pink-400" />
+                    How to set up PayPal
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ol className="space-y-2 text-sm text-zinc-400 list-decimal list-inside">
+                    <li>Go to <a href="https://developer.paypal.com/dashboard/" target="_blank" rel="noopener noreferrer" className="text-pink-400 underline">developer.paypal.com/dashboard</a> and log in.</li>
+                    <li>Under <strong className="text-zinc-200">Apps &amp; Credentials</strong>, select <strong className="text-zinc-200">Sandbox</strong> or <strong className="text-zinc-200">Live</strong> tab to match the mode below.</li>
+                    <li>Click your app (or create one) and copy the <strong className="text-zinc-200">Client ID</strong>.</li>
+                    <li>The <strong className="text-zinc-200">Client Secret</strong> and <strong className="text-zinc-200">Client ID</strong> must be set as environment secrets in your Base44 dashboard (they are already set if PayPal was previously configured).</li>
+                    <li>Set the mode to <strong className="text-zinc-200">Sandbox</strong> for testing, <strong className="text-zinc-200">Live</strong> when ready to accept real payments.</li>
+                    <li>Save settings. The PayPal buttons will appear on checkout once the form is complete.</li>
+                  </ol>
+                  <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                    <p className="text-yellow-400 text-xs font-medium">⚠️ Sandbox test cards &amp; accounts</p>
+                    <p className="text-zinc-400 text-xs mt-1">In sandbox mode, use a <a href="https://developer.paypal.com/tools/sandbox/accounts/" target="_blank" rel="noopener noreferrer" className="text-pink-400 underline">PayPal sandbox buyer account</a> to test payments. Real cards will not work in sandbox.</p>
+                  </div>
+                </CardContent>
+              </Card>
 
-                <div>
-                  <Label className="text-zinc-200">PayPal Mode</Label>
-                  <Select value={settings.paypal_mode} onValueChange={(v) => setSettings({ ...settings, paypal_mode: v })}>
-                    <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-zinc-800 border-zinc-700">
-                      <SelectItem value="sandbox">Sandbox (Testing)</SelectItem>
-                      <SelectItem value="live">Live (Production)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <Card className="bg-zinc-900 border-zinc-800">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-pink-400" />
+                    PayPal Settings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label className="text-zinc-200">Environment / Mode</Label>
+                    <Select value={settings.paypal_mode} onValueChange={(v) => setSettings({ ...settings, paypal_mode: v })}>
+                      <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-800 border-zinc-700">
+                        <SelectItem value="sandbox">Sandbox (Testing)</SelectItem>
+                        <SelectItem value="live">Live (Production)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-zinc-500 text-xs mt-1">
+                      {settings.paypal_mode === 'live'
+                        ? '✅ Live mode — real payments will be charged.'
+                        : '🧪 Sandbox mode — use test PayPal accounts only. No real money.'}
+                    </p>
+                  </div>
 
-                <div>
-                  <Label className="text-zinc-200">PayPal Client ID</Label>
-                  <Input
-                    value={settings.paypal_client_id}
-                    onChange={(e) => setSettings({ ...settings, paypal_client_id: e.target.value })}
-                    className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-400 font-mono"
-                    placeholder="Your PayPal Client ID"
-                  />
-                </div>
-              </CardContent>
-            </Card>
+                  <div>
+                    <Label className="text-zinc-200">Currency</Label>
+                    <Select value={settings.currency} onValueChange={(v) => setSettings({ ...settings, currency: v })}>
+                      <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-800 border-zinc-700">
+                        <SelectItem value="AUD">AUD - Australian Dollar</SelectItem>
+                        <SelectItem value="USD">USD - US Dollar</SelectItem>
+                        <SelectItem value="GBP">GBP - British Pound</SelectItem>
+                        <SelectItem value="NZD">NZD - New Zealand Dollar</SelectItem>
+                        <SelectItem value="CAD">CAD - Canadian Dollar</SelectItem>
+                        <SelectItem value="EUR">EUR - Euro</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label className="text-zinc-200">PayPal Client ID</Label>
+                    <Input
+                      value={settings.paypal_client_id || ''}
+                      onChange={(e) => setSettings({ ...settings, paypal_client_id: e.target.value })}
+                      className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-500 font-mono text-sm"
+                      placeholder="AXxx... (from PayPal Developer Dashboard)"
+                    />
+                    <p className="text-zinc-500 text-xs mt-1">This is the public Client ID shown in your PayPal app. It is safe to store here.</p>
+                  </div>
+
+                  <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                    <p className="text-zinc-300 text-xs font-medium mb-1">🔐 Secret keys (set separately)</p>
+                    <p className="text-zinc-500 text-xs">Your <strong className="text-zinc-300">PAYPAL_CLIENT_ID</strong> and <strong className="text-zinc-300">PAYPAL_CLIENT_SECRET</strong> environment secrets are configured in your Base44 backend. These are used server-side only and are never exposed to the browser.</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Policies */}
