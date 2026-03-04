@@ -84,7 +84,7 @@ export default function Checkout() {
   useEffect(() => {
     if (!formValid || paypalRendered.current) return;
 
-    const clientId = 'sb'; // Will be replaced by real client ID via backend
+    const clientId = Deno?.env?.get?.('PAYPAL_CLIENT_ID') || settings?.paypal_client_id || 'sb';
     const script = document.createElement('script');
     script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=AUD`;
     script.setAttribute('data-namespace', 'paypal_sdk');
