@@ -84,6 +84,21 @@ export default function Header({ cartCount = 0, onCartClick, categories = [] }) 
                 </svg>
               </a>
               
+              {currentUser ? (
+                <Link to={createPageUrl('Profile')}>
+                  <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+                    {currentUser.profile_image_url
+                      ? <img src={currentUser.profile_image_url} className="w-7 h-7 rounded-full object-cover" alt="" />
+                      : <User className="h-5 w-5" />
+                    }
+                  </Button>
+                </Link>
+              ) : (
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => base44.auth.redirectToLogin(window.location.href)}>
+                  <User className="h-5 w-5" />
+                </Button>
+              )}
+
               <Button
                 variant="ghost"
                 size="icon"
