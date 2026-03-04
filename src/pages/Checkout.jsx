@@ -77,89 +77,97 @@ export default function Checkout() {
     setFormValid(valid);
   };
 
-  // Reset paypalRendered when form becomes invalid so it re-renders next time
-  useEffect(() => {
-    if (!formValid) {
-      paypalRendered.current = false;
-    }
-  }, [formValid]);
-
-  // Load PayPal SDK and render buttons when form becomes valid
-  useEffect(() => {
-    if (!formValid) return;
-    if (paypalRendered.current) return;
-    if (!paypalContainerRef.current) return;
-
-    // Clear any previous PayPal buttons
+  const renderPaypalButtons = (paypal) => {
+    if (!paypalContainerRef.current || paypalRendered.current) return;
+    paypalRendered.current = true;
     paypalContainerRef.current.innerHTML = '';
 
-    const renderButtons = (paypal) => {
-      if (!paypalContainerRef.current || paypalRendered.current) return;
-      paypalRendered.current = true;
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
+      createOrder: async () => {
+        setFormError('');
+        const orderNumber = generateOrderNumber();
+        const createdOrder = await base44.entities.Order.create(buildOrder(orderNumber));
+        const paypalRes = await base44.functions.invoke('paypalCreateOrder', {
+          amount: total,
+          currency: 'AUD',
+          orderId: createdOrder.id,
+          shippingAddress: {
+            name: formData.firstName + ' ' + formData.lastName,
+            street: formData.street,
+            city: formData.city,
+            state: formData.state,
+            postcode: formData.postcode,
+          },
+        });
+        if (!paypalRes.data?.id) throw new Error('Failed to create PayPal order');
+        sessionStorage.setItem('internalOrderId', createdOrder.id);
+        sessionStorage.setItem('orderNumber', orderNumber);
+        return paypalRes.data.id;
+      },
+      onApprove: async (data) => {
+        setIsProcessing(true);
+        const internalOrderId = sessionStorage.getItem('internalOrderId');
+        const orderNumber = sessionStorage.getItem('orderNumber');
+        await base44.functions.invoke('paypalCaptureOrder', {
+          paypalOrderId: data.orderID,
+          internalOrderId,
+        });
+        sendConfirmationEmail(orderNumber);
+        localStorage.removeItem('cart');
+        localStorage.removeItem('appliedDiscount');
+        sessionStorage.removeItem('internalOrderId');
+        sessionStorage.removeItem('orderNumber');
+        navigate(createPageUrl('ThankYou') + '?order=' + orderNumber);
+      },
+      onError: () => {
+        setFormError('Payment failed. Please try again.');
+        setIsProcessing(false);
+      },
+    }).render(paypalContainerRef.current);
+  };
 
-      paypal.Buttons({
-        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
-        createOrder: async () => {
-          setFormError('');
-          const orderNumber = generateOrderNumber();
-          const createdOrder = await base44.entities.Order.create(buildOrder(orderNumber));
-          const paypalRes = await base44.functions.invoke('paypalCreateOrder', {
-            amount: total,
-            currency: 'AUD',
-            orderId: createdOrder.id,
-            shippingAddress: {
-              name: formData.firstName + ' ' + formData.lastName,
-              street: formData.street,
-              city: formData.city,
-              state: formData.state,
-              postcode: formData.postcode,
-            },
-          });
-          if (!paypalRes.data?.id) throw new Error('Failed to create PayPal order');
-          sessionStorage.setItem('internalOrderId', createdOrder.id);
-          sessionStorage.setItem('orderNumber', orderNumber);
-          return paypalRes.data.id;
-        },
-        onApprove: async (data) => {
-          setIsProcessing(true);
-          const internalOrderId = sessionStorage.getItem('internalOrderId');
-          const orderNumber = sessionStorage.getItem('orderNumber');
-          await base44.functions.invoke('paypalCaptureOrder', {
-            paypalOrderId: data.orderID,
-            internalOrderId,
-          });
-          sendConfirmationEmail(orderNumber);
-          localStorage.removeItem('cart');
-          localStorage.removeItem('appliedDiscount');
-          sessionStorage.removeItem('internalOrderId');
-          sessionStorage.removeItem('orderNumber');
-          navigate(createPageUrl('ThankYou') + '?order=' + orderNumber);
-        },
-        onError: () => {
-          setFormError('Payment failed. Please try again.');
-          setIsProcessing(false);
-        },
-      }).render(paypalContainerRef.current);
-    };
-
-    // If SDK already loaded, render directly
-    if (window.paypal_sdk) {
-      renderButtons(window.paypal_sdk);
-      return;
-    }
-
+  // Load PayPal SDK once on mount
+  useEffect(() => {
     base44.functions.invoke('paypalClientId').then(res => {
       const clientId = res.data?.clientId || 'sb';
-      // Remove any existing script first
       const existing = document.querySelector('script[data-namespace="paypal_sdk"]');
-      if (existing) existing.remove();
-
+      if (existing) return; // already loaded
       const script = document.createElement('script');
       script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD&locale=en_AU&buyer-country=AU';
       script.setAttribute('data-namespace', 'paypal_sdk');
-      script.onload = () => renderButtons(window.paypal_sdk);
       document.body.appendChild(script);
     });
+    return () => {
+      const existing = document.querySelector('script[data-namespace="paypal_sdk"]');
+      if (existing) existing.remove();
+      delete window.paypal_sdk;
+    };
+  }, []); // eslint-disable-line
+
+  // Render PayPal buttons whenever form becomes valid
+  useEffect(() => {
+    if (!formValid) {
+      paypalRendered.current = false;
+      return;
+    }
+    // Use a small timeout to ensure the container is in the DOM after React re-render
+    const timer = setTimeout(() => {
+      if (paypalRendered.current) return;
+      if (!paypalContainerRef.current) return;
+      if (window.paypal_sdk) {
+        renderPaypalButtons(window.paypal_sdk);
+      } else {
+        // Poll until SDK is ready
+        const interval = setInterval(() => {
+          if (window.paypal_sdk && paypalContainerRef.current && !paypalRendered.current) {
+            clearInterval(interval);
+            renderPaypalButtons(window.paypal_sdk);
+          }
+        }, 200);
+      }
+    }, 100);
+    return () => clearTimeout(timer);
   }, [formValid]); // eslint-disable-line
 
   const generateOrderNumber = () => {
