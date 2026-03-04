@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { ArrowLeft, Save, Store, Truck, CreditCard, FileText, Upload, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Store, Truck, CreditCard, FileText, Upload, Loader2, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function AdminSettings() {
