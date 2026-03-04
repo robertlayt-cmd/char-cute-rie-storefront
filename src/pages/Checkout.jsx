@@ -117,8 +117,77 @@ export default function Checkout() {
       payment_method: 'paypal'
     };
 
-    await base44.entities.Order.create(order);
+    const createdOrder = await base44.entities.Order.create(order);
     
+    // Send order confirmation email
+    const itemsHtml = order.line_items.map(item => `
+      <tr>
+        <td style="padding:12px 8px;border-bottom:1px solid #27272a;">
+          <strong style="color:#ffffff;">${item.product_title}</strong>
+          ${item.variant_name ? `<br/><span style="color:#a1a1aa;font-size:13px;">${item.variant_name}</span>` : ''}
+        </td>
+        <td style="padding:12px 8px;border-bottom:1px solid #27272a;color:#a1a1aa;text-align:center;">x${item.quantity}</td>
+        <td style="padding:12px 8px;border-bottom:1px solid #27272a;color:#ec4899;font-weight:bold;text-align:right;">$${item.total.toFixed(2)}</td>
+      </tr>
+    `).join('');
+
+    base44.integrations.Core.SendEmail({
+      to: formData.email,
+      from_name: "Char'Cute'rie",
+      subject: `Order Confirmed! 🎉 ${orderNumber}`,
+      body: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background-color:#09090b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <div style="max-width:600px;margin:0 auto;padding:40px 20px;">
+    
+    <div style="text-align:center;margin-bottom:32px;">
+      <img src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png" alt="Char'Cute'rie" style="height:60px;" />
+    </div>
+    
+    <div style="background:linear-gradient(135deg,#ec4899,#a855f7);border-radius:16px;padding:32px;text-align:center;margin-bottom:24px;">
+      <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+      <h1 style="color:#ffffff;margin:0 0 8px;font-size:28px;font-weight:800;">Order Confirmed!</h1>
+      <p style="color:rgba(255,255,255,0.85);margin:0;font-size:16px;">Thanks ${formData.firstName}! We're so excited to make your order.</p>
+    </div>
+    
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:16px;">
+      <p style="color:#a1a1aa;font-size:13px;margin:0 0 4px;">Order Number</p>
+      <p style="color:#ec4899;font-size:20px;font-weight:700;font-family:monospace;margin:0;">${orderNumber}</p>
+    </div>
+    
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:16px;">
+      <h3 style="color:#ffffff;margin:0 0 16px;font-size:16px;">Your Items</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        ${itemsHtml}
+      </table>
+      <table style="width:100%;border-collapse:collapse;margin-top:16px;">
+        <tr><td style="color:#a1a1aa;padding:6px 8px;">Subtotal</td><td style="color:#ffffff;text-align:right;padding:6px 8px;">$${subtotal.toFixed(2)}</td></tr>
+        <tr><td style="color:#a1a1aa;padding:6px 8px;">Shipping</td><td style="color:#ffffff;text-align:right;padding:6px 8px;">${shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}</td></tr>
+        ${discountAmount > 0 ? `<tr><td style="color:#22c55e;padding:6px 8px;">Discount (${appliedDiscount?.code})</td><td style="color:#22c55e;text-align:right;padding:6px 8px;">-$${discountAmount.toFixed(2)}</td></tr>` : ''}
+        <tr style="border-top:1px solid #27272a;">
+          <td style="color:#ffffff;font-weight:700;font-size:18px;padding:12px 8px;">Total</td>
+          <td style="color:#ec4899;font-weight:700;font-size:18px;text-align:right;padding:12px 8px;">$${total.toFixed(2)} AUD</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:24px;">
+      <h3 style="color:#ffffff;margin:0 0 12px;font-size:16px;">Shipping To</h3>
+      <p style="color:#d4d4d8;margin:0;line-height:1.6;">${formData.street}<br/>${formData.city}, ${formData.state} ${formData.postcode}<br/>Australia</p>
+    </div>
+    
+    <div style="text-align:center;margin-bottom:24px;">
+      <a href="https://www.tiktok.com/@char.cute.rie" style="display:inline-block;background:linear-gradient(135deg,#ec4899,#a855f7);color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:15px;">Follow @char.cute.rie on TikTok 💕</a>
+    </div>
+    
+    <p style="color:#52525b;text-align:center;font-size:13px;margin:0;">© 2024 Char'Cute'rie · Made with love in Melbourne, Australia 🇦🇺</p>
+  </div>
+</body>
+</html>`
+    });
+
     // Clear cart
     localStorage.removeItem('cart');
     localStorage.removeItem('appliedDiscount');
