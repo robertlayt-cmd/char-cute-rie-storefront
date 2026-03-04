@@ -116,7 +116,7 @@ export default function Profile() {
 
   return (
     <div className="dark min-h-screen bg-zinc-950">
-      <Header cartCount={0} onCartClick={() => {}} categories={[]} />
+      <Header cartCount={0} onCartClick={() => window.location.href = createPageUrl('Cart')} categories={[]} />
 
       {/* Banner */}
       <div className="relative h-48 bg-gradient-to-r from-pink-900/40 to-purple-900/40 pt-16">
