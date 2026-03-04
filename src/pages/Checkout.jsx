@@ -205,18 +205,24 @@ export default function Checkout() {
     return prefix + '-' + timestamp + '-' + random;
   };
 
+  const effectiveShipping = differentShipping ? shippingData : {
+    firstName: formData.firstName, lastName: formData.lastName,
+    street: formData.street, city: formData.city, state: formData.state, postcode: formData.postcode,
+  };
+
   const buildOrder = (orderNumber) => ({
     order_number: orderNumber,
     customer_email: formData.email,
     customer_name: formData.firstName + ' ' + formData.lastName,
     customer_phone: formData.phone,
     shipping_address: {
-      street: formData.street,
-      city: formData.city,
-      state: formData.state,
-      postcode: formData.postcode,
+      street: effectiveShipping.street,
+      city: effectiveShipping.city,
+      state: effectiveShipping.state,
+      postcode: effectiveShipping.postcode,
       country: 'Australia'
     },
+    notes: orderNotes || undefined,
     line_items: cartItems.map(item => ({
       product_id: item.product_id,
       variant_id: item.variant_id,
