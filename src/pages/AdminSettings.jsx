@@ -265,6 +265,33 @@ export default function AdminSettings() {
 
           {/* Policies */}
           <TabsContent value="policies">
+            <Card className="bg-zinc-900 border-zinc-800 mb-4">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-pink-400" />
+                  Page Visibility
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { key: 'page_about_active', label: 'About Us' },
+                    { key: 'page_shipping_active', label: 'Shipping' },
+                    { key: 'page_returns_active', label: 'Returns' },
+                    { key: 'page_contact_active', label: 'Contact' },
+                  ].map(({ key, label }) => (
+                    <div key={key} className="flex items-center justify-between bg-zinc-800 rounded-lg p-3">
+                      <span className="text-zinc-200 text-sm">{label}</span>
+                      <Switch
+                        checked={settings[key] !== false}
+                        onCheckedChange={(v) => setSettings({ ...settings, [key]: v })}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="bg-zinc-900 border-zinc-800">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
