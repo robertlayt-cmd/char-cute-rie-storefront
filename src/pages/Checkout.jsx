@@ -132,35 +132,77 @@ export default function Checkout() {
       style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
       createOrder: async () => {
         setFormError('');
+        const fd = formDataRef.current;
+        const sd = shippingDataRef.current;
+        const diffShip = differentShippingRef.current;
+        const currentTotal = totalRef.current;
         const orderNumber = generateOrderNumber();
-        // Store order details in session — only create the DB record after PayPal approves
-        sessionStorage.setItem('pendingOrder', JSON.stringify(buildOrder(orderNumber)));
+
+        const effShipping = diffShip ? sd : {
+          firstName: fd.firstName, lastName: fd.lastName,
+          street: fd.street, city: fd.city, state: fd.state, postcode: fd.postcode,
+        };
+
+        const order = {
+          order_number: orderNumber,
+          customer_email: fd.email,
+          customer_name: fd.firstName + ' ' + fd.lastName,
+          customer_phone: fd.phone,
+          shipping_address: {
+            street: effShipping.street,
+            city: effShipping.city,
+            state: effShipping.state,
+            postcode: effShipping.postcode,
+            country: 'Australia'
+          },
+          notes: orderNotesRef.current || undefined,
+          line_items: cartItemsRef.current.map(item => ({
+            product_id: item.product_id,
+            variant_id: item.variant_id,
+            product_title: item.product_title,
+            variant_name: item.variant_name,
+            quantity: item.quantity,
+            unit_price: item.price,
+            total: item.price * item.quantity,
+            image_url: item.image_url
+          })),
+          subtotal: cartItemsRef.current.reduce((s, i) => s + i.price * i.quantity, 0),
+          shipping_cost: shippingCostRef.current,
+          discount_amount: discountAmountRef.current,
+          discount_code: appliedDiscountRef.current?.code,
+          total: currentTotal,
+          status: 'pending',
+          payment_method: 'paypal'
+        };
+
+        sessionStorage.setItem('pendingOrder', JSON.stringify(order));
         sessionStorage.setItem('orderNumber', orderNumber);
+
         const paypalRes = await base44.functions.invoke('paypalCreateOrder', {
-          amount: total,
+          amount: currentTotal,
           currency: 'AUD',
           orderId: orderNumber,
           shippingAddress: {
-            name: formData.firstName + ' ' + formData.lastName,
-            street: formData.street,
-            city: formData.city,
-            state: formData.state,
-            postcode: formData.postcode,
+            name: fd.firstName + ' ' + fd.lastName,
+            street: fd.street,
+            city: fd.city,
+            state: fd.state,
+            postcode: fd.postcode,
           },
         });
-        if (!paypalRes.data?.id) throw new Error('Failed to create PayPal order');
+        if (!paypalRes.data?.id) throw new Error('Failed to create PayPal order: ' + JSON.stringify(paypalRes.data));
         return paypalRes.data.id;
       },
       onApprove: async (data) => {
         setIsProcessing(true);
         const orderNumber = sessionStorage.getItem('orderNumber');
         const pendingOrder = JSON.parse(sessionStorage.getItem('pendingOrder') || '{}');
-        // Now create the order in DB since payment is approved
         const createdOrder = await base44.entities.Order.create(pendingOrder);
-        await base44.functions.invoke('paypalCaptureOrder', {
+        const captureRes = await base44.functions.invoke('paypalCaptureOrder', {
           paypalOrderId: data.orderID,
           internalOrderId: createdOrder.id,
         });
+        console.log('Capture result:', captureRes.data);
         sendConfirmationEmail(orderNumber);
         localStorage.removeItem('cart');
         localStorage.removeItem('appliedDiscount');
@@ -168,8 +210,12 @@ export default function Checkout() {
         sessionStorage.removeItem('orderNumber');
         navigate(createPageUrl('ThankYou') + '?order=' + orderNumber);
       },
-      onError: () => {
+      onError: (err) => {
+        console.error('PayPal error:', err);
         setFormError('Payment failed. Please try again.');
+        setIsProcessing(false);
+      },
+      onCancel: () => {
         setIsProcessing(false);
       },
     }).render(paypalContainerRef.current);
