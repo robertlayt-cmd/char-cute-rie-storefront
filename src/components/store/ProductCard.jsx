@@ -151,6 +151,21 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
 
         </div>
       </Link>
+
+      {/* Quick Add buttons rendered outside Link to prevent navigation on click */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
+        className="absolute bottom-[calc(100%-aspect-square+12px)] left-3 right-3 flex gap-2 z-10 pointer-events-none"
+        style={{ bottom: 'calc(100% - var(--img-height, 60%) + 12px)' }}
+      >
+      </motion.div>
+
+      {/* Overlay buttons positioned over image area */}
+      {isHovered && (
+        <div className="absolute left-3 right-3 flex gap-2 z-20" style={{ bottom: 'calc(100% - 100% + 12px)', top: 'auto' }}>
+        </div>
+      )}
     </motion.div>
   );
 }
