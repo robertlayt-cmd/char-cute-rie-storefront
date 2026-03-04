@@ -92,7 +92,7 @@ export default function Home() {
   const features = [
     { icon: Sparkles, title: 'Handcrafted', desc: 'Each piece uniquely made' },
     { icon: Truck, title: 'Fast Shipping', desc: 'Australia-wide delivery' },
-    { icon: Heart, title: 'Made with Love', desc: 'In Brisbane, Australia' },
+    { icon: Heart, title: 'Made with Love', desc: 'In Melbourne, Australia' },
     { icon: Shield, title: 'Quality Promise', desc: 'Premium polymer clay' },
   ];
 

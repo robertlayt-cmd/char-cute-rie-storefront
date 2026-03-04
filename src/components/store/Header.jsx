@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Header({ cartCount = 0, onCartClick, categories = [] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
