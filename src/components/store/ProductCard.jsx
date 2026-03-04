@@ -77,33 +77,7 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
               </div>
             )}
 
-            {/* Quick Add + Actions */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
-              className="absolute bottom-3 left-3 right-3 flex gap-2"
-            >
-              <Button 
-                className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-semibold btn-shine"
-                onClick={handleQuickAdd}
-                disabled={!inStock}
-              >
-                <ShoppingBag className="w-4 h-4 mr-2 text-white" />
-                {inStock ? 'Quick Add' : 'Sold Out'}
-              </Button>
-              <button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                className="w-10 h-10 rounded-xl bg-zinc-900/80 flex items-center justify-center text-zinc-300 hover:text-pink-400 hover:bg-zinc-900 transition-colors"
-              >
-                <Heart className="w-4 h-4" />
-              </button>
-              <button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigator.clipboard?.writeText(window.location.origin + `/Product?slug=${product.slug}`); }}
-                className="w-10 h-10 rounded-xl bg-zinc-900/80 flex items-center justify-center text-zinc-300 hover:text-pink-400 hover:bg-zinc-900 transition-colors"
-              >
-                <Share2 className="w-4 h-4" />
-              </button>
-            </motion.div>
+            {/* Quick Add + Actions - outside Link to avoid navigation conflicts */}
 
             {/* Out of Stock Overlay */}
             {!inStock && (
