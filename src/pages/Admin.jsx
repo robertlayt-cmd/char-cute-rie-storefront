@@ -243,10 +243,9 @@ export default function Admin() {
                       </CardContent>
                     </Card>
                   </div>
-                  </div>
-                  </div>
-                  </AdminLayout>
-                  </AdminGuard>
-                  );
-                  }
+                </div>
+              </div>
+            </AdminLayout>
+          </AdminGuard>
+  );
 }
