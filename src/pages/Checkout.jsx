@@ -217,6 +217,16 @@ export default function Checkout() {
     // else onload callback above will handle it
   }, [formValid, total]); // eslint-disable-line
 
+  // Keep refs in sync so PayPal callbacks always read latest values
+  useEffect(() => { totalRef.current = total; }, [total]);
+  useEffect(() => { formDataRef.current = formData; }, [formData]);
+  useEffect(() => { shippingCostRef.current = shippingCost; }, [shippingCost]);
+  useEffect(() => { discountAmountRef.current = discountAmount; }, [discountAmount]);
+  useEffect(() => { appliedDiscountRef.current = appliedDiscount; }, [appliedDiscount]);
+  useEffect(() => { orderNotesRef.current = orderNotes; }, [orderNotes]);
+  useEffect(() => { differentShippingRef.current = differentShipping; }, [differentShipping]);
+  useEffect(() => { shippingDataRef.current = shippingData; }, [shippingData]);
+
   const generateOrderNumber = () => {
     const prefix = 'CC';
     const timestamp = Date.now().toString(36).toUpperCase();
