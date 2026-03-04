@@ -293,12 +293,28 @@ export default function AdminSettings() {
                       className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-500 font-mono text-sm"
                       placeholder="AXxx... (from PayPal Developer Dashboard)"
                     />
-                    <p className="text-zinc-500 text-xs mt-1">This is the public Client ID shown in your PayPal app. It is safe to store here.</p>
+                    <p className="text-zinc-500 text-xs mt-1">Your PayPal Client ID from the Developer Dashboard.</p>
                   </div>
 
-                  <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
-                    <p className="text-zinc-300 text-xs font-medium mb-1">🔐 Secret keys (set separately)</p>
-                    <p className="text-zinc-500 text-xs">Your <strong className="text-zinc-300">PAYPAL_CLIENT_ID</strong> and <strong className="text-zinc-300">PAYPAL_CLIENT_SECRET</strong> environment secrets are configured in your Base44 backend. These are used server-side only and are never exposed to the browser.</p>
+                  <div>
+                    <Label className="text-zinc-200">PayPal Client Secret</Label>
+                    <div className="relative">
+                      <Input
+                        type={showSecret ? 'text' : 'password'}
+                        value={settings.paypal_client_secret || ''}
+                        onChange={(e) => setSettings({ ...settings, paypal_client_secret: e.target.value })}
+                        className="bg-zinc-800 border-zinc-600 text-white placeholder:text-zinc-500 font-mono text-sm pr-10"
+                        placeholder="EXxx... (from PayPal Developer Dashboard)"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowSecret(s => !s)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white"
+                      >
+                        {showSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    <p className="text-zinc-500 text-xs mt-1">Your PayPal Client Secret. Stored securely and used server-side only.</p>
                   </div>
                 </CardContent>
               </Card>
