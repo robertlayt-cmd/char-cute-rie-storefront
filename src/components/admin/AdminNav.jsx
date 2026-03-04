@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { 
   LayoutDashboard, Package, ShoppingCart, Tag, Percent, 
-  Settings, Home, Upload, Image, Menu, X, ChevronRight
+  Settings, Home, Upload, Image, Menu, X, ChevronRight, Users
 } from 'lucide-react';
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
   { label: 'Orders', page: 'AdminOrders', icon: ShoppingCart },
   { label: 'Categories', page: 'AdminCategories', icon: Tag },
   { label: 'Discounts', page: 'AdminDiscounts', icon: Percent },
+  { label: 'Users', page: 'AdminUsers', icon: Users },
   { label: 'Bulk Upload', page: 'AdminBulkUpload', icon: Upload },
   { label: 'Image Manager', page: 'AdminImages', icon: Image },
   { label: 'Settings', page: 'AdminSettings', icon: Settings },
