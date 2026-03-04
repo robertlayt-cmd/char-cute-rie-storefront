@@ -84,11 +84,12 @@ export default function Checkout() {
   useEffect(() => {
     if (!formValid || paypalRendered.current) return;
 
-    const clientId = Deno?.env?.get?.('PAYPAL_CLIENT_ID') || settings?.paypal_client_id || 'sb';
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=AUD`;
-    script.setAttribute('data-namespace', 'paypal_sdk');
-    script.onload = () => {
+    base44.functions.invoke('paypalClientId').then(res => {
+      const clientId = res.data?.clientId || 'sb';
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=AUD`;
+      script.setAttribute('data-namespace', 'paypal_sdk');
+      script.onload = () => {
       if (!paypalContainerRef.current || paypalRendered.current) return;
       paypalRendered.current = true;
 
