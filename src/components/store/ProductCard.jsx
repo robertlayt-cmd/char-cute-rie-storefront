@@ -107,10 +107,11 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
           </div>
 
           {/* Content */}
-          <div className="p-4">
-            {/* Variant Swatches */}
+          <div className="p-4 flex flex-col flex-1">
+            {/* Variant Swatches - always reserve space */}
+            <div className="flex gap-1.5 mb-3 min-h-[20px]">
             {variants.length > 1 && (
-              <div className="flex gap-1.5 mb-3">
+              <div className="flex gap-1.5">
                 {variants.slice(0, 5).map(variant => (
                   <button
                     key={variant.id}
