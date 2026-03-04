@@ -172,7 +172,7 @@ export default function Cart() {
                             <Button
                               variant="outline"
                               size="icon"
-                              className="h-8 w-8 border-zinc-700"
+                              className="h-8 w-8 border-zinc-700 text-white hover:bg-zinc-700 hover:text-white"
                               onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
                             >
                               <Minus className="w-4 h-4" />
@@ -181,7 +181,7 @@ export default function Cart() {
                             <Button
                               variant="outline"
                               size="icon"
-                              className="h-8 w-8 border-zinc-700"
+                              className="h-8 w-8 border-zinc-700 text-white hover:bg-zinc-700 hover:text-white"
                               onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
                             >
                               <Plus className="w-4 h-4" />
