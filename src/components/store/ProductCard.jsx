@@ -43,7 +43,7 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="product-card group h-full"
+      className="product-card group h-full relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
