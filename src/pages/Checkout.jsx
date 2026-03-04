@@ -228,7 +228,9 @@ export default function Checkout() {
       if (document.querySelector('#paypal-sdk-script')) return;
       const script = document.createElement('script');
       script.id = 'paypal-sdk-script';
-      script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD';
+      const mode = res.data?.mode || 'sandbox';
+      const buyerCountry = mode === 'sandbox' ? '&buyer-country=AU' : '';
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD&locale=en_AU' + buyerCountry;
       script.onload = () => {
         window.__paypalSdkReady = true;
         // If form is already valid, render now
