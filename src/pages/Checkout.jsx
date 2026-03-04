@@ -29,6 +29,15 @@ export default function Checkout() {
   const navigate = useNavigate();
   const paypalContainerRef = useRef(null);
   const paypalRendered = useRef(false);
+  const totalRef = useRef(total);
+  const formDataRef = useRef(formData);
+  const cartItemsRef = useRef(cartItems);
+  const shippingCostRef = useRef(shippingCost);
+  const discountAmountRef = useRef(discountAmount);
+  const appliedDiscountRef = useRef(appliedDiscount);
+  const orderNotesRef = useRef(orderNotes);
+  const differentShippingRef = useRef(differentShipping);
+  const shippingDataRef = useRef(shippingData);
   const [cartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
