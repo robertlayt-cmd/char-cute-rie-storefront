@@ -125,12 +125,12 @@ export default function MiniCart({ isOpen, onClose, items = [], onUpdateQuantity
                 
                 <div className="grid grid-cols-2 gap-3">
                   <Link to={createPageUrl('Cart')} onClick={onClose}>
-                    <Button variant="outline" className="w-full border-zinc-700">
+                    <Button variant="outline" className="w-full border-zinc-600 text-white hover:bg-zinc-700 hover:text-white">
                       View Cart
                     </Button>
                   </Link>
                   <Link to={createPageUrl('Checkout')} onClick={onClose}>
-                    <Button className="w-full bg-pink-500 hover:bg-pink-600">
+                    <Button className="w-full bg-pink-500 hover:bg-pink-600 text-white">
                       Checkout
                     </Button>
                   </Link>
