@@ -12,7 +12,10 @@ export default function Header({ cartCount = 0, onCartClick, categories = [] }) 
   const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      setAtTop(window.scrollY < 10);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
