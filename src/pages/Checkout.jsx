@@ -80,6 +80,72 @@ export default function Checkout() {
     setFormValid(!!valid);
   };
 
+  // Load PayPal SDK and render buttons
+  useEffect(() => {
+    if (!formValid || paypalRendered.current) return;
+
+    const clientId = 'sb'; // Will be replaced by real client ID via backend
+    const script = document.createElement('script');
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=AUD`;
+    script.setAttribute('data-namespace', 'paypal_sdk');
+    script.onload = () => {
+      if (!paypalContainerRef.current || paypalRendered.current) return;
+      paypalRendered.current = true;
+
+      window.paypal_sdk.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
+        createOrder: async () => {
+          setFormError('');
+          const orderNumber = generateOrderNumber();
+          const order = buildOrder(orderNumber);
+          const createdOrder = await base44.entities.Order.create(order);
+          
+          const res = await base44.functions.invoke('paypalCreateOrder', {
+            amount: total,
+            currency: 'AUD',
+            orderId: createdOrder.id,
+          });
+          
+          if (!res.data?.id) throw new Error('Failed to create PayPal order');
+          // Store internal order id for capture step
+          sessionStorage.setItem('internalOrderId', createdOrder.id);
+          sessionStorage.setItem('orderNumber', orderNumber);
+          return res.data.id;
+        },
+        onApprove: async (data) => {
+          setIsProcessing(true);
+          const internalOrderId = sessionStorage.getItem('internalOrderId');
+          const orderNumber = sessionStorage.getItem('orderNumber');
+
+          await base44.functions.invoke('paypalCaptureOrder', {
+            paypalOrderId: data.orderID,
+            internalOrderId,
+          });
+
+          // Send confirmation email
+          sendConfirmationEmail(orderNumber);
+
+          localStorage.removeItem('cart');
+          localStorage.removeItem('appliedDiscount');
+          sessionStorage.removeItem('internalOrderId');
+          sessionStorage.removeItem('orderNumber');
+
+          navigate(`${createPageUrl('ThankYou')}?order=${orderNumber}`);
+        },
+        onError: (err) => {
+          setFormError('Payment failed. Please try again.');
+          setIsProcessing(false);
+        },
+      }).render(paypalContainerRef.current);
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      const existing = document.querySelector('script[data-namespace="paypal_sdk"]');
+      if (existing) document.body.removeChild(existing);
+    };
+  }, [formValid]);
+
   const generateOrderNumber = () => {
     const prefix = 'CC';
     const timestamp = Date.now().toString(36).toUpperCase();
