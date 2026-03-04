@@ -2,8 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Heart } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 export default function Footer() {
+  const { data: settings } = useQuery({
+    queryKey: ['settings'],
+    queryFn: async () => {
+      const all = await base44.entities.StoreSettings.list();
+      return all[0] || {};
+    },
+  });
+
+  const showAbout = settings?.page_about_active !== false;
+  const showShipping = settings?.page_shipping_active !== false;
+  const showReturns = settings?.page_returns_active !== false;
+  const showContact = settings?.page_contact_active !== false;
+
   return (
     <footer className="bg-zinc-950 border-t border-zinc-800 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4">
@@ -52,26 +67,34 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Help</h4>
             <ul className="space-y-3">
-              <li>
-                <Link to={createPageUrl('Shipping')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  Shipping Info
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('Returns')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  Returns & Refunds
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('Contact')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('About')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  About Us
-                </Link>
-              </li>
+              {showShipping && (
+                <li>
+                  <Link to={createPageUrl('Shipping')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    Shipping Info
+                  </Link>
+                </li>
+              )}
+              {showReturns && (
+                <li>
+                  <Link to={createPageUrl('Returns')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    Returns & Refunds
+                  </Link>
+                </li>
+              )}
+              {showContact && (
+                <li>
+                  <Link to={createPageUrl('Contact')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    Contact Us
+                  </Link>
+                </li>
+              )}
+              {showAbout && (
+                <li>
+                  <Link to={createPageUrl('About')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    About Us
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
