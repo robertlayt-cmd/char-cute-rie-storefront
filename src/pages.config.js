@@ -65,6 +65,8 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
+import AdminUsers from './pages/AdminUsers';
+import Profile from './pages/Profile';
 import __Layout from './Layout.jsx';
 
 
@@ -87,6 +89,8 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
+    "AdminUsers": AdminUsers,
+    "Profile": Profile,
 }
 
 export const pagesConfig = {
