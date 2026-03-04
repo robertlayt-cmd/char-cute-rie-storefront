@@ -42,12 +42,12 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="product-card group"
+      className="product-card group h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={`${createPageUrl('Product')}?slug=${product.slug}`}>
-        <div className="relative bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-pink-500/30 transition-all">
+      <Link to={`${createPageUrl('Product')}?slug=${product.slug}`} className="h-full">
+        <div className="relative bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-pink-500/30 transition-all flex flex-col h-full">
           {/* Image */}
           <div className="relative aspect-square overflow-hidden">
             <img
