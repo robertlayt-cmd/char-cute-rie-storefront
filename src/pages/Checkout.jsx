@@ -153,46 +153,39 @@ export default function Checkout() {
     return `${prefix}-${timestamp}-${random}`;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsProcessing(true);
+  const buildOrder = (orderNumber) => ({
+    order_number: orderNumber,
+    customer_email: formData.email,
+    customer_name: `${formData.firstName} ${formData.lastName}`,
+    customer_phone: formData.phone,
+    shipping_address: {
+      street: formData.street,
+      city: formData.city,
+      state: formData.state,
+      postcode: formData.postcode,
+      country: 'Australia'
+    },
+    line_items: cartItems.map(item => ({
+      product_id: item.product_id,
+      variant_id: item.variant_id,
+      product_title: item.product_title,
+      variant_name: item.variant_name,
+      quantity: item.quantity,
+      unit_price: item.price,
+      total: item.price * item.quantity,
+      image_url: item.image_url
+    })),
+    subtotal,
+    shipping_cost: shippingCost,
+    discount_amount: discountAmount,
+    discount_code: appliedDiscount?.code,
+    total,
+    status: 'pending',
+    payment_method: 'paypal'
+  });
 
-    const orderNumber = generateOrderNumber();
-    
-    const order = {
-      order_number: orderNumber,
-      customer_email: formData.email,
-      customer_name: `${formData.firstName} ${formData.lastName}`,
-      customer_phone: formData.phone,
-      shipping_address: {
-        street: formData.street,
-        city: formData.city,
-        state: formData.state,
-        postcode: formData.postcode,
-        country: 'Australia'
-      },
-      line_items: cartItems.map(item => ({
-        product_id: item.product_id,
-        variant_id: item.variant_id,
-        product_title: item.product_title,
-        variant_name: item.variant_name,
-        quantity: item.quantity,
-        unit_price: item.price,
-        total: item.price * item.quantity,
-        image_url: item.image_url
-      })),
-      subtotal,
-      shipping_cost: shippingCost,
-      discount_amount: discountAmount,
-      discount_code: appliedDiscount?.code,
-      total,
-      status: 'pending',
-      payment_method: 'paypal'
-    };
-
-    const createdOrder = await base44.entities.Order.create(order);
-    
-    // Send order confirmation email
+  const sendConfirmationEmail = (orderNumber) => {
+    const order = buildOrder(orderNumber);
     const itemsHtml = order.line_items.map(item => `
       <tr>
         <td style="padding:12px 8px;border-bottom:1px solid #27272a;">
