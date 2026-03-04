@@ -30,12 +30,10 @@ async function getAccessToken(paypalBase) {
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const { amount, currency = 'AUD', orderId } = await req.json();
+    const { amount, currency = 'AUD', orderId, shippingAddress } = await req.json();
 
     const paypalBase = await getPaypalBase(base44);
     const accessToken = await getAccessToken(paypalBase);
-
-    const { amount, currency = 'AUD', orderId, shippingAddress } = await req.json();
 
     const res = await fetch(paypalBase + '/v2/checkout/orders', {
       method: 'POST',
