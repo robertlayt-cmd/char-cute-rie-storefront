@@ -277,30 +277,30 @@ export default function Checkout() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="firstName">First Name</Label>
+                        <Label htmlFor="firstName" className="text-zinc-300">First Name</Label>
                         <Input
                           id="firstName"
                           name="firstName"
                           required
                           value={formData.firstName}
                           onChange={handleInputChange}
-                          className="bg-zinc-800 border-zinc-700"
+                          className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="lastName">Last Name</Label>
+                        <Label htmlFor="lastName" className="text-zinc-300">Last Name</Label>
                         <Input
                           id="lastName"
                           name="lastName"
                           required
                           value={formData.lastName}
                           onChange={handleInputChange}
-                          className="bg-zinc-800 border-zinc-700"
+                          className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                         />
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="street">Street Address</Label>
+                      <Label htmlFor="street" className="text-zinc-300">Street Address</Label>
                       <Input
                         id="street"
                         name="street"
@@ -308,42 +308,42 @@ export default function Checkout() {
                         value={formData.street}
                         onChange={handleInputChange}
                         placeholder="123 Example Street"
-                        className="bg-zinc-800 border-zinc-700"
+                        className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="city">City / Suburb</Label>
+                        <Label htmlFor="city" className="text-zinc-300">City / Suburb</Label>
                         <Input
                           id="city"
                           name="city"
                           required
                           value={formData.city}
                           onChange={handleInputChange}
-                          className="bg-zinc-800 border-zinc-700"
+                          className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="postcode">Postcode</Label>
+                        <Label htmlFor="postcode" className="text-zinc-300">Postcode</Label>
                         <Input
                           id="postcode"
                           name="postcode"
                           required
                           value={formData.postcode}
                           onChange={handleInputChange}
-                          className="bg-zinc-800 border-zinc-700"
+                          className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                         />
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="state">State</Label>
+                      <Label htmlFor="state" className="text-zinc-300">State</Label>
                       <Select value={formData.state} onValueChange={(value) => setFormData(prev => ({ ...prev, state: value }))}>
-                        <SelectTrigger className="bg-zinc-800 border-zinc-700">
-                          <SelectValue placeholder="Select state" />
+                        <SelectTrigger className="bg-zinc-800 border-zinc-700 text-white">
+                          <SelectValue placeholder="Select state" className="text-zinc-500" />
                         </SelectTrigger>
                         <SelectContent className="bg-zinc-800 border-zinc-700">
                           {AU_STATES.map(state => (
-                            <SelectItem key={state} value={state}>{state}</SelectItem>
+                            <SelectItem key={state} value={state} className="text-white focus:bg-zinc-700 focus:text-white">{state}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
