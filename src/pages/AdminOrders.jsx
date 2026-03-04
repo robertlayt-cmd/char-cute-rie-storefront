@@ -70,17 +70,43 @@ export default function AdminOrders() {
 
     // Send email notification to customer
     const statusMessages = {
-      paid: { subject: `Order ${order.order_number} - Payment Confirmed! 🎉`, msg: 'Great news! Your payment has been confirmed and we\'re preparing your order.' },
-      shipped: { subject: `Order ${order.order_number} - Your order is on its way! 📦`, msg: 'Exciting news! Your Char\'Cute\'rie order has been shipped and is on its way to you.' },
-      cancelled: { subject: `Order ${order.order_number} - Order Cancelled`, msg: 'Your order has been cancelled. If you have any questions, please contact us.' },
+      paid: { subject: `Order ${order.order_number} - Payment Confirmed! 🎉`, emoji: '✅', title: 'Payment Confirmed!', msg: `Great news! Your payment has been confirmed and we're now preparing your order with love. 💕` },
+      shipped: { subject: `Order ${order.order_number} - Your order is on its way! 📦`, emoji: '📦', title: 'Your Order is Shipped!', msg: `Exciting news! Your Char'Cute'rie order has been shipped and is on its way to you. It should arrive within the estimated delivery window.` },
+      cancelled: { subject: `Order ${order.order_number} - Order Cancelled`, emoji: '😢', title: 'Order Cancelled', msg: `Your order has been cancelled. If you have any questions or this was a mistake, please contact us and we'll do our best to help.` },
     };
 
     const notification = statusMessages[newStatus];
     if (notification && order.customer_email) {
       base44.integrations.Core.SendEmail({
         to: order.customer_email,
+        from_name: "Char'Cute'rie",
         subject: notification.subject,
-        body: `Hi ${order.customer_name},\n\n${notification.msg}\n\nOrder: ${order.order_number}\nTotal: $${order.total?.toFixed(2)} AUD\n\nThank you for shopping with Char'Cute'rie! 💕\n\nhttps://www.tiktok.com/@char.cute.rie`
+        body: `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background-color:#09090b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <div style="max-width:600px;margin:0 auto;padding:40px 20px;">
+    <div style="text-align:center;margin-bottom:32px;">
+      <img src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png" alt="Char'Cute'rie" style="height:60px;" />
+    </div>
+    <div style="background:linear-gradient(135deg,#ec4899,#a855f7);border-radius:16px;padding:32px;text-align:center;margin-bottom:24px;">
+      <div style="font-size:48px;margin-bottom:12px;">${notification.emoji}</div>
+      <h1 style="color:#ffffff;margin:0 0 8px;font-size:26px;font-weight:800;">${notification.title}</h1>
+      <p style="color:rgba(255,255,255,0.85);margin:0;font-size:15px;">Hi ${order.customer_name}! ${notification.msg}</p>
+    </div>
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:16px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="color:#a1a1aa;padding:6px 0;">Order Number</td><td style="color:#ec4899;font-family:monospace;font-weight:700;text-align:right;padding:6px 0;">${order.order_number}</td></tr>
+        <tr><td style="color:#a1a1aa;padding:6px 0;">Order Total</td><td style="color:#ffffff;font-weight:700;text-align:right;padding:6px 0;">$${order.total?.toFixed(2)} AUD</td></tr>
+      </table>
+    </div>
+    <div style="text-align:center;margin-bottom:24px;">
+      <a href="https://www.tiktok.com/@char.cute.rie" style="display:inline-block;background:linear-gradient(135deg,#ec4899,#a855f7);color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:15px;">Follow @char.cute.rie on TikTok 💕</a>
+    </div>
+    <p style="color:#52525b;text-align:center;font-size:13px;margin:0;">© 2024 Char'Cute'rie · Made with love in Melbourne, Australia 🇦🇺</p>
+  </div>
+</body>
+</html>`
       });
     }
   };
