@@ -243,30 +243,30 @@ export default function Checkout() {
                   <h2 className="text-xl font-semibold text-white mb-4">Contact</h2>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="your@email.com"
-                        className="bg-zinc-800 border-zinc-700"
-                      />
+                     <Label htmlFor="email" className="text-zinc-300">Email</Label>
+                     <Input
+                       id="email"
+                       name="email"
+                       type="email"
+                       required
+                       value={formData.email}
+                       onChange={handleInputChange}
+                       placeholder="your@email.com"
+                       className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
+                     />
                     </div>
                     <div>
-                      <Label htmlFor="phone">Phone</Label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="04XX XXX XXX"
-                        className="bg-zinc-800 border-zinc-700"
-                      />
+                     <Label htmlFor="phone" className="text-zinc-300">Phone</Label>
+                     <Input
+                       id="phone"
+                       name="phone"
+                       type="tel"
+                       required
+                       value={formData.phone}
+                       onChange={handleInputChange}
+                       placeholder="04XX XXX XXX"
+                       className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
+                     />
                     </div>
                   </div>
                 </div>
