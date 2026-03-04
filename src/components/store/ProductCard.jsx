@@ -32,8 +32,10 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
   const handleQuickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (onAddToCart && inStock && selectedVariant) {
-      onAddToCart(product, selectedVariant);
+    e.nativeEvent?.stopImmediatePropagation?.();
+    if (onAddToCart && inStock) {
+      const variantToAdd = selectedVariant || variants[0];
+      onAddToCart(product, variantToAdd);
     }
   };
 
