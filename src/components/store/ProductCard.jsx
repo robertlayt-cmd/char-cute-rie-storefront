@@ -47,7 +47,7 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={`${createPageUrl('Product')}?slug=${product.slug}`} className="block h-full" onClick={(e) => { if (e.defaultPrevented) e.preventDefault(); }}>
+      <Link to={`${createPageUrl('Product')}?slug=${product.slug}`} className="block h-full">
         <div className="relative bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-pink-500/30 transition-all flex flex-col h-full">
           
           {/* Image */}
