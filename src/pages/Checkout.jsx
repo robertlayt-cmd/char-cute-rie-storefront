@@ -85,7 +85,7 @@ export default function Checkout() {
       const clientId = res.data?.clientId || 'sb';
       const mode = res.data?.mode || 'sandbox';
       const script = document.createElement('script');
-      script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD' + (mode === 'sandbox' ? '&buyer-country=AU' : '');
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientId + '&currency=AUD&locale=en_AU&buyer-country=AU';
       script.setAttribute('data-namespace', 'paypal_sdk');
       script.onload = () => {
         if (!paypalContainerRef.current || paypalRendered.current) return;
