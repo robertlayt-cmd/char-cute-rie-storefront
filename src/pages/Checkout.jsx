@@ -414,40 +414,25 @@ export default function Checkout() {
                 {/* Payment */}
                 <div>
                   <h2 className="text-xl font-semibold text-white mb-4">Payment</h2>
-                  <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-[#003087] rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">Pay</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-medium">PayPal</p>
-                        <p className="text-zinc-400 text-sm">Secure payment via PayPal</p>
-                      </div>
+                  {!formValid ? (
+                    <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800 text-center">
+                      <Lock className="w-8 h-8 text-zinc-600 mx-auto mb-3" />
+                      <p className="text-zinc-400 text-sm">Complete the form above to continue to payment</p>
                     </div>
-                    <p className="text-zinc-400 text-sm">
-                      You'll be redirected to PayPal to complete your payment securely.
-                    </p>
-                  </div>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full bg-pink-500 hover:bg-pink-600 btn-shine"
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Processing...
-                    </>
+                  ) : isProcessing ? (
+                    <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800 text-center">
+                      <Loader2 className="w-8 h-8 text-pink-500 mx-auto mb-3 animate-spin" />
+                      <p className="text-zinc-400 text-sm">Processing your order...</p>
+                    </div>
                   ) : (
-                    <>
-                      <Lock className="w-5 h-5 mr-2" />
-                      Pay ${total.toFixed(2)} AUD
-                    </>
+                    <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
+                      {formError && (
+                        <p className="text-red-400 text-sm mb-4">{formError}</p>
+                      )}
+                      <div ref={paypalContainerRef} id="paypal-button-container" />
+                    </div>
                   )}
-                </Button>
+                </div>
               </form>
             </div>
 
