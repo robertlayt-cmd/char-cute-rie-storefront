@@ -101,6 +101,13 @@ export default function Checkout() {
               amount: total,
               currency: 'AUD',
               orderId: createdOrder.id,
+              shippingAddress: {
+                name: formData.firstName + ' ' + formData.lastName,
+                street: formData.street,
+                city: formData.city,
+                state: formData.state,
+                postcode: formData.postcode,
+              },
             });
             if (!paypalRes.data?.id) throw new Error('Failed to create PayPal order');
             sessionStorage.setItem('internalOrderId', createdOrder.id);
