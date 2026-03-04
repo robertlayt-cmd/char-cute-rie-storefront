@@ -186,6 +186,8 @@ export default function Checkout() {
   // Render PayPal buttons whenever form becomes valid
   useEffect(() => {
     if (!formValid) {
+      // Reset so buttons re-render if form becomes valid again
+      if (paypalContainerRef.current) paypalContainerRef.current.innerHTML = '';
       paypalRendered.current = false;
       window.__paypalFormValid = false;
       return;
@@ -196,7 +198,7 @@ export default function Checkout() {
       renderPaypalButtons(window.paypal);
     }
     // else onload callback above will handle it
-  }, [formValid]); // eslint-disable-line
+  }, [formValid, total]); // eslint-disable-line
 
   const generateOrderNumber = () => {
     const prefix = 'CC';
