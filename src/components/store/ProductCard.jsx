@@ -26,7 +26,7 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
   const [isHovered, setIsHovered] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(variants.find(v => v.is_default) || variants[0]);
   
-  const displayImage = selectedVariant?.image_url || product.main_image_url;
+  const displayImage = selectedVariant?.image_url || product.thumbnail_url || product.main_image_url;
   const totalStock = variants.reduce((sum, v) => sum + (v.stock_quantity || 0), 0);
   const inStock = variants.length > 0
     ? (selectedVariant ? selectedVariant.stock_quantity > 0 : totalStock > 0)

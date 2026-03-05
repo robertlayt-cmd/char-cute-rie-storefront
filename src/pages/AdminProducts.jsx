@@ -303,7 +303,7 @@ export default function AdminProducts() {
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <img
-                            src={product.main_image_url || 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=80'}
+                            src={product.thumbnail_url || product.main_image_url || 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=80'}
                             alt={product.title}
                             className="w-10 h-10 object-cover rounded-lg flex-shrink-0"
                           />
