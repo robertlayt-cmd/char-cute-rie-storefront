@@ -51,7 +51,8 @@ export default function Shop() {
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const cats = await base44.entities.Category.list();
+      // Fetch ALL categories (parents + children) to ensure subcategories are available
+      const cats = await base44.entities.Category.list('display_order');
       return cats.filter(c => c.is_active !== false);
     },
   });
