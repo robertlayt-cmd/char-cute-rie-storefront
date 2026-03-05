@@ -113,6 +113,10 @@ export default function AdminMenu() {
 
   const parentItems = menuItems.filter(item => !item.parent_id).sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
 
+  const getChildItems = (parentId) => menuItems.filter(item => item.parent_id === parentId).sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+
+  const toggleExpanded = (id) => setExpandedItems(prev => ({ ...prev, [id]: !prev[id] }));
+
   return (
     <AdminGuard>
       <AdminLayout currentPage="AdminMenu">
