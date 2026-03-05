@@ -21,6 +21,7 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [showSecret, setShowSecret] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   const { data: existingSettings, isLoading } = useQuery({
     queryKey: ['admin-settings'],
