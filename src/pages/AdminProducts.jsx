@@ -29,6 +29,8 @@ export default function AdminProducts() {
   const [editingVariants, setEditingVariants] = useState([]);
   const [selected, setSelected] = useState(new Set());
   const [bulkAction, setBulkAction] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['admin-products'],
