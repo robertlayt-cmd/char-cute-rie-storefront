@@ -68,6 +68,9 @@ export default function AdminProducts() {
     if (statusFilter !== 'all' && p.status !== statusFilter) return false;
     if (categoryFilter !== 'all' && p.category_id !== categoryFilter) return false;
     if (badgeFilter !== 'all' && p.badge !== badgeFilter) return false;
+    if (featuredFilter === 'hero' && !p.is_featured) return false;
+    if (featuredFilter === 'tiktok' && !p.is_tiktok_featured) return false;
+    if (featuredFilter === 'none' && (p.is_featured || p.is_tiktok_featured)) return false;
     return true;
   });
 
