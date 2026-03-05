@@ -30,7 +30,7 @@ export default function Footer() {
   return (
     <footer className="bg-zinc-950 border-t border-zinc-800 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
             <img 
@@ -44,58 +44,36 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Shop */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Shop</h4>
-            <ul className="space-y-3">
-              <li>
-                <Link to={createPageUrl('Shop')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  All Products
-                </Link>
-              </li>
-              {categories.map(cat => (
-                <li key={cat.id}>
-                  <Link to={`${createPageUrl('Shop')}?category=${cat.slug}`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Help */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Help</h4>
-            <ul className="space-y-3">
-              {showShipping && (
+          {/* Shop - 2 columns */}
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-white font-semibold mb-4">Shop</h4>
+              <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('Shipping')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                    Shipping Info
+                  <Link to={createPageUrl('Shop')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    All Products
                   </Link>
                 </li>
-              )}
-              {showReturns && (
-                <li>
-                  <Link to={createPageUrl('Returns')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                    Returns & Refunds
-                  </Link>
-                </li>
-              )}
-              {showContact && (
-                <li>
-                  <Link to={createPageUrl('Contact')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                    Contact Us
-                  </Link>
-                </li>
-              )}
-              {showAbout && (
-                <li>
-                  <Link to={createPageUrl('About')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                    About Us
-                  </Link>
-                </li>
-              )}
-            </ul>
+                {categories.slice(0, Math.ceil(categories.length / 2)).map(cat => (
+                  <li key={cat.id}>
+                    <Link to={`${createPageUrl('Shop')}?category=${cat.slug}`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <ul className="space-y-3 pt-12">
+                {categories.slice(Math.ceil(categories.length / 2)).map(cat => (
+                  <li key={cat.id}>
+                    <Link to={`${createPageUrl('Shop')}?category=${cat.slug}`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Connect */}
@@ -154,6 +132,45 @@ export default function Footer() {
             <p className="text-zinc-500 text-sm">
               📍 Melbourne, Australia
             </p>
+          </div>
+        </div>
+
+        {/* Help - Below Connect */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+          <div></div>
+          <div></div>
+          <div>
+            <h4 className="text-white font-semibold mb-4">Help</h4>
+            <ul className="space-y-3">
+              {showShipping && (
+                <li>
+                  <Link to={createPageUrl('Shipping')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    Shipping Info
+                  </Link>
+                </li>
+              )}
+              {showReturns && (
+                <li>
+                  <Link to={createPageUrl('Returns')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    Returns & Refunds
+                  </Link>
+                </li>
+              )}
+              {showContact && (
+                <li>
+                  <Link to={createPageUrl('Contact')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    Contact Us
+                  </Link>
+                </li>
+              )}
+              {showAbout && (
+                <li>
+                  <Link to={createPageUrl('About')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    About Us
+                  </Link>
+                </li>
+              )}
+            </ul>
           </div>
         </div>
 
