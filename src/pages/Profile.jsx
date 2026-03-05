@@ -152,14 +152,24 @@ export default function Profile() {
             {form.business_name && <p className="text-pink-400 font-medium">{form.business_name}</p>}
             <p className="text-zinc-400 text-sm">{currentUser.email}</p>
           </div>
-          <Button
-            onClick={handleSave}
-            disabled={saveMutation.isPending}
-            className="bg-pink-500 hover:bg-pink-600"
-          >
-            {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-            {saved ? 'Saved!' : 'Save Profile'}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={() => base44.auth.logout(createPageUrl('Home'))}
+              className="text-zinc-400 hover:text-red-400 border border-zinc-700"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={saveMutation.isPending}
+              className="bg-pink-500 hover:bg-pink-600"
+            >
+              {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+              {saved ? 'Saved!' : 'Save Profile'}
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="profile">
