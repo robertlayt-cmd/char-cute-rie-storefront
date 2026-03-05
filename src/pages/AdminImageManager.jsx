@@ -250,22 +250,33 @@ export default function AdminImageManager() {
                 </div>
               )}
 
-              {/* External Badge */}
-              {isExternal(img.url) && (
-                <div className="absolute top-2 left-2">
-                  <Badge className="bg-yellow-500/20 text-yellow-400 text-xs">External</Badge>
+              {layoutView === 'grid' && (
+                <>
+                  {/* External Badge */}
+                  {isExternal(img.url) && (
+                    <div className="absolute top-2 left-2">
+                      <Badge className="bg-yellow-500/20 text-yellow-400 text-xs">External</Badge>
+                    </div>
+                  )}
+
+                  {/* Type Badge */}
+                  <div className="absolute top-2 right-2">
+                    <Badge className={`text-xs ${img.type === 'product' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}`}>
+                      {img.type === 'product' ? (img.field === 'main' ? 'Main' : 'Gallery') : 'Variant'}
+                    </Badge>
+                  </div>
+                </>
+              )}
+
+              {layoutView === 'table' && (
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">{img.productTitle || img.variantName}</p>
+                  <p className="text-xs text-zinc-400">{img.type === 'product' ? (img.field === 'main' ? 'Main' : 'Gallery') : 'Variant'}</p>
                 </div>
               )}
 
-              {/* Type Badge */}
-              <div className="absolute top-2 right-2">
-                <Badge className={`text-xs ${img.type === 'product' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}`}>
-                  {img.type === 'product' ? (img.field === 'main' ? 'Main' : 'Gallery') : 'Variant'}
-                </Badge>
-              </div>
-
               {/* Actions */}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+              <div className={layoutView === 'grid' ? 'absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2' : 'flex items-center gap-2'}>
                 <Button
                   variant="ghost"
                   size="icon"
