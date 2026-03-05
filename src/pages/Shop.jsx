@@ -76,13 +76,7 @@ export default function Shop() {
   const parentCategories = categories.filter(c => !c.parent_id);
   const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
 
-  // Debug logging
-  useEffect(() => {
-    console.log('selectedCategory:', selectedCategory);
-    const cat = categories.find(c => c.slug === selectedCategory);
-    console.log('Found category:', cat);
-    console.log('All categories:', categories.map(c => ({ slug: c.slug, name: c.name, id: c.id })));
-  }, [selectedCategory, categories]);
+
 
   // Filter products - if a parent category is selected, include its children too
    let filtered = products.filter(p => {
