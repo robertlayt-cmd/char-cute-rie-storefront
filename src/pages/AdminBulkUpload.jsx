@@ -74,7 +74,7 @@ export default function AdminBulkUpload() {
   const [dragOver, setDragOver] = useState(false);
   const [skipIfExists, setSkipIfExists] = useState(true);
 
-  const { data: categories = [] } = useQuery({
+  const { data: allCategories = [] } = useQuery({
     queryKey: ['admin-categories'],
     queryFn: () => base44.entities.Category.list(),
   });
