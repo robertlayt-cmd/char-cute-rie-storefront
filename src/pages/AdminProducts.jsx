@@ -417,7 +417,7 @@ export default function AdminProducts() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <Label className="text-zinc-200">Colour Variants</Label>
-                    <Button size="sm" variant="outline" onClick={addVariant} className="border-zinc-700 text-white">
+                    <Button size="sm" onClick={addVariant} className="bg-zinc-700 hover:bg-zinc-600 text-white border-0">
                       <Plus className="w-4 h-4 mr-1" />Add Variant
                     </Button>
                   </div>
