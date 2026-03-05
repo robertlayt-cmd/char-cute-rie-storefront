@@ -194,6 +194,7 @@ export default function AdminBulkUpload() {
         review_count: parseInt(row.review_count) || 0,
         tags: row.tags ? row.tags.split(',').map(t => t.trim()) : [],
         main_image_url,
+        thumbnail_url,
         gallery_images: [],
       };
 
