@@ -293,7 +293,7 @@ export default function AdminMenu() {
               </div>
 
               <DialogFooter>
-                <Button variant="outline" onClick={() => setShowDialog(false)} className="border-zinc-700">Cancel</Button>
+                <Button variant="outline" onClick={() => { setShowDialog(false); resetForm(); }} className="border-zinc-700">Cancel</Button>
                 <Button onClick={handleSave} className="bg-pink-500 hover:bg-pink-600">
                   {editingItem ? 'Update' : 'Add'} Item
                 </Button>
