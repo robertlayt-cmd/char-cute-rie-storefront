@@ -178,7 +178,7 @@ export default function Home() {
           {/* TikTok CTA */}
           <div className="max-w-7xl mx-auto px-4 mt-10">
             <motion.a
-              href="https://www.tiktok.com/@char.cute.rie"
+              href={settings.tiktok_url}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
