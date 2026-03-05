@@ -15,6 +15,7 @@ import {
   Plus, Pencil, Trash2, Search, Image, 
   X, Upload, ChevronDown, Filter
 } from 'lucide-react';
+import { uploadProductImage } from '@/components/utils/imageUtils';
 
 export default function AdminProducts() {
   const queryClient = useQueryClient();

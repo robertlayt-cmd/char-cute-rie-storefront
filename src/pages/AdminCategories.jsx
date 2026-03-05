@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Plus, Pencil, Trash2, Upload, ChevronDown, ChevronRight } from 'lucide-react';
+import { uploadProductImage } from '@/components/utils/imageUtils';
 import { motion } from 'framer-motion';
 
 export default function AdminCategories() {

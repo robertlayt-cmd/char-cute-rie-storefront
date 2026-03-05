@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Download, CheckCircle, XCircle, AlertCircle, FileText } from 'lucide-react';
+import { reuploadImageFromUrl } from '@/components/utils/imageUtils';
 
 // Map of color names (lowercase) to hex codes
 const COLOR_NAME_MAP = {
