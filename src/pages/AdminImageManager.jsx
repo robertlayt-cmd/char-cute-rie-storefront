@@ -202,6 +202,15 @@ export default function AdminImageManager() {
                 />
               </div>
 
+              {/* Thumbnail Icon */}
+              {img.thumbnail && (
+                <div className="absolute bottom-2 right-2">
+                  <div className="w-10 h-10 rounded-lg border-2 border-white/50 overflow-hidden bg-zinc-800 hover:border-white transition-colors cursor-pointer" title="Thumbnail exists">
+                    <img src={img.thumbnail} alt="thumbnail" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              )}
+
               {/* External Badge */}
               {isExternal(img.url) && (
                 <div className="absolute top-2 left-2">
@@ -212,7 +221,7 @@ export default function AdminImageManager() {
               {/* Type Badge */}
               <div className="absolute top-2 right-2">
                 <Badge className={`text-xs ${img.type === 'product' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}`}>
-                  {img.type === 'product' ? (img.field === 'main' ? 'Main' : img.field === 'thumbnail' ? 'Thumb' : 'Gallery') : 'Variant'}
+                  {img.type === 'product' ? (img.field === 'main' ? 'Main' : 'Gallery') : 'Variant'}
                 </Badge>
               </div>
 
