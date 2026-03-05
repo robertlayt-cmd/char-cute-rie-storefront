@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -7,8 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Loader, Trash2, Eye, RefreshCw, Download, Search, Grid, List } from 'lucide-react';
+import { Loader, Trash2, Eye, RefreshCw, Download, Search, Grid, List, FileDown, Upload } from 'lucide-react';
 import { uploadProductImage } from '@/components/utils/imageUtils';
+import BulkCSVImport from '@/components/admin/BulkCSVImport';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function AdminImageManager() {
   const queryClient = useQueryClient();
