@@ -241,12 +241,12 @@ export default function AdminCategories() {
                     <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                       <SelectValue placeholder="None (top-level)" />
                     </SelectTrigger>
-                    <SelectContent className="bg-zinc-800 border-zinc-700">
-                      <SelectItem value="none">None (top-level)</SelectItem>
+                    <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                      <SelectItem value="none" className="text-white">None (top-level)</SelectItem>
                       {parentCategories
                         .filter(c => c.id !== editingCategory.id)
                         .map(c => (
-                          <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                          <SelectItem key={c.id} value={c.id} className="text-white">{c.name}</SelectItem>
                         ))}
                     </SelectContent>
                   </Select>
