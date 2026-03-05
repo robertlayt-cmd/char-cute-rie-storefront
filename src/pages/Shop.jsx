@@ -56,6 +56,8 @@ export default function Shop() {
     },
     staleTime: Infinity,
     gcTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const { data: products = [], isLoading } = useQuery({
