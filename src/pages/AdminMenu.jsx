@@ -15,6 +15,7 @@ export default function AdminMenu() {
   const queryClient = useQueryClient();
   const [showDialog, setShowDialog] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [expandedItems, setExpandedItems] = useState({});
   const [formData, setFormData] = useState({
     label: '',
     link_type: 'category',
