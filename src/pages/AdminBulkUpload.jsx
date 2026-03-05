@@ -149,8 +149,18 @@ export default function AdminBulkUpload() {
     const newResults = [];
 
     const categoryLookup = [...categories];
+    const existingProducts = skipIfExists ? await base44.entities.Product.list() : [];
 
     for (const row of preview) {
+      const productSlug = row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      
+      // Skip if product exists and skipIfExists is enabled
+      if (skipIfExists && existingProducts.some(p => p.slug === productSlug)) {
+        newResults.push({ title: row.title, status: 'skipped', error: 'Product already exists' });
+        setResults([...newResults]);
+        continue;
+      }
+
       let cat = categoryLookup.find(c => c.name.toLowerCase() === (row.category_name || '').toLowerCase());
 
       if (!cat && row.category_name) {
@@ -170,7 +180,6 @@ export default function AdminBulkUpload() {
         ? await reuploadImageFromUrl(row.main_image_url)
         : { full_url: '', thumbnail_url: '' };
 
-      const productSlug = row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       const variants = extractVariants(row);
       const defaultStock = parseInt(row.default_stock) || 0;
 
