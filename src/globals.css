@@ -165,3 +165,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.pt-24 {
+  padding-top: 8rem;
+}
