@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { 
   Plus, Pencil, Trash2, Search, Image, 
-  X, Upload, ChevronDown, Filter
+  X, Upload, ChevronDown, Filter, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { uploadProductImage } from '@/components/utils/imageUtils';
 
