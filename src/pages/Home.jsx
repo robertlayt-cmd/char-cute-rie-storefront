@@ -31,6 +31,14 @@ export default function Home() {
     queryFn: () => base44.entities.Product.filter({ status: 'published' }, '-created_date'),
   });
 
+  const { data: settings } = useQuery({
+    queryKey: ['settings'],
+    queryFn: async () => {
+      const all = await base44.entities.StoreSettings.list();
+      return all[0] || {};
+    },
+  });
+
   const { data: allVariants = [] } = useQuery({
     queryKey: ['variants'],
     queryFn: () => base44.entities.ProductVariant.list(),
