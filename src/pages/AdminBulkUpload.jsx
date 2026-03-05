@@ -206,7 +206,7 @@ export default function AdminBulkUpload() {
           const v = variants[i];
           // Re-upload variant image if present
           const variantImageUrl = row[`variant_image_${i + 1}`]
-            ? await reuploadImage(row[`variant_image_${i + 1}`])
+            ? (await reuploadImageFromUrl(row[`variant_image_${i + 1}`])).full_url
             : '';
           await base44.entities.ProductVariant.create({
             ...v,
