@@ -209,30 +209,36 @@ export default function Shop() {
             </div>
 
             {/* Category */}
-            <Select value={selectedCategory} onValueChange={(value) => {
-              setSelectedCategory(value);
-              navigate(`?category=${value === 'all' ? '' : value}`, { replace: true });
-            }}>
-              <SelectTrigger className="w-[180px] bg-zinc-800 border-zinc-700 text-white">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
-                <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Categories</SelectItem>
-                {parentCategories.map(cat => {
-                   const children = getChildren(cat.id);
-                   return (
-                     <div key={cat.id}>
-                       <SelectItem value={cat.slug} className="font-medium text-white focus:bg-zinc-700 focus:text-white">{cat.name}</SelectItem>
-                       {children.map(child => (
-                         <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-300 focus:bg-zinc-700 focus:text-white">
-                           ↳ {child.name}
-                         </SelectItem>
-                       ))}
-                     </div>
-                   );
-                 })}
-              </SelectContent>
-            </Select>
+             <Select value={selectedCategory} onValueChange={(value) => {
+               setSelectedCategory(value);
+               navigate(`?category=${value === 'all' ? '' : value}`, { replace: true });
+             }}>
+               <SelectTrigger className="w-[180px] bg-zinc-800 border-zinc-700 text-white">
+                 <SelectValue placeholder={catsLoading ? "Loading..." : "Category"} />
+               </SelectTrigger>
+               <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                 {catsLoading ? (
+                   <div className="py-2 px-2 text-zinc-400 text-sm">Loading categories...</div>
+                 ) : (
+                   <>
+                     <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Categories</SelectItem>
+                     {parentCategories.map(cat => {
+                        const children = getChildren(cat.id);
+                        return (
+                          <div key={cat.id}>
+                            <SelectItem value={cat.slug} className="font-medium text-white focus:bg-zinc-700 focus:text-white">{cat.name}</SelectItem>
+                            {children.map(child => (
+                              <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-300 focus:bg-zinc-700 focus:text-white">
+                                ↳ {child.name}
+                              </SelectItem>
+                            ))}
+                          </div>
+                        );
+                      })}
+                   </>
+                 )}
+               </SelectContent>
+             </Select>
 
             {/* Sort */}
             <Select value={sortBy} onValueChange={setSortBy}>
