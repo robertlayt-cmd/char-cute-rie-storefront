@@ -85,7 +85,7 @@ export default function AdminProducts() {
     if (allSelected) {
       setSelected(new Set());
     } else {
-      setSelected(new Set(filtered.map(p => p.id)));
+      setSelected(new Set(paginated.map(p => p.id)));
     }
   };
 
