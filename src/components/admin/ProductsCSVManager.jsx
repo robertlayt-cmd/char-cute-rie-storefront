@@ -41,22 +41,77 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
   };
 
   const exportAllProducts = () => {
-    const headers = ['id', 'title', 'slug', 'base_price', 'compare_price', 'category_id', 'status', 'default_stock', 'is_featured', 'badge'];
+    const headers = ['product_id', 'product_type', 'title', 'slug', 'description', 'short_description', 'base_price', 'compare_price', 'category_id', 'main_image_url', 'thumbnail_url', 'gallery_images', 'materials', 'care_instructions', 'tags', 'badge', 'is_featured', 'is_tiktok_featured', 'status', 'default_stock', 'variant_id', 'variant_name', 'variant_color', 'variant_image_url', 'variant_price_adjustment', 'variant_stock', 'variant_sku'];
     const rows = [headers];
     
     products.forEach(p => {
-      rows.push([
-        p.id,
-        p.title,
-        p.slug,
-        p.base_price,
-        p.compare_price || '',
-        p.category_id || '',
-        p.status,
-        p.default_stock || 0,
-        p.is_featured ? '1' : '0',
-        p.badge || '',
-      ]);
+      const productVariants = variants.filter(v => v.product_id === p.id);
+      
+      if (productVariants.length === 0) {
+        // Export product without variants
+        rows.push([
+          p.id,
+          'product',
+          p.title,
+          p.slug,
+          p.description || '',
+          p.short_description || '',
+          p.base_price,
+          p.compare_price || '',
+          p.category_id || '',
+          p.main_image_url || '',
+          p.thumbnail_url || '',
+          (p.gallery_images || []).join('|'),
+          p.materials || '',
+          p.care_instructions || '',
+          (p.tags || []).join(','),
+          p.badge || '',
+          p.is_featured ? '1' : '0',
+          p.is_tiktok_featured ? '1' : '0',
+          p.status,
+          p.default_stock || 0,
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ]);
+      } else {
+        // Export product with each variant on a separate row
+        productVariants.forEach((v, idx) => {
+          rows.push([
+            p.id,
+            idx === 0 ? 'product' : 'variant',
+            idx === 0 ? p.title : '',
+            idx === 0 ? p.slug : '',
+            idx === 0 ? (p.description || '') : '',
+            idx === 0 ? (p.short_description || '') : '',
+            idx === 0 ? p.base_price : '',
+            idx === 0 ? (p.compare_price || '') : '',
+            idx === 0 ? (p.category_id || '') : '',
+            idx === 0 ? (p.main_image_url || '') : '',
+            idx === 0 ? (p.thumbnail_url || '') : '',
+            idx === 0 ? (p.gallery_images || []).join('|') : '',
+            idx === 0 ? (p.materials || '') : '',
+            idx === 0 ? (p.care_instructions || '') : '',
+            idx === 0 ? ((p.tags || []).join(',')) : '',
+            idx === 0 ? (p.badge || '') : '',
+            idx === 0 ? (p.is_featured ? '1' : '0') : '',
+            idx === 0 ? (p.is_tiktok_featured ? '1' : '0') : '',
+            idx === 0 ? p.status : '',
+            idx === 0 ? (p.default_stock || 0) : '',
+            v.id,
+            v.name,
+            v.color_hex || '',
+            v.image_url || '',
+            v.price_adjustment || '',
+            v.stock_quantity || 0,
+            v.sku || '',
+          ]);
+        });
+      }
     });
 
     const csv = rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
