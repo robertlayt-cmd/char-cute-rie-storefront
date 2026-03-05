@@ -48,7 +48,7 @@ export default function MiniCart({ isOpen, onClose, items = [], onUpdateQuantity
                     <ShoppingBag className="w-10 h-10 text-zinc-600" />
                   </div>
                   <p className="text-zinc-400 mb-4">Your cart is empty</p>
-                  <Button onClick={onClose} variant="outline">
+                  <Button onClick={onClose} className="bg-pink-500 hover:bg-pink-600 text-white">
                     Continue Shopping
                   </Button>
                 </div>
