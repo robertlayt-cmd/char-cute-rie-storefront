@@ -308,10 +308,11 @@ export default function AdminImageManager() {
                 </Button>
               </div>
 
-              {/* Metadata */}
-              <div className="p-2 text-xs text-zinc-400 border-t border-zinc-800">
-                <p className="truncate font-medium text-zinc-300">{img.productTitle || img.variantName}</p>
-              </div>
+              {layoutView === 'grid' && (
+                <div className="p-2 text-xs text-zinc-400 border-t border-zinc-800">
+                  <p className="truncate font-medium text-zinc-300">{img.productTitle || img.variantName}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
