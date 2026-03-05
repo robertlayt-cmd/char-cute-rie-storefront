@@ -52,6 +52,7 @@ import Admin from './pages/Admin';
 import AdminBulkUpload from './pages/AdminBulkUpload';
 import AdminCategories from './pages/AdminCategories';
 import AdminDiscounts from './pages/AdminDiscounts';
+import AdminImageManager from './pages/AdminImageManager';
 import AdminImages from './pages/AdminImages';
 import AdminMenu from './pages/AdminMenu';
 import AdminOrders from './pages/AdminOrders';
@@ -69,7 +70,6 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
-import AdminImageManager from './pages/AdminImageManager';
 import __Layout from './Layout.jsx';
 
 
@@ -79,6 +79,7 @@ export const PAGES = {
     "AdminBulkUpload": AdminBulkUpload,
     "AdminCategories": AdminCategories,
     "AdminDiscounts": AdminDiscounts,
+    "AdminImageManager": AdminImageManager,
     "AdminImages": AdminImages,
     "AdminMenu": AdminMenu,
     "AdminOrders": AdminOrders,
@@ -96,7 +97,6 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
-    "AdminImageManager": AdminImageManager,
 }
 
 export const pagesConfig = {

@@ -25,7 +25,17 @@ export default function AdminUsers() {
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ['admin-users'],
-    queryFn: () => base44.entities.User.list('-created_date', 100),
+    queryFn: async () => {
+      const [currentUser, allUsers] = await Promise.all([
+        base44.auth.me().catch(() => null),
+        base44.entities.User.list('-created_date', 100).catch(() => []),
+      ]);
+      
+      if (!currentUser) return allUsers;
+      
+      const userIds = new Set(allUsers.map(u => u.id));
+      return userIds.has(currentUser.id) ? allUsers : [currentUser, ...allUsers];
+    },
   });
 
   const updateRole = useMutation({
