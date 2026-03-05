@@ -135,7 +135,7 @@ export default function AdminProducts() {
       setEditingProduct(product);
       setEditingVariants(variants.filter(v => v.product_id === product.id));
     } else {
-      setEditingProduct({ title: '', slug: '', description: '', short_description: '', base_price: 0, compare_price: 0, category_id: '', main_image_url: '', gallery_images: [], materials: 'Handcrafted polymer clay with stainless steel findings', care_instructions: 'Store in a cool, dry place. Avoid contact with water and perfumes.', tags: [], badge: '', is_featured: false, is_tiktok_featured: false, status: 'draft', rating: 5, review_count: 0 });
+      setEditingProduct({ title: '', slug: '', description: '', short_description: '', base_price: 0, compare_price: 0, category_id: '', main_image_url: '', gallery_images: [], materials: 'Handcrafted polymer clay with stainless steel findings', care_instructions: 'Store in a cool, dry place. Avoid contact with water and perfumes.', tags: [], badge: '', is_featured: false, is_tiktok_featured: false, status: 'draft', default_stock: 0, rating: 5, review_count: 0 });
       setEditingVariants([]);
     }
     setIsDialogOpen(true);
