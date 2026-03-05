@@ -7,9 +7,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Loader, Trash2, Eye, RefreshCw, Download, Search, Grid, List, FileDown, Upload } from 'lucide-react';
+import { Loader, Trash2, Eye, RefreshCw, Download, Search, Grid, List, Upload } from 'lucide-react';
 import { uploadProductImage } from '@/components/utils/imageUtils';
-import BulkCSVImport from '@/components/admin/BulkCSVImport';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function AdminImageManager() {
