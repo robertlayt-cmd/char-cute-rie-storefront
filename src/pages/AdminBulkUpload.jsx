@@ -72,6 +72,7 @@ export default function AdminBulkUpload() {
   const [isUploading, setIsUploading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [skipIfExists, setSkipIfExists] = useState(true);
 
   const { data: categories = [] } = useQuery({
     queryKey: ['admin-categories'],
