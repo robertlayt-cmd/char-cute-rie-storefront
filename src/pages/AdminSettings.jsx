@@ -104,6 +104,7 @@ export default function AdminSettings() {
             <TabsTrigger value="shipping">Shipping</TabsTrigger>
             <TabsTrigger value="payments">Payments</TabsTrigger>
             <TabsTrigger value="policies">Policies</TabsTrigger>
+            <TabsTrigger value="backup">Backup & Data</TabsTrigger>
           </TabsList>
 
           {/* General */}
