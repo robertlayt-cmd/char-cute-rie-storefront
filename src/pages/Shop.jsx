@@ -56,8 +56,26 @@ export default function Shop() {
   });
 
   const { data: products = [], isLoading } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => base44.entities.Product.filter({ status: 'published' }),
+    queryKey: ['products', selectedCategory],
+    queryFn: async () => {
+      const allProducts = await base44.entities.Product.filter({ status: 'published' });
+      
+      if (selectedCategory === 'all') return allProducts;
+      
+      const selectedCat = categories.find(c => c.slug === selectedCategory);
+      if (!selectedCat) return allProducts;
+      
+      if (!selectedCat.parent_id) {
+        // Parent category - include children
+        const childIds = categories.filter(c => c.parent_id === selectedCat.id).map(c => c.id);
+        const matchIds = [selectedCat.id, ...childIds];
+        return allProducts.filter(p => matchIds.includes(p.category_id));
+      } else {
+        // Subcategory - exact match
+        return allProducts.filter(p => p.category_id === selectedCat.id);
+      }
+    },
+    enabled: !!selectedCategory && categories.length > 0,
   });
 
   const { data: allVariants = [] } = useQuery({
