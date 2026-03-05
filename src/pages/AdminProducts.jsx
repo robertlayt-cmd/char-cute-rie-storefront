@@ -13,9 +13,10 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { 
   Plus, Pencil, Trash2, Search, Image, 
-  X, Upload, ChevronDown, Filter, ChevronLeft, ChevronRight
+  X, Upload, ChevronDown, Filter, ChevronLeft, ChevronRight, FileDown
 } from 'lucide-react';
 import { uploadProductImage } from '@/components/utils/imageUtils';
+import ProductsCSVManager from '@/components/admin/ProductsCSVManager';
 
 export default function AdminProducts() {
   const queryClient = useQueryClient();
