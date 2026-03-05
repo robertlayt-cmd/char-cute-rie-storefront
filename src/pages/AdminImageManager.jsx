@@ -402,6 +402,41 @@ export default function AdminImageManager() {
           </div>
         )}
 
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-8 flex items-center justify-between">
+            <Button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              variant="outline"
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50"
+            >
+              Previous
+            </Button>
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                <Button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  variant={currentPage === page ? 'default' : 'outline'}
+                  size="sm"
+                  className={currentPage === page ? 'bg-pink-600 hover:bg-pink-700' : 'border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800'}
+                >
+                  {page}
+                </Button>
+              ))}
+            </div>
+            <Button
+              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              variant="outline"
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50"
+            >
+              Next
+            </Button>
+          </div>
+        )}
+
         {/* Image Preview Modal */}
         {selectedImage && (
           <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
