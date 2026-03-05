@@ -180,7 +180,7 @@ export default function Shop() {
       </div>
 
       {/* Filters Bar */}
-      <div className="md:sticky md:top-16 z-30 bg-zinc-900/90 backdrop-blur-lg border-y border-zinc-800 py-4">
+      <div className="md:sticky md:top-[60px] z-30 bg-zinc-900/90 backdrop-blur-lg border-y border-zinc-800 py-4">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap items-center gap-4">
             {/* Search */}
