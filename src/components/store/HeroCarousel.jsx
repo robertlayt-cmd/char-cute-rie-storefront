@@ -24,10 +24,16 @@ export default function HeroCarousel({ products = [], categories = [] }) {
 
   const currentProduct = products[currentIndex];
   const currentCategory = categories.find(c => c.id === currentProduct.category_id);
-  const parentCategory = currentCategory?.parent_id ? categories.find(c => c.id === currentCategory.parent_id) : null;
-  const categoryName = parentCategory && currentCategory 
-    ? `${parentCategory.name} - ${currentCategory.name}`
-    : currentCategory?.name || 'Featured';
+  let categoryName = 'Featured';
+
+  if (currentCategory?.parent_id) {
+    // This is a subcategory, find parent
+    const parentCategory = categories.find(c => c.id === currentCategory.parent_id);
+    categoryName = parentCategory ? `${parentCategory.name} - ${currentCategory.name}` : currentCategory.name;
+  } else if (currentCategory) {
+    // This is a parent category
+    categoryName = currentCategory.name;
+  }
 
   const slideVariants = {
     enter: (direction) => ({
