@@ -266,22 +266,22 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
                               className="absolute left-0 top-full mt-2 min-w-[180px] bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50"
                             >
                               <Link
-                                to={`${createPageUrl('Shop')}?category=${cat.slug}`}
-                                onClick={() => setOpenDropdown(null)}
-                                className="flex items-center gap-2 px-4 py-2.5 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
-                              >
-                                All {cat.name}
-                              </Link>
-                              {children.map(child => (
-                                <Link
-                                  key={child.id}
-                                  to={`${createPageUrl('Shop')}?category=${child.slug}`}
-                                  onClick={() => setOpenDropdown(null)}
-                                  className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
-                                >
-                                  {child.name}
-                                </Link>
-                              ))}
+                                 to={`${createPageUrl('Shop')}?category=${cat.slug}`}
+                                 onClick={() => setOpenDropdown(null)}
+                                 className="flex items-center gap-2 px-4 py-2.5 text-white hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
+                               >
+                                 All {cat.name}
+                               </Link>
+                               {children.map(child => (
+                                 <Link
+                                   key={child.id}
+                                   to={`${createPageUrl('Shop')}?category=${child.slug}`}
+                                   onClick={() => setOpenDropdown(null)}
+                                   className="flex items-center gap-2 px-4 py-2.5 text-white hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                                 >
+                                   {child.name}
+                                 </Link>
+                               ))}
                             </motion.div>
                           )}
                         </AnimatePresence>
