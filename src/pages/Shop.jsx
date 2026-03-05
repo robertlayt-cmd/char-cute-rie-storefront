@@ -84,16 +84,14 @@ export default function Shop() {
      if (selectedCategory !== 'all' && categories.length > 0) {
        const selectedCat = categories.find(c => c.slug === selectedCategory);
        if (selectedCat) {
-         console.log('Filtering by category:', selectedCat.slug, 'Category ID:', selectedCat.id);
          // If it's a parent category, include its children
          if (!selectedCat.parent_id) {
-           const childIds = getChildren(selectedCat.id).map(c => c.id);
-           const matchIds = [selectedCat.id, ...childIds];
-           if (!matchIds.includes(p.category_id)) return false;
+          const childIds = getChildren(selectedCat.id).map(c => c.id);
+          const matchIds = [selectedCat.id, ...childIds];
+          if (!matchIds.includes(p.category_id)) return false;
          } else {
-           // If it's a subcategory, only match exact category_id
-           console.log('Product category_id:', p.category_id, 'Selected cat id:', selectedCat.id, 'Match:', p.category_id === selectedCat.id);
-           if (p.category_id !== selectedCat.id) return false;
+          // If it's a subcategory, only match exact category_id
+          if (p.category_id !== selectedCat.id) return false;
          }
        }
      }
