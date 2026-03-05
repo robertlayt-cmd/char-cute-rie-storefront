@@ -77,11 +77,15 @@ export default function Shop() {
      if (selectedCategory !== 'all') {
        const selectedCat = categories.find(c => c.slug === selectedCategory);
        if (selectedCat) {
-         // Include the category itself and all its children
-         const childIds = getChildren(selectedCat.id).map(c => c.id);
-         const matchIds = [selectedCat.id, ...childIds];
-         // Also check if product directly belongs to this category
-         if (!matchIds.includes(p.category_id)) return false;
+         // If it's a parent category, include its children
+         if (!selectedCat.parent_id) {
+           const childIds = getChildren(selectedCat.id).map(c => c.id);
+           const matchIds = [selectedCat.id, ...childIds];
+           if (!matchIds.includes(p.category_id)) return false;
+         } else {
+           // If it's a subcategory, only match exact category_id
+           if (p.category_id !== selectedCat.id) return false;
+         }
        }
      }
      if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
