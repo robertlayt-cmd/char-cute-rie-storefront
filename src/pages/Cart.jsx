@@ -161,46 +161,31 @@ export default function Cart() {
                         className="w-28 h-28 object-cover rounded-xl"
                       />
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-white font-semibold text-lg mb-1">{item.product_title}</h4>
+                        <h4 className="text-white font-semibold text-base md:text-lg mb-1">{item.product_title}</h4>
                         {item.variant_name && (
                           <p className="text-zinc-400 text-sm mb-2">{item.variant_name}</p>
                         )}
-                        <p className="text-pink-400 font-bold text-xl">${item.price.toFixed(2)}</p>
+                        <p className="text-pink-400 font-bold text-lg">${item.price.toFixed(2)}</p>
                         
-                        <div className="flex items-center justify-between mt-4">
-                          <div className="flex items-center gap-2">
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              className="h-8 w-8 border-zinc-700 text-white hover:bg-zinc-700 hover:text-white"
-                              onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
-                            >
-                              <Minus className="w-4 h-4" />
-                            </Button>
-                            <span className="text-white w-8 text-center">{item.quantity}</span>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              className="h-8 w-8 border-zinc-700 text-white hover:bg-zinc-700 hover:text-white"
-                              onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
-                            >
-                              <Plus className="w-4 h-4" />
-                            </Button>
-                          </div>
-                          
-                          <div className="flex items-center gap-4">
-                            <span className="text-white font-semibold">
-                              ${(item.price * item.quantity).toFixed(2)}
-                            </span>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="text-zinc-400 hover:text-red-400"
-                              onClick={() => handleRemoveItem(item)}
-                            >
-                              <Trash2 className="w-5 h-5" />
-                            </Button>
-                          </div>
+                        {/* Qty controls */}
+                        <div className="flex items-center gap-2 mt-3">
+                          <Button variant="outline" size="icon" className="h-7 w-7 border-zinc-700 text-white hover:bg-zinc-700 hover:text-white" onClick={() => handleUpdateQuantity(item, item.quantity - 1)}>
+                            <Minus className="w-3 h-3" />
+                          </Button>
+                          <span className="text-white w-7 text-center text-sm">{item.quantity}</span>
+                          <Button variant="outline" size="icon" className="h-7 w-7 border-zinc-700 text-white hover:bg-zinc-700 hover:text-white" onClick={() => handleUpdateQuantity(item, item.quantity + 1)}>
+                            <Plus className="w-3 h-3" />
+                          </Button>
+                        </div>
+
+                        {/* Total + Delete */}
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-white font-semibold text-sm">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </span>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-zinc-400 hover:text-red-400" onClick={() => handleRemoveItem(item)}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </div>
                     </motion.div>
