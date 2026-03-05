@@ -200,17 +200,30 @@ export default function AdminSettings() {
                   />
                 </div>
 
-                <div>
-                  <Label className="text-zinc-200">Free Shipping Threshold (AUD)</Label>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    value={settings.free_shipping_threshold}
-                    onChange={(e) => setSettings({ ...settings, free_shipping_threshold: parseFloat(e.target.value) || 0 })}
-                    className="bg-zinc-800 border-zinc-600 text-white"
+                <div className="flex items-center justify-between bg-zinc-800 rounded-lg p-3">
+                  <div>
+                    <p className="text-zinc-200 text-sm font-medium">Free Shipping</p>
+                    <p className="text-zinc-500 text-xs mt-0.5">Enable free shipping over a spend threshold</p>
+                  </div>
+                  <Switch
+                    checked={settings.free_shipping_enabled !== false}
+                    onCheckedChange={(v) => setSettings({ ...settings, free_shipping_enabled: v })}
                   />
-                  <p className="text-zinc-500 text-sm mt-1">Orders over this amount get free shipping</p>
                 </div>
+
+                {settings.free_shipping_enabled !== false && (
+                  <div>
+                    <Label className="text-zinc-200">Free Shipping Threshold (AUD)</Label>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      value={settings.free_shipping_threshold}
+                      onChange={(e) => setSettings({ ...settings, free_shipping_threshold: parseFloat(e.target.value) || 0 })}
+                      className="bg-zinc-800 border-zinc-600 text-white"
+                    />
+                    <p className="text-zinc-500 text-sm mt-1">Orders over this amount get free shipping</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
