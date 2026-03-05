@@ -18,7 +18,8 @@ const navItems = [
   { label: 'Themes', page: 'AdminThemes', icon: Palette },
   { label: 'Users', page: 'AdminUsers', icon: Users },
   { label: 'Bulk Upload', page: 'AdminBulkUpload', icon: Upload },
-  { label: 'Image Manager', page: 'AdminImages', icon: Image },
+  { label: 'Images', page: 'AdminImages', icon: Image },
+  { label: 'Image Manager', page: 'AdminImageManager', icon: Image },
   { label: 'Settings', page: 'AdminSettings', icon: Settings },
 ];
 
