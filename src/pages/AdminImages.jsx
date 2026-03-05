@@ -43,17 +43,23 @@ function formatBytes(bytes) {
 }
 
 export default function AdminImages() {
-  const [images, setImages] = useState([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState({ done: 0, total: 0 });
-  const [copiedId, setCopiedId] = useState(null);
-  const [search, setSearch] = useState('');
-  const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef();
+   const [images, setImages] = useState([]);
+   const [uploading, setUploading] = useState(false);
+   const [uploadProgress, setUploadProgress] = useState({ done: 0, total: 0 });
+   const [copiedId, setCopiedId] = useState(null);
+   const [search, setSearch] = useState('');
+   const [dragOver, setDragOver] = useState(false);
+   const [imageFilter, setImageFilter] = useState('all');
+   const fileInputRef = useRef();
 
-  const filtered = images.filter(img =>
-    img.name.toLowerCase().includes(search.toLowerCase())
-  );
+   const filtered = images.filter(img => {
+     const matchesSearch = img.name.toLowerCase().includes(search.toLowerCase());
+     const isExternal = img.url.includes('cuterie.me');
+     const matchesFilter = imageFilter === 'all' || 
+       (imageFilter === 'external' && isExternal) ||
+       (imageFilter === 'local' && !isExternal);
+     return matchesSearch && matchesFilter;
+   });
 
   const handleFiles = async (files) => {
     const fileArr = Array.from(files).filter(f => f.type.startsWith('image/'));
