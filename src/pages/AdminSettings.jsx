@@ -38,7 +38,7 @@ export default function AdminSettings() {
         logo_url: 'https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png',
         tagline: 'Handcrafted polymer clay earrings & accessories',
         contact_email: '',
-        tiktok_url: 'https://www.tiktok.com/@char.cute.rie',
+        tiktok_url: '',
         instagram_url: '',
         shipping_flat_rate: 9.95,
         free_shipping_threshold: 75,
