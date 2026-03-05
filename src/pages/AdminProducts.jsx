@@ -265,10 +265,10 @@ export default function AdminProducts() {
                 <SelectValue placeholder="Bulk action..." />
               </SelectTrigger>
               <SelectContent className="bg-zinc-800 border-zinc-700">
-                <SelectItem value="publish">Set Published</SelectItem>
-                <SelectItem value="draft">Set Draft</SelectItem>
-                <SelectItem value="archive">Set Archived</SelectItem>
-                <SelectItem value="delete">Delete</SelectItem>
+                <SelectItem value="publish" className="text-white">Set Published</SelectItem>
+                <SelectItem value="draft" className="text-white">Set Draft</SelectItem>
+                <SelectItem value="archive" className="text-white">Set Archived</SelectItem>
+                <SelectItem value="delete" className="text-white">Delete</SelectItem>
               </SelectContent>
             </Select>
             <Button size="sm" onClick={handleBulkAction} disabled={!bulkAction} className="bg-pink-500 hover:bg-pink-600 text-white h-8">
