@@ -48,7 +48,7 @@ export default function Shop() {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading: catsLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
       // Fetch ALL categories (parents + children) to ensure subcategories are available
