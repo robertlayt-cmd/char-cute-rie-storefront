@@ -129,73 +129,167 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
               <Link to={createPageUrl('Home')} className="text-white/80 hover:text-white transition-colors font-medium">
                 Home
               </Link>
-              <Link to={createPageUrl('Shop')} className="text-white/80 hover:text-white transition-colors font-medium">
-                Shop All
-              </Link>
 
-              {parentCategories.map(cat => {
-                const children = getChildren(cat.id);
-                const hasChildren = children.length > 0;
+              {parentMenuItems.length > 0 ? (
+                parentMenuItems.map(item => {
+                  const children = getMenuChildren(item.id);
+                  const hasChildren = children.length > 0;
+                  const isExternal = item.link_type === 'external';
 
-                if (!hasChildren) {
+                  if (!hasChildren) {
+                    return isExternal ? (
+                      <a
+                        key={item.id}
+                        href={item.external_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white/80 hover:text-white transition-colors font-medium"
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={item.id}
+                        to={getMenuLink(item)}
+                        className="text-white/80 hover:text-white transition-colors font-medium"
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  }
+
                   return (
-                    <Link
-                      key={cat.id}
-                      to={`${createPageUrl('Shop')}?category=${cat.slug}`}
-                      className="text-white/80 hover:text-white transition-colors font-medium"
+                    <div
+                      key={item.id}
+                      className="relative"
+                      onMouseEnter={() => setOpenDropdown(item.id)}
+                      onMouseLeave={() => setOpenDropdown(null)}
                     >
-                      {cat.name}
-                    </Link>
-                  );
-                }
+                      <button
+                        className="flex items-center gap-1 text-white/80 hover:text-white transition-colors font-medium"
+                        onClick={() => setOpenDropdown(openDropdown === item.id ? null : item.id)}
+                      >
+                        {item.label}
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openDropdown === item.id ? 'rotate-180' : ''}`} />
+                      </button>
 
-                return (
-                  <div
-                    key={cat.id}
-                    className="relative"
-                    onMouseEnter={() => setOpenDropdown(cat.id)}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                  >
-                    <button
-                      className="flex items-center gap-1 text-white/80 hover:text-white transition-colors font-medium"
-                      onClick={() => setOpenDropdown(openDropdown === cat.id ? null : cat.id)}
-                    >
-                      {cat.name}
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openDropdown === cat.id ? 'rotate-180' : ''}`} />
-                    </button>
-
-                    <AnimatePresence>
-                      {openDropdown === cat.id && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute left-0 top-full mt-2 min-w-[180px] bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50"
-                        >
-                          <Link
-                            to={`${createPageUrl('Shop')}?category=${cat.slug}`}
-                            onClick={() => setOpenDropdown(null)}
-                            className="flex items-center gap-2 px-4 py-2.5 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
+                      <AnimatePresence>
+                        {openDropdown === item.id && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute left-0 top-full mt-2 min-w-[180px] bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50"
                           >
-                            All {cat.name}
-                          </Link>
-                          {children.map(child => (
-                            <Link
-                              key={child.id}
-                              to={`${createPageUrl('Shop')}?category=${child.slug}`}
-                              onClick={() => setOpenDropdown(null)}
-                              className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                            {!item.link_type.includes('external') && (
+                              <Link
+                                to={getMenuLink(item)}
+                                onClick={() => setOpenDropdown(null)}
+                                className="flex items-center gap-2 px-4 py-2.5 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
+                              >
+                                All {item.label}
+                              </Link>
+                            )}
+                            {children.map(child => (
+                              child.link_type === 'external' ? (
+                                <a
+                                  key={child.id}
+                                  href={child.external_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={() => setOpenDropdown(null)}
+                                  className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                                >
+                                  {child.label}
+                                </a>
+                              ) : (
+                                <Link
+                                  key={child.id}
+                                  to={getMenuLink(child)}
+                                  onClick={() => setOpenDropdown(null)}
+                                  className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                                >
+                                  {child.label}
+                                </Link>
+                              )
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })
+              ) : (
+                <>
+                  <Link to={createPageUrl('Shop')} className="text-white/80 hover:text-white transition-colors font-medium">
+                    Shop All
+                  </Link>
+                  {parentCategories.map(cat => {
+                    const children = getChildren(cat.id);
+                    const hasChildren = children.length > 0;
+
+                    if (!hasChildren) {
+                      return (
+                        <Link
+                          key={cat.id}
+                          to={`${createPageUrl('Shop')}?category=${cat.slug}`}
+                          className="text-white/80 hover:text-white transition-colors font-medium"
+                        >
+                          {cat.name}
+                        </Link>
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={cat.id}
+                        className="relative"
+                        onMouseEnter={() => setOpenDropdown(cat.id)}
+                        onMouseLeave={() => setOpenDropdown(null)}
+                      >
+                        <button
+                          className="flex items-center gap-1 text-white/80 hover:text-white transition-colors font-medium"
+                          onClick={() => setOpenDropdown(openDropdown === cat.id ? null : cat.id)}
+                        >
+                          {cat.name}
+                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openDropdown === cat.id ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        <AnimatePresence>
+                          {openDropdown === cat.id && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                              transition={{ duration: 0.15 }}
+                              className="absolute left-0 top-full mt-2 min-w-[180px] bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50"
                             >
-                              {child.name}
-                            </Link>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
+                              <Link
+                                to={`${createPageUrl('Shop')}?category=${cat.slug}`}
+                                onClick={() => setOpenDropdown(null)}
+                                className="flex items-center gap-2 px-4 py-2.5 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
+                              >
+                                All {cat.name}
+                              </Link>
+                              {children.map(child => (
+                                <Link
+                                  key={child.id}
+                                  to={`${createPageUrl('Shop')}?category=${child.slug}`}
+                                  onClick={() => setOpenDropdown(null)}
+                                  className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                                >
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
             </nav>
 
             {/* Right Actions */}
