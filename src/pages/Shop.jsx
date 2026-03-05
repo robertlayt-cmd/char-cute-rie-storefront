@@ -229,26 +229,20 @@ export default function Shop() {
                  <SelectValue placeholder={catsLoading ? "Loading..." : "Category"} />
                </SelectTrigger>
                <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
-                 {catsLoading ? (
-                   <div className="py-2 px-2 text-zinc-400 text-sm">Loading categories...</div>
-                 ) : (
-                   <>
-                     <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Categories</SelectItem>
-                     {parentCategories.map(cat => {
-                        const children = getChildren(cat.id);
-                        return (
-                          <div key={cat.id}>
-                            <SelectItem value={cat.slug} className="font-medium text-white focus:bg-zinc-700 focus:text-white">{cat.name}</SelectItem>
-                            {children.map(child => (
-                              <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-300 focus:bg-zinc-700 focus:text-white">
-                                ↳ {child.name}
-                              </SelectItem>
-                            ))}
-                          </div>
-                        );
-                      })}
-                   </>
-                 )}
+                 <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Categories</SelectItem>
+                 {parentCategories.map(cat => {
+                    const children = getChildren(cat.id);
+                    return (
+                      <div key={cat.id}>
+                        <SelectItem value={cat.slug} className="font-medium text-white focus:bg-zinc-700 focus:text-white">{cat.name}</SelectItem>
+                        {children.map(child => (
+                          <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-300 focus:bg-zinc-700 focus:text-white">
+                            ↳ {child.name}
+                          </SelectItem>
+                        ))}
+                      </div>
+                    );
+                  })}
                </SelectContent>
              </Select>
 
