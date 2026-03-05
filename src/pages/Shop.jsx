@@ -196,14 +196,24 @@ export default function Shop() {
 
             {/* Category */}
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-[160px] bg-zinc-800 border-zinc-700 text-white">
+              <SelectTrigger className="w-[180px] bg-zinc-800 border-zinc-700 text-white">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent className="bg-zinc-800 border-zinc-700">
                 <SelectItem value="all">All Categories</SelectItem>
-                {categories.map(cat => (
-                  <SelectItem key={cat.id} value={cat.slug}>{cat.name}</SelectItem>
-                ))}
+                {parentCategories.map(cat => {
+                  const children = getChildren(cat.id);
+                  return (
+                    <React.Fragment key={cat.id}>
+                      <SelectItem value={cat.slug} className="font-medium">{cat.name}</SelectItem>
+                      {children.map(child => (
+                        <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-400">
+                          ↳ {child.name}
+                        </SelectItem>
+                      ))}
+                    </React.Fragment>
+                  );
+                })}
               </SelectContent>
             </Select>
 
