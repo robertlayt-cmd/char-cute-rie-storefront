@@ -21,6 +21,7 @@ export default function AdminProducts() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [badgeFilter, setBadgeFilter] = useState('all');
   const [editingProduct, setEditingProduct] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingVariants, setEditingVariants] = useState([]);
@@ -65,6 +66,7 @@ export default function AdminProducts() {
     if (search && !p.title?.toLowerCase().includes(search.toLowerCase())) return false;
     if (statusFilter !== 'all' && p.status !== statusFilter) return false;
     if (categoryFilter !== 'all' && p.category_id !== categoryFilter) return false;
+    if (badgeFilter !== 'all' && p.badge !== badgeFilter) return false;
     return true;
   });
 
@@ -200,8 +202,22 @@ export default function AdminProducts() {
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all">All Categories</SelectItem>
-              {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+              <SelectItem value="all" className="text-white">All Categories</SelectItem>
+              {categories.map(c => <SelectItem key={c.id} value={c.id} className="text-white">{c.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={badgeFilter} onValueChange={setBadgeFilter}>
+            <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-800 text-white">
+              <SelectValue placeholder="Badge" />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-800 border-zinc-700">
+              <SelectItem value="all" className="text-white">All Badges</SelectItem>
+              <SelectItem value={null} className="text-white">No Badge</SelectItem>
+              <SelectItem value="new" className="text-white">New</SelectItem>
+              <SelectItem value="hot" className="text-white">Hot</SelectItem>
+              <SelectItem value="limited" className="text-white">Limited</SelectItem>
+              <SelectItem value="tiktok" className="text-white">TikTok Fave</SelectItem>
+              <SelectItem value="bestseller" className="text-white">Bestseller</SelectItem>
             </SelectContent>
           </Select>
         </div>
