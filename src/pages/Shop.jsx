@@ -76,7 +76,7 @@ export default function Shop() {
   // Filter products - if a parent category is selected, include its children too
    let filtered = products.filter(p => {
      if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
-     if (selectedCategory !== 'all') {
+     if (selectedCategory !== 'all' && categories.length > 0) {
        const selectedCat = categories.find(c => c.slug === selectedCategory);
        if (selectedCat) {
          // If it's a parent category, include its children
