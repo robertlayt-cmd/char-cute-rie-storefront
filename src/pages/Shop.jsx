@@ -67,12 +67,20 @@ export default function Shop() {
     return acc;
   }, {});
 
-  // Filter products
+  // Build category tree helpers
+  const parentCategories = categories.filter(c => !c.parent_id);
+  const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
+
+  // Filter products - if a parent category is selected, include its children too
   let filtered = products.filter(p => {
     if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
     if (selectedCategory !== 'all') {
       const cat = categories.find(c => c.slug === selectedCategory);
-      if (cat && p.category_id !== cat.id) return false;
+      if (cat) {
+        const childIds = getChildren(cat.id).map(c => c.id);
+        const matchIds = [cat.id, ...childIds];
+        if (!matchIds.includes(p.category_id)) return false;
+      }
     }
     if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
     if (selectedBadges.length > 0) {
