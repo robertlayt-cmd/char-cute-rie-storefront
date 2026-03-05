@@ -202,32 +202,56 @@ export default function AdminImageManager() {
           </div>
         )}
 
-        {/* Search and Layout Toggle */}
-        <div className="mb-6 flex gap-3">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
-            <Input
-              placeholder="Search by product or variant name..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-zinc-900 border-zinc-800 text-white"
-            />
+        {/* Search and Controls */}
+        <div className="mb-6 flex flex-col gap-3">
+          <div className="flex gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+              <Input
+                placeholder="Search by product or variant name..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="pl-10 bg-zinc-900 border-zinc-800 text-white"
+              />
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setLayoutView(layoutView === 'grid' ? 'table' : 'grid')}
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
+              title={`Switch to ${layoutView === 'grid' ? 'table' : 'grid'} view`}
+            >
+              {layoutView === 'grid' ? <List className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setLayoutView(layoutView === 'grid' ? 'table' : 'grid')}
-            className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
-            title={`Switch to ${layoutView === 'grid' ? 'table' : 'grid'} view`}
-          >
-            {layoutView === 'grid' ? <List className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
-          </Button>
-          <Button
-            onClick={() => setShowBulkUpload(!showBulkUpload)}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            Bulk Upload
-          </Button>
+          <div className="flex gap-3 flex-wrap">
+            <Button
+              onClick={() => setShowBulkUpload(!showBulkUpload)}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Bulk Upload
+            </Button>
+            <Button
+              onClick={() => setShowCSVImport(true)}
+              variant="outline"
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Import CSV
+            </Button>
+            <Button
+              onClick={exportCSV}
+              variant="outline"
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              Export All CSV
+            </Button>
+          </div>
         </div>
 
         {/* Bulk Upload Section */}
