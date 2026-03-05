@@ -92,7 +92,7 @@ export default function Product() {
   ].filter(Boolean);
 
   const currentPrice = product.base_price + (selectedVariant?.price_adjustment || 0);
-  const inStock = selectedVariant ? selectedVariant.stock_quantity > 0 : true;
+  const inStock = selectedVariant ? selectedVariant.stock_quantity > 0 : (product.total_stock > 0);
   const stockLevel = selectedVariant?.stock_quantity || 0;
 
   const handleAddToCart = () => {
@@ -350,7 +350,11 @@ export default function Product() {
               <div className="bg-zinc-900 rounded-xl p-4 mb-8">
                 <div className="flex items-center gap-3 text-zinc-300">
                   <Truck className="w-5 h-5 text-pink-400" />
-                  <span>Free shipping on orders over $75 AUD</span>
+                  {settings?.free_shipping_enabled !== false ? (
+                    <span>Free shipping on orders over ${settings?.free_shipping_threshold || 75} AUD · ${settings?.shipping_flat_rate || 9.95} flat rate otherwise</span>
+                  ) : (
+                    <span>Flat rate shipping ${settings?.shipping_flat_rate || 9.95} AUD</span>
+                  )}
                 </div>
               </div>
 

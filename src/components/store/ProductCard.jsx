@@ -78,10 +78,12 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
             </div>
           )}
 
-          {/* Sold Out Flag */}
+          {/* Sold Out Corner Ribbon */}
           {!inStock && (
-            <div className="absolute top-0 right-0 bg-zinc-900 text-white text-xs font-bold px-3 py-1.5 rounded-bl-xl z-10">
-              SOLD OUT
+            <div className="absolute top-0 right-0 z-10 overflow-hidden w-24 h-24 pointer-events-none">
+              <div className="absolute top-4 right-[-28px] w-32 bg-red-500 text-white text-[10px] font-bold text-center py-1 rotate-45 shadow-lg tracking-wide">
+                SOLD OUT
+              </div>
             </div>
           )}
 
