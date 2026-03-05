@@ -314,7 +314,7 @@ export default function AdminProducts() {
                           value={product.status}
                           onValueChange={(v) => updateProduct.mutate({ id: product.id, data: { status: v } })}
                         >
-                          <SelectTrigger className="w-[120px] h-8 bg-transparent border-zinc-700 text-xs">
+                          <SelectTrigger className="w-[120px] h-8 bg-transparent border-zinc-700 text-xs text-white">
                             <Badge className={`${statusBadge(product.status)} text-xs`}>{product.status}</Badge>
                           </SelectTrigger>
                           <SelectContent className="bg-zinc-800 border-zinc-700">
