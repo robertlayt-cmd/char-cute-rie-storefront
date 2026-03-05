@@ -226,7 +226,7 @@ export default function Shop() {
                navigate(`?category=${value === 'all' ? '' : value}`, { replace: true });
              }}>
                <SelectTrigger className="w-[180px] bg-zinc-800 border-zinc-700 text-white">
-                 <SelectValue placeholder={catsLoading ? "Loading..." : "Category"} />
+                 <SelectValue placeholder="Category" />
                </SelectTrigger>
                <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
                  <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Categories</SelectItem>
