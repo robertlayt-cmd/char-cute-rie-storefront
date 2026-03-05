@@ -203,7 +203,10 @@ export default function Shop() {
             </div>
 
             {/* Category */}
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <Select value={selectedCategory} onValueChange={(value) => {
+              setSelectedCategory(value);
+              navigate(`?category=${value === 'all' ? '' : value}`, { replace: true });
+            }}>
               <SelectTrigger className="w-[180px] bg-zinc-800 border-zinc-700 text-white">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
