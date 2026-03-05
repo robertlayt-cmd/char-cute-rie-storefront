@@ -76,7 +76,10 @@ export default function AdminProducts() {
     return true;
   });
 
-  const allSelected = filtered.length > 0 && filtered.every(p => selected.has(p.id));
+  const totalPages = Math.ceil(filtered.length / pageSize);
+  const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+  const allSelected = paginated.length > 0 && paginated.every(p => selected.has(p.id));
 
   const toggleSelectAll = () => {
     if (allSelected) {
