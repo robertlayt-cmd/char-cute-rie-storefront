@@ -14,6 +14,14 @@ export default function Footer() {
     },
   });
 
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const all = await base44.entities.Category.filter({ is_active: true, parent_id: null }, 'display_order', 50);
+      return all;
+    },
+  });
+
   const showAbout = settings?.page_about_active !== false;
   const showShipping = settings?.page_shipping_active !== false;
   const showReturns = settings?.page_returns_active !== false;
