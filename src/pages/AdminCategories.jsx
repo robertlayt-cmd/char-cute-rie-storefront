@@ -40,6 +40,43 @@ export default function AdminCategories() {
     onSuccess: () => queryClient.invalidateQueries(['admin-categories'])
   });
 
+  const rebuildCategories = useMutation({
+    mutationFn: async () => {
+      // For this app, we'll assume:
+      // - Jewellery is parent of: Earrings, Rings, Necklaces, Bracelets
+      // - Accessories is parent of: Bags, Scarves, Hair
+      // - Seasonal is parent of: Christmas, Easter, Halloween
+      const categoryStructure = {
+        'earrings': 'jewellery',
+        'rings': 'jewellery',
+        'necklaces': 'jewellery',
+        'bracelets': 'jewellery',
+        'bags': 'accessories',
+        'scarves': 'accessories',
+        'hair': 'accessories',
+        'christmas': 'seasonal',
+        'easter': 'seasonal',
+        'halloween': 'seasonal',
+      };
+
+      const updates = [];
+      for (const cat of categories) {
+        const parentSlug = categoryStructure[cat.slug];
+        if (parentSlug) {
+          const parentCat = categories.find(c => c.slug === parentSlug);
+          if (parentCat && cat.parent_id !== parentCat.id) {
+            updates.push(
+              base44.entities.Category.update(cat.id, { parent_id: parentCat.id })
+            );
+          }
+        }
+      }
+      await Promise.all(updates);
+      queryClient.invalidateQueries(['admin-categories']);
+      return updates.length;
+    }
+  });
+
   const parentCategories = categories.filter(c => !c.parent_id);
   const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
 
