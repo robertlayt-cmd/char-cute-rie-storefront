@@ -88,8 +88,13 @@ Deno.serve(async (req) => {
       products: results,
       variants: variantResults,
       summary: {
+        batchSize,
+        offset,
+        processedCount: batchProducts.length,
         totalProducts: products.length,
         totalVariants: variants.length,
+        nextOffset: offset + batchSize,
+        hasMore: offset + batchSize < products.length,
       },
     });
   } catch (error) {
