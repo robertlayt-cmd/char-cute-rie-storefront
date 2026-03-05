@@ -23,7 +23,10 @@ export default function Home() {
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => base44.entities.Category.filter({ is_active: true }, 'display_order'),
+    queryFn: async () => {
+      const all = await base44.entities.Category.filter({ is_active: true }, 'display_order', 100);
+      return all.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+    },
   });
 
   const { data: products = [] } = useQuery({

@@ -60,13 +60,13 @@ import AdminUsers from './pages/AdminUsers';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Contact from './pages/Contact';
-import Home from './pages/Home';
 import Product from './pages/Product';
 import Profile from './pages/Profile';
 import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
+import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -84,13 +84,13 @@ export const PAGES = {
     "Cart": Cart,
     "Checkout": Checkout,
     "Contact": Contact,
-    "Home": Home,
     "Product": Product,
     "Profile": Profile,
     "Returns": Returns,
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
+    "Home": Home,
 }
 
 export const pagesConfig = {
