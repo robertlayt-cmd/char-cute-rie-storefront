@@ -187,6 +187,10 @@ export default function Profile() {
                 <CardHeader><CardTitle className="text-white text-base">Personal Info</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
                   <div>
+                    <Label className="text-zinc-300">Display Name</Label>
+                    <Input value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} placeholder="Your name" className="bg-zinc-800 border-zinc-700 text-white mt-1" />
+                  </div>
+                  <div>
                     <Label className="text-zinc-300">Phone</Label>
                     <Input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="04XX XXX XXX" className="bg-zinc-800 border-zinc-700 text-white mt-1" />
                   </div>
