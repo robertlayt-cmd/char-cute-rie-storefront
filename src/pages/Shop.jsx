@@ -37,7 +37,8 @@ export default function Shop() {
   // React to URL changes (react-router-dom location)
   useEffect(() => {
     const p = new URLSearchParams(location.search);
-    setSelectedCategory(p.get('category') || 'all');
+    const catSlug = p.get('category') || 'all';
+    setSelectedCategory(catSlug);
     const f = p.get('filter');
     if (f) setSelectedBadges([f]);
   }, [location.search]);
