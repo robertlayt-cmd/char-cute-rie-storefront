@@ -24,7 +24,10 @@ export default function HeroCarousel({ products = [], categories = [] }) {
 
   const currentProduct = products[currentIndex];
   const currentCategory = categories.find(c => c.id === currentProduct.category_id);
-  const categoryName = currentCategory?.name || categories.find(c => c.parent_id === currentProduct.category_id)?.name || 'Featured';
+  const parentCategory = currentCategory?.parent_id ? categories.find(c => c.id === currentCategory.parent_id) : null;
+  const categoryName = parentCategory && currentCategory 
+    ? `${parentCategory.name} - ${currentCategory.name}`
+    : currentCategory?.name || 'Featured';
 
   const slideVariants = {
     enter: (direction) => ({
