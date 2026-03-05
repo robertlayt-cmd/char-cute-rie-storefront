@@ -89,28 +89,9 @@ export default function Shop() {
     return acc;
   }, {});
 
-  // Build category tree helpers
-  const parentCategories = categories.filter(c => !c.parent_id);
-  const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
-
-  // Filter products - if a parent category is selected, include its children too
+  // Filter products by search and badges only (category filtering done in query)
   let filtered = products.filter(p => {
     if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
-    
-    if (selectedCategory !== 'all') {
-      const selectedCat = categories.find(c => c.slug === selectedCategory);
-      if (!selectedCat) return false;
-      
-      // If it's a parent category, include its children
-      if (!selectedCat.parent_id) {
-        const childIds = getChildren(selectedCat.id).map(c => c.id);
-        const matchIds = [selectedCat.id, ...childIds];
-        if (!matchIds.includes(p.category_id)) return false;
-      } else {
-        // If it's a subcategory, only match exact category_id
-        if (p.category_id !== selectedCat.id) return false;
-      }
-    }
     
     if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
     if (selectedBadges.length > 0) {
