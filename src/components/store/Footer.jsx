@@ -44,25 +44,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Shop */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Shop</h4>
-            <ul className="space-y-3">
-              <li>
-                <Link to={createPageUrl('Shop')} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  All Products
-                </Link>
-              </li>
-              {categories.map(cat => (
-                <li key={cat.id}>
-                  <Link to={`${createPageUrl('Shop')}?category=${cat.slug}`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Help */}
           <div>
             <h4 className="text-white font-semibold mb-4">Help</h4>
