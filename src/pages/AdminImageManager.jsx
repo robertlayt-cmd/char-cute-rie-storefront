@@ -17,6 +17,8 @@ export default function AdminImageManager() {
   const [imageToDelete, setImageToDelete] = useState(null);
   const [isMigrating, setIsMigrating] = useState(false);
   const [migrationStatus, setMigrationStatus] = useState(null);
+  const [layoutView, setLayoutView] = useState('grid');
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
 
   const { data: products = [] } = useQuery({
     queryKey: ['admin-products-images'],
