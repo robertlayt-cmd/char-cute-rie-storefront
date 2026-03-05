@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import Header from '@/components/store/Header';
@@ -15,27 +14,30 @@ import { Search, SlidersHorizontal, X, Grid3X3, LayoutGrid } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Shop() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const categorySlug = urlParams.get('category');
-  const filterType = urlParams.get('filter');
-
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
   });
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(categorySlug || 'all');
   const [sortBy, setSortBy] = useState('newest');
   const [gridCols, setGridCols] = useState(4);
   const [priceRange, setPriceRange] = useState([0, 500]);
-  const [selectedBadges, setSelectedBadges] = useState(filterType ? [filterType] : []);
+  const [selectedBadges, setSelectedBadges] = useState([]);
 
-  // Sync category from URL when navigating via header links
+  // Read URL params on every render so navigation to ?category= works instantly
+  const urlParams = new URLSearchParams(window.location.search);
+  const categorySlug = urlParams.get('category') || 'all';
+  const filterType = urlParams.get('filter');
+  const [selectedCategory, setSelectedCategory] = useState(categorySlug);
+
+  // Keep selectedCategory in sync whenever the URL changes
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setSelectedCategory(params.get('category') || 'all');
-  }, [window.location.search]);
+    const f = params.get('filter');
+    if (f) setSelectedBadges([f]);
+  }, [window.location.href]);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
