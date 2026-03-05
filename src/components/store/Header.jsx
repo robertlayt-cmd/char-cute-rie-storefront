@@ -77,6 +77,21 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
     }));
   }, [categories]);
 
+  // Transform menu config into navigation items
+  const getMenuLink = (item) => {
+    if (item.link_type === 'category') {
+      return `${createPageUrl('Shop')}?category=${categories.find(c => c.id === item.category_id)?.slug || ''}`;
+    } else if (item.link_type === 'page') {
+      return createPageUrl(item.page_name);
+    } else if (item.link_type === 'external') {
+      return item.external_url;
+    }
+    return '#';
+  };
+
+  const parentMenuItems = menuConfig.filter(item => !item.parent_id);
+  const getMenuChildren = (parentId) => menuConfig.filter(item => item.parent_id === parentId);
+
   const parentCategories = categoryTree;
   const getChildren = (parentId) => categoryTree.find(p => p.id === parentId)?.children || [];
 
