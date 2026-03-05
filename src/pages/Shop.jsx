@@ -177,11 +177,6 @@ export default function Shop() {
     );
   }
 
-  // Ensure categories are ready with hierarchy
-  const activeCategories = categories.filter(c => c.is_active);
-  const parentCategories = activeCategories.filter(c => !c.parent_id).sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
-  const getChildren = (parentId) => activeCategories.filter(c => c.parent_id === parentId).sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
-
   return (
     <div className="dark min-h-screen bg-zinc-950">
       <Header 
