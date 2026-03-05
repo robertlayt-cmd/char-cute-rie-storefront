@@ -22,6 +22,7 @@ export default function AdminProducts() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [badgeFilter, setBadgeFilter] = useState('all');
+  const [featuredFilter, setFeaturedFilter] = useState('all');
   const [editingProduct, setEditingProduct] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingVariants, setEditingVariants] = useState([]);
