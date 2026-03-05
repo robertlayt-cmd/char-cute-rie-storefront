@@ -242,7 +242,7 @@ export default function AdminImageManager() {
               </div>
 
               {/* Thumbnail Icon */}
-              {img.thumbnail && (
+              {layoutView === 'grid' && img.thumbnail && (
                 <div className="absolute bottom-2 right-2">
                   <div className="w-10 h-10 rounded-lg border-2 border-white/50 overflow-hidden bg-zinc-800 hover:border-white transition-colors cursor-pointer" title="Thumbnail exists">
                     <img src={img.thumbnail} alt="thumbnail" className="w-full h-full object-cover" />
