@@ -120,21 +120,7 @@ export default function AdminBulkUpload() {
     return variants;
   };
 
-  // Fetch and re-upload an image URL to base44 storage
-  const reuploadImage = async (url) => {
-    if (!url) return '';
-    try {
-      const res = await fetch(url);
-      if (!res.ok) return url; // fallback to original if fetch fails
-      const blob = await res.blob();
-      const ext = url.split('.').pop().split('?')[0] || 'jpg';
-      const file = new File([blob], `image.${ext}`, { type: blob.type || 'image/jpeg' });
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      return file_url;
-    } catch {
-      return url; // fallback to original on error
-    }
-  };
+
 
   const handleFileChange = (f) => {
     if (!f) return;
