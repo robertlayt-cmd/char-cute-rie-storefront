@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { ShoppingBag, Menu, X, User, LogIn, UserPlus, LogOut, Settings, ChevronDown, ChevronRight, LayoutDashboard } from 'lucide-react';
