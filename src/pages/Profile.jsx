@@ -61,21 +61,21 @@ export default function Profile() {
 
   useEffect(() => {
     if (currentUser) {
-      setForm({
-        full_name: currentUser.full_name || '',
-        phone: currentUser.phone || '',
-        business_name: currentUser.business_name || '',
-        description: currentUser.description || '',
-        profile_image_url: currentUser.profile_image_url || '',
-        banner_image_url: currentUser.banner_image_url || '',
-        website_url: currentUser.website_url || '',
-        tiktok_url: currentUser.tiktok_url || '',
-        instagram_url: currentUser.instagram_url || '',
-        facebook_url: currentUser.facebook_url || '',
-        default_address: currentUser.default_address || { first_name: '', last_name: '', street: '', city: '', state: '', postcode: '', country: 'Australia' },
-      });
+      setForm(prev => ({
+        full_name: form.full_name || currentUser.full_name || '',
+        phone: form.phone || currentUser.phone || '',
+        business_name: form.business_name || currentUser.business_name || '',
+        description: form.description || currentUser.description || '',
+        profile_image_url: form.profile_image_url || currentUser.profile_image_url || '',
+        banner_image_url: form.banner_image_url || currentUser.banner_image_url || '',
+        website_url: form.website_url || currentUser.website_url || '',
+        tiktok_url: form.tiktok_url || currentUser.tiktok_url || '',
+        instagram_url: form.instagram_url || currentUser.instagram_url || '',
+        facebook_url: form.facebook_url || currentUser.facebook_url || '',
+        default_address: form.default_address?.street ? form.default_address : (currentUser.default_address || { first_name: '', last_name: '', street: '', city: '', state: '', postcode: '', country: 'Australia' }),
+      }));
     }
-  }, [currentUser]);
+  }, [currentUser?.id]);
 
   const saveMutation = useMutation({
     mutationFn: (data) => base44.auth.updateMe(data),
