@@ -51,38 +51,35 @@ export default function Shop() {
   }, [cartItems]);
 
   const { data: categories = [], isLoading: catsLoading } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => base44.entities.Category.list('display_order'),
-  });
-
-  const categoriesRef = useRef(categories);
-  
-  useEffect(() => {
-    categoriesRef.current = categories;
-  }, [categories]);
-
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ['products', selectedCategory],
+    queryKey: ['header-categories'],
     queryFn: async () => {
-      const allProducts = await base44.entities.Product.filter({ status: 'published' });
-      
-      if (selectedCategory === 'all') return allProducts;
-      
-      const selectedCat = categoriesRef.current.find(c => c.slug === selectedCategory);
-      if (!selectedCat) return [];
-      
-      if (!selectedCat.parent_id) {
-        // Parent category - include children
-        const childIds = categoriesRef.current.filter(c => c.parent_id === selectedCat.id).map(c => c.id);
-        const matchIds = [selectedCat.id, ...childIds];
-        return allProducts.filter(p => matchIds.includes(p.category_id));
-      } else {
-        // Subcategory - exact match
-        return allProducts.filter(p => p.category_id === selectedCat.id);
-      }
+      const all = await base44.entities.Category.filter({ is_active: true }, 'display_order', 100);
+      return all.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
     },
-    enabled: !!selectedCategory && !catsLoading && categories.length > 0,
   });
+
+  const { data: allProducts = [], isLoading: productsLoading } = useQuery({
+    queryKey: ['products-all'],
+    queryFn: () => base44.entities.Product.filter({ status: 'published' }),
+  });
+
+  // Filter products by category synchronously in useMemo
+  const products = useMemo(() => {
+    if (selectedCategory === 'all') return allProducts;
+    
+    const selectedCat = categories.find(c => c.slug === selectedCategory);
+    if (!selectedCat) return [];
+    
+    if (!selectedCat.parent_id) {
+      // Parent category - include children
+      const childIds = categories.filter(c => c.parent_id === selectedCat.id).map(c => c.id);
+      const matchIds = [selectedCat.id, ...childIds];
+      return allProducts.filter(p => matchIds.includes(p.category_id));
+    } else {
+      // Subcategory - exact match
+      return allProducts.filter(p => p.category_id === selectedCat.id);
+    }
+  }, [selectedCategory, categories, allProducts]);
 
   const { data: allVariants = [] } = useQuery({
     queryKey: ['variants'],
