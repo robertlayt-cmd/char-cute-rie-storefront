@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Loader, Trash2, Eye, RefreshCw, Download, Search } from 'lucide-react';
+import { Loader, Trash2, Eye, RefreshCw, Download, Search, Grid, List } from 'lucide-react';
 import { uploadProductImage } from '@/components/utils/imageUtils';
 
 export default function AdminImageManager() {
