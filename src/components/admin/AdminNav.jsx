@@ -14,7 +14,6 @@ const navItems = [
   { label: 'Orders', page: 'AdminOrders', icon: ShoppingCart },
   { label: 'Categories', page: 'AdminCategories', icon: Tag },
   { label: 'Discounts', page: 'AdminDiscounts', icon: Percent },
-  { label: 'Menu', page: 'AdminMenu', icon: Menu },
   { label: 'Themes', page: 'AdminThemes', icon: Palette },
   { label: 'Users', page: 'AdminUsers', icon: Users },
   { label: 'Bulk Upload', page: 'AdminBulkUpload', icon: Upload },
