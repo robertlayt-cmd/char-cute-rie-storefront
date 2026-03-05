@@ -33,7 +33,7 @@ export default function Shop() {
     const f = params.get('filter');
     return f ? [f] : [];
   });
-  const [selectedCategory, setSelectedCategory] = useState(categorySlug);
+  const [selectedCategory, setSelectedCategory] = useState(() => categorySlug);
 
   // React to URL changes (react-router-dom location)
   useEffect(() => {
