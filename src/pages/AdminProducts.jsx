@@ -536,6 +536,9 @@ export default function AdminProducts() {
             )}
           </DialogContent>
         </Dialog>
+
+        {/* CSV Manager Modal */}
+        <ProductsCSVManager isOpen={showCSVManager} onOpenChange={setShowCSVManager} />
       </div>
     </AdminLayout>
   );
