@@ -56,14 +56,14 @@ export default function Shop() {
   });
 
   const { data: products = [], isLoading } = useQuery({
-    queryKey: ['products', selectedCategory],
+    queryKey: ['products', selectedCategory, categories],
     queryFn: async () => {
       const allProducts = await base44.entities.Product.filter({ status: 'published' });
       
       if (selectedCategory === 'all') return allProducts;
       
       const selectedCat = categories.find(c => c.slug === selectedCategory);
-      if (!selectedCat) return allProducts;
+      if (!selectedCat) return [];
       
       if (!selectedCat.parent_id) {
         // Parent category - include children
@@ -75,7 +75,7 @@ export default function Shop() {
         return allProducts.filter(p => p.category_id === selectedCat.id);
       }
     },
-    enabled: !!selectedCategory && categories.length > 0,
+    enabled: !!selectedCategory,
   });
 
   const { data: allVariants = [] } = useQuery({
