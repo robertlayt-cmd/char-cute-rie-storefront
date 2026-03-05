@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -76,10 +76,9 @@ export default function Shop() {
   const parentCategories = categories.filter(c => !c.parent_id);
   const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
 
-
-
-  // Filter products - if a parent category is selected, include its children too
-    let filtered = products.filter(p => {
+  // Filter and sort products with useMemo for proper reactivity
+  const filtered = useMemo(() => {
+    let result = products.filter(p => {
       if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
       if (selectedCategory !== 'all' && categories.length > 0) {
         const selectedCat = categories.find(c => c.slug === selectedCategory);
@@ -95,24 +94,25 @@ export default function Shop() {
           }
         }
       }
-     if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
-     if (selectedBadges.length > 0) {
-       if (selectedBadges.includes('tiktok') && !p.is_tiktok_featured) return false;
-       if (!selectedBadges.includes('tiktok') && !selectedBadges.includes(p.badge)) return false;
-     }
-     return true;
-   });
+      if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
+      if (selectedBadges.length > 0) {
+        if (selectedBadges.includes('tiktok') && !p.is_tiktok_featured) return false;
+        if (!selectedBadges.includes('tiktok') && !selectedBadges.includes(p.badge)) return false;
+      }
+      return true;
+    });
 
-  // Sort products
-  filtered = [...filtered].sort((a, b) => {
-    switch (sortBy) {
-      case 'newest': return new Date(b.created_date) - new Date(a.created_date);
-      case 'price-low': return a.base_price - b.base_price;
-      case 'price-high': return b.base_price - a.base_price;
-      case 'name': return a.title.localeCompare(b.title);
-      default: return 0;
-    }
-  });
+    // Sort products
+    return [...result].sort((a, b) => {
+      switch (sortBy) {
+        case 'newest': return new Date(b.created_date) - new Date(a.created_date);
+        case 'price-low': return a.base_price - b.base_price;
+        case 'price-high': return b.base_price - a.base_price;
+        case 'name': return a.title.localeCompare(b.title);
+        default: return 0;
+      }
+    });
+  }, [products, search, selectedCategory, categories, priceRange, selectedBadges, sortBy]);
 
   const handleAddToCart = (product, variant) => {
     const price = product.base_price + (variant?.price_adjustment || 0);
