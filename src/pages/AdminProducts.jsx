@@ -149,17 +149,21 @@ export default function AdminProducts() {
   const handleUploadImage = async (e, field) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    if (field === 'main') setEditingProduct({ ...editingProduct, main_image_url: file_url });
-    else if (field === 'gallery') setEditingProduct({ ...editingProduct, gallery_images: [...(editingProduct.gallery_images || []), file_url] });
+    if (field === 'main') {
+      const { full_url, thumbnail_url } = await uploadProductImage(file);
+      setEditingProduct({ ...editingProduct, main_image_url: full_url, thumbnail_url });
+    } else if (field === 'gallery') {
+      const { full_url } = await uploadProductImage(file);
+      setEditingProduct({ ...editingProduct, gallery_images: [...(editingProduct.gallery_images || []), full_url] });
+    }
   };
 
   const handleVariantImageUpload = async (e, index) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const { full_url } = await uploadProductImage(file);
     const updated = [...editingVariants];
-    updated[index].image_url = file_url;
+    updated[index].image_url = full_url;
     setEditingVariants(updated);
   };
 

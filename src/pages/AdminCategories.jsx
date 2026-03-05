@@ -73,8 +73,8 @@ export default function AdminCategories() {
   const handleUploadImage = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setEditingCategory({ ...editingCategory, image_url: file_url });
+    const { full_url } = await uploadProductImage(file);
+    setEditingCategory({ ...editingCategory, image_url: full_url });
   };
 
   const toggleActive = async (category) => {
