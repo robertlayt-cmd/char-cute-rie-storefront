@@ -276,9 +276,33 @@ export default function AdminImageManager() {
           </div>
         )}
 
+        {/* Pagination and Items Per Page */}
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-zinc-400">Show per page:</span>
+            <Select value={itemsPerPage.toString()} onValueChange={(val) => {
+              setItemsPerPage(parseInt(val));
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger className="w-20 bg-zinc-900 border-zinc-800">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-900 border-zinc-800">
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="100">100</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="text-sm text-zinc-400">
+            {filtered.length === 0 ? 'No images' : `${startIdx + 1}-${Math.min(startIdx + itemsPerPage, filtered.length)} of ${filtered.length}`}
+          </div>
+        </div>
+
         {/* Gallery Grid */}
         <div className={layoutView === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'space-y-2'}>
-          {filtered.map((img) => (
+          {paginatedImages.map((img) => (
             <div
               key={img.id}
               className={layoutView === 'grid' ? 'group relative bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden hover:border-pink-500/50 transition-all' : 'flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-pink-500/50 transition-all'}
