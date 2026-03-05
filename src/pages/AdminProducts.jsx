@@ -224,6 +224,17 @@ export default function AdminProducts() {
               <SelectItem value="bestseller" className="text-white">Bestseller</SelectItem>
             </SelectContent>
           </Select>
+          <Select value={featuredFilter} onValueChange={setFeaturedFilter}>
+            <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
+              <SelectValue placeholder="Featured" />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-800 border-zinc-700">
+              <SelectItem value="all" className="text-white">All Featured</SelectItem>
+              <SelectItem value="none" className="text-white">Not Featured</SelectItem>
+              <SelectItem value="hero" className="text-white">Featured in Hero</SelectItem>
+              <SelectItem value="tiktok" className="text-white">TikTok Featured</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Bulk Actions */}
