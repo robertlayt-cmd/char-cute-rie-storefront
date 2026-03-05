@@ -49,9 +49,9 @@ function colorNameToHex(name) {
   return COLOR_NAME_MAP[lower] || '#FF69B4';
 }
 
-const SAMPLE_CSV = `title,slug,description,short_description,base_price,compare_price,default_stock,category_name,materials,badge,status,is_featured,is_tiktok_featured,rating,review_count,tags,main_image_url,variant_name_1,variant_color_1,variant_stock_1,variant_name_2,variant_color_2,variant_stock_2
-Strawberry Stud Earrings,strawberry-studs,"Adorable hand-sculpted strawberry studs","Cute strawberry polymer clay studs",24.00,30.00,10,Earrings,"Polymer clay, stainless steel posts",new,published,false,true,5,10,"strawberry,fruit,cute",https://example.com/image.jpg,Rose,rose,5,Gold,gold,5
-Croissant Hoop Earrings,croissant-hoops,"Buttery croissant charm hoops","French croissant on gold hoops",26.00,,8,Earrings,"Polymer clay, gold hoops",hot,published,true,false,5,8,"croissant,pastry",,Gold,gold,8,,, 
+const SAMPLE_CSV = `title,slug,description,short_description,base_price,compare_price,default_stock,category_name,materials,badge,status,is_featured,is_tiktok_featured,rating,review_count,tags,main_image_url,variant_image_1,variant_name_1,variant_color_1,variant_stock_1,variant_image_2,variant_name_2,variant_color_2,variant_stock_2
+Strawberry Stud Earrings,strawberry-studs,"Adorable hand-sculpted strawberry studs","Cute strawberry polymer clay studs",24.00,30.00,10,Earrings,"Polymer clay, stainless steel posts",new,published,false,true,5,10,"strawberry,fruit,cute",https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1200,https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800,Rose,rose,5,https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800,Gold,gold,5
+Croissant Hoop Earrings,croissant-hoops,"Buttery croissant charm hoops","French croissant on gold hoops",26.00,,8,Earrings,"Polymer clay, gold hoops",hot,published,true,false,5,8,"croissant,pastry",https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=1200,,Gold,gold,8,,, 
 `;
 
 function downloadSampleCSV() {
