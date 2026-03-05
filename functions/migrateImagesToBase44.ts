@@ -9,7 +9,13 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
     }
 
+    // Get batch size and offset from request body
+    const body = await req.json().catch(() => ({}));
+    const batchSize = body.batchSize || 5;
+    const offset = body.offset || 0;
+
     const products = await base44.asServiceRole.entities.Product.list();
+    const batchProducts = products.slice(offset, offset + batchSize);
     const results = [];
 
     for (const product of products) {
