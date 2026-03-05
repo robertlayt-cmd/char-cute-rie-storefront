@@ -73,12 +73,21 @@ export default function Shop() {
   const parentCategories = categories.filter(c => !c.parent_id);
   const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
 
+  // Debug logging
+  useEffect(() => {
+    console.log('selectedCategory:', selectedCategory);
+    const cat = categories.find(c => c.slug === selectedCategory);
+    console.log('Found category:', cat);
+    console.log('All categories:', categories.map(c => ({ slug: c.slug, name: c.name, id: c.id })));
+  }, [selectedCategory, categories]);
+
   // Filter products - if a parent category is selected, include its children too
    let filtered = products.filter(p => {
      if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
      if (selectedCategory !== 'all' && categories.length > 0) {
        const selectedCat = categories.find(c => c.slug === selectedCategory);
        if (selectedCat) {
+         console.log('Filtering by category:', selectedCat.slug, 'Category ID:', selectedCat.id);
          // If it's a parent category, include its children
          if (!selectedCat.parent_id) {
            const childIds = getChildren(selectedCat.id).map(c => c.id);
@@ -86,6 +95,7 @@ export default function Shop() {
            if (!matchIds.includes(p.category_id)) return false;
          } else {
            // If it's a subcategory, only match exact category_id
+           console.log('Product category_id:', p.category_id, 'Selected cat id:', selectedCat.id, 'Match:', p.category_id === selectedCat.id);
            if (p.category_id !== selectedCat.id) return false;
          }
        }
