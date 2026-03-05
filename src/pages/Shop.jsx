@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Shop() {
   const location = useLocation();
+  const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const categorySlug = params.get('category') || 'all';
 
