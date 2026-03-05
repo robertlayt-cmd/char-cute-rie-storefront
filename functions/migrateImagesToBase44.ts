@@ -96,40 +96,7 @@ async function reuploadImage(url, maxWidth) {
   if (!res.ok) throw new Error(`Failed to fetch image: ${res.statusText}`);
   
   const blob = await res.blob();
-  const ext = url.split('.').pop().split('?')[0] || 'jpg';
-  const file = new File([blob], `image.${ext}`, { type: blob.type || 'image/jpeg' });
-
-  const resizedFile = await resizeImage(file, maxWidth);
-  const { file_url } = await uploadToBase44(resizedFile);
-  return { file_url };
-}
-
-async function resizeImage(file, maxWidth) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      const width = Math.min(img.width, maxWidth);
-      const height = Math.round((img.height / img.width) * width);
-
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, width, height);
-      URL.revokeObjectURL(objectUrl);
-
-      canvas.toBlob(
-        (blob) => resolve(new File([blob], 'image.jpg', { type: 'image/jpeg' })),
-        'image/jpeg',
-        0.9
-      );
-    };
-    img.src = objectUrl;
-  });
-}
-
-async function uploadToBase44(file) {
-  const base44 = createClientFromRequest(new Request('http://localhost'));
-  return await base44.asServiceRole.integrations.Core.UploadFile({ file });
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  return { file_url: url };
 }
