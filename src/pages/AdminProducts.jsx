@@ -365,6 +365,10 @@ export default function AdminProducts() {
                     <Input type="number" step="0.01" value={editingProduct.compare_price} onChange={(e) => setEditingProduct({ ...editingProduct, compare_price: parseFloat(e.target.value) || 0 })} className="bg-zinc-800 border-zinc-600 text-white" />
                   </div>
                   <div>
+                    <Label className="text-zinc-200">Default Stock (no variants)</Label>
+                    <Input type="number" value={editingProduct.default_stock ?? 0} onChange={(e) => setEditingProduct({ ...editingProduct, default_stock: parseInt(e.target.value) || 0 })} className="bg-zinc-800 border-zinc-600 text-white" />
+                  </div>
+                  <div>
                     <Label className="text-zinc-200">Category</Label>
                     <Select value={editingProduct.category_id} onValueChange={(v) => setEditingProduct({ ...editingProduct, category_id: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue placeholder="Select category" /></SelectTrigger>
