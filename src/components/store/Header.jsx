@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
-export default function Header({ cartCount = 0, onCartClick, categories = [] }) {
+export default function Header({ cartCount = 0, onCartClick, categories: propCategories = [] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
@@ -21,6 +21,15 @@ export default function Header({ cartCount = 0, onCartClick, categories = [] }) 
       return all[0] || {};
     },
   });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['header-categories'],
+    queryFn: async () => {
+      const all = await base44.entities.Category.filter({ is_active: true }, 'display_order', 100);
+      return all.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+    },
+  });
+
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [expandedMobile, setExpandedMobile] = useState({});
