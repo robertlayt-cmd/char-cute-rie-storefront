@@ -228,7 +228,7 @@ export default function AdminProducts() {
               <SelectValue placeholder="Featured" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-white">All Featured</SelectItem>
+              <SelectItem value="all" className="text-white">All</SelectItem>
               <SelectItem value="hero" className="text-white">Featured in Hero</SelectItem>
               <SelectItem value="tiktok" className="text-white">TikTok Featured</SelectItem>
             </SelectContent>
