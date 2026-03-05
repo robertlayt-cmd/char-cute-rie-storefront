@@ -103,11 +103,27 @@ Deno.serve(async (req) => {
 });
 
 async function reuploadImage(url, maxWidth) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to fetch image: ${res.statusText}`);
-  
-  const blob = await res.blob();
-  const arrayBuffer = await blob.arrayBuffer();
-  
-  return { file_url: url };
+   const res = await fetch(url);
+   if (!res.ok) throw new Error(`Failed to fetch image: ${res.statusText}`);
+
+   const blob = await res.blob();
+   const arrayBuffer = await blob.arrayBuffer();
+   const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+   const dataUrl = `data:${blob.type};base64,${base64}`;
+
+   // Create FormData for upload
+   const formData = new FormData();
+   const file = new File([blob], `migrated-${Date.now()}.jpg`, { type: 'image/jpeg' });
+   formData.append('file', file);
+
+   // Upload to base44
+   const uploadRes = await fetch('https://api.base44.com/upload', {
+     method: 'POST',
+     body: formData,
+   });
+
+   if (!uploadRes.ok) throw new Error(`Upload failed: ${uploadRes.statusText}`);
+   const { file_url } = await uploadRes.json();
+
+   return { file_url };
 }
