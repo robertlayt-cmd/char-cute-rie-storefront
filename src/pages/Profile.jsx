@@ -79,7 +79,8 @@ export default function Profile() {
 
   const saveMutation = useMutation({
     mutationFn: (data) => base44.auth.updateMe(data),
-    onSuccess: () => {
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(['me'], (old) => ({ ...old, ...updatedUser }));
       queryClient.invalidateQueries({ queryKey: ['me'] });
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
