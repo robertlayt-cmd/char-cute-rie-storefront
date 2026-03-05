@@ -46,16 +46,23 @@ export default function AdminCategories() {
       const allCats = await base44.entities.Category.list();
       
       const categoryStructure = {
+        // Jewellery
         'earrings': 'jewellery',
-        'rings': 'jewellery',
+        'brooches': 'jewellery',
         'necklaces': 'jewellery',
+        'rings': 'jewellery',
         'bracelets': 'jewellery',
-        'bags': 'accessories',
-        'scarves': 'accessories',
-        'hair': 'accessories',
+        // Accessories
+        'diffusers': 'accessories',
+        'vape-cover': 'accessories',
+        'lighter-covers': 'accessories',
+        'hair-accessories': 'accessories',
+        'keychains-and-bag-charms': 'accessories',
+        'perfume-atomiser': 'accessories',
+        // Seasonal
         'christmas': 'seasonal',
         'easter': 'seasonal',
-        'halloween': 'seasonal',
+        'valentines-day': 'seasonal',
       };
 
       const updates = [];
