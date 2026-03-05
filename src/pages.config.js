@@ -67,6 +67,7 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
+import AdminMenu from './pages/AdminMenu';
 import __Layout from './Layout.jsx';
 
 
@@ -91,6 +92,7 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
+    "AdminMenu": AdminMenu,
 }
 
 export const pagesConfig = {
