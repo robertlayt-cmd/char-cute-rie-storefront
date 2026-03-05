@@ -36,7 +36,7 @@ export default function Footer() {
             <img 
               src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png" 
               alt="Char'Cute'rie" 
-              className="h-12 mb-4"
+              className="h-20 mb-4"
             />
             <p className="text-zinc-400 text-sm leading-relaxed">
               Handcrafted polymer clay earrings & accessories with a cute, 
