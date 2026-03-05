@@ -99,15 +99,38 @@ export default function AdminUsers() {
             </CardContent>
           </Card>
 
-          {/* Search */}
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-            <Input
-              placeholder="Search by name or email…"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="pl-10 bg-zinc-900 border-zinc-700 text-white"
-            />
+          {/* Search + Filters */}
+          <div className="flex flex-wrap gap-3 mb-4">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+              <Input
+                placeholder="Search by name or email…"
+                value={search}
+                onChange={e => { setSearch(e.target.value); setPage(1); }}
+                className="pl-10 bg-zinc-900 border-zinc-700 text-white"
+              />
+            </div>
+            <Select value={roleFilter} onValueChange={v => { setRoleFilter(v); setPage(1); }}>
+              <SelectTrigger className="w-36 bg-zinc-900 border-zinc-700 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-800 border-zinc-700">
+                <SelectItem value="all" className="text-white focus:bg-zinc-700">All Roles</SelectItem>
+                <SelectItem value="user" className="text-white focus:bg-zinc-700">User</SelectItem>
+                <SelectItem value="admin" className="text-white focus:bg-zinc-700">Admin</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={String(pageSize)} onValueChange={v => { setPageSize(Number(v)); setPage(1); }}>
+              <SelectTrigger className="w-36 bg-zinc-900 border-zinc-700 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-800 border-zinc-700">
+                <SelectItem value="10" className="text-white focus:bg-zinc-700">10 per page</SelectItem>
+                <SelectItem value="20" className="text-white focus:bg-zinc-700">20 per page</SelectItem>
+                <SelectItem value="50" className="text-white focus:bg-zinc-700">50 per page</SelectItem>
+                <SelectItem value="100" className="text-white focus:bg-zinc-700">100 per page</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Users List */}
