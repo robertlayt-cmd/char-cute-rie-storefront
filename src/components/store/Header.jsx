@@ -395,6 +395,11 @@ export default function Header({ cartCount = 0, onCartClick, categories = [] }) 
                     <Link to={createPageUrl('Profile')} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-zinc-300 hover:text-white py-2 px-3 rounded-lg hover:bg-zinc-800 transition-colors">
                       <Settings className="w-4 h-4" /> Edit Profile
                     </Link>
+                    {currentUser.role === 'admin' && (
+                      <Link to={createPageUrl('Admin')} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-pink-400 hover:text-pink-300 py-2 px-3 rounded-lg hover:bg-zinc-800 transition-colors">
+                        <LayoutDashboard className="w-4 h-4" /> Admin Panel
+                      </Link>
+                    )}
                     <button onClick={handleLogout} className="w-full flex items-center gap-2 text-zinc-300 hover:text-red-400 py-2 px-3 rounded-lg hover:bg-zinc-800 transition-colors">
                       <LogOut className="w-4 h-4" /> Logout
                     </button>
