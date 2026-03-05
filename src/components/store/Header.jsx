@@ -60,9 +60,17 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
 
   const handleLogout = () => base44.auth.logout(createPageUrl('Home'));
 
-  // Build category tree
-  const parentCategories = categories.filter(c => !c.parent_id);
-  const getChildren = (parentId) => categories.filter(c => c.parent_id === parentId);
+  // Build and cache category tree
+  const categoryTree = React.useMemo(() => {
+    const parents = categories.filter(c => !c.parent_id);
+    return parents.map(parent => ({
+      ...parent,
+      children: categories.filter(c => c.parent_id === parent.id)
+    }));
+  }, [categories]);
+
+  const parentCategories = categoryTree;
+  const getChildren = (parentId) => categoryTree.find(p => p.id === parentId)?.children || [];
 
   const toggleMobileExpand = (id) =>
     setExpandedMobile(p => ({ ...p, [id]: !p[id] }));
