@@ -89,7 +89,7 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
               <img
                 src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png"
                 alt="Char'Cute'rie"
-                className={`transition-all duration-300 ${atTop ? 'h-32 md:h-20' : 'h-20 md:h-12'}`}
+                className={`transition-all duration-300 ${atTop ? 'h-32 md:h-20' : 'h-10 md:h-12'}`}
               />
             </Link>
 
