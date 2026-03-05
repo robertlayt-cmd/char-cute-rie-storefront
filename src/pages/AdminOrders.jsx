@@ -223,7 +223,7 @@ export default function AdminOrders() {
 
         {/* Order Detail Dialog */}
         <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
-          <DialogContent className="bg-zinc-900 border-zinc-800 max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="bg-zinc-900 border-zinc-800 max-w-2xl max-h-[90vh] overflow-y-auto [&>button]:text-white [&>button]:bg-zinc-700 [&>button]:hover:bg-zinc-600 [&>button]:rounded-md [&>button]:border [&>button]:border-zinc-600">
             <DialogHeader>
               <DialogTitle className="text-white flex items-center gap-3">
                 Order {selectedOrder?.order_number}
