@@ -136,7 +136,7 @@ export default function AdminCategories() {
               <Switch
                 checked={!!category.is_active}
                 onCheckedChange={() => toggleActive(category)}
-                className="scale-75"
+                className="scale-75 data-[state=checked]:bg-pink-500 data-[state=unchecked]:bg-zinc-600"
               />
             </div>
 

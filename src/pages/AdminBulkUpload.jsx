@@ -7,9 +7,50 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Download, CheckCircle, XCircle, AlertCircle, FileText } from 'lucide-react';
 
-const SAMPLE_CSV = `title,slug,description,short_description,base_price,compare_price,category_name,materials,badge,status,is_featured,is_tiktok_featured,rating,review_count,tags,main_image_url
-Strawberry Stud Earrings,strawberry-studs,"Adorable hand-sculpted strawberry studs","Cute strawberry polymer clay studs",24.00,30.00,Earrings,"Polymer clay, stainless steel posts",new,published,false,true,5,10,"strawberry,fruit,cute",https://example.com/your-image-url.jpg
-Croissant Hoop Earrings,croissant-hoops,"Buttery croissant charm hoops","French croissant on gold hoops",26.00,,Earrings,"Polymer clay, gold hoops",hot,published,true,false,5,8,"croissant,pastry,french",
+// Map of color names (lowercase) to hex codes
+const COLOR_NAME_MAP = {
+  gold: '#FFD700',
+  silver: '#C0C0C0',
+  rose: '#FF007F',
+  'rose gold': '#B76E79',
+  pink: '#FF69B4',
+  hotpink: '#FF69B4',
+  'hot pink': '#FF69B4',
+  red: '#FF0000',
+  blue: '#0000FF',
+  navy: '#001F5B',
+  green: '#008000',
+  mint: '#98FF98',
+  teal: '#008080',
+  purple: '#800080',
+  lavender: '#E6E6FA',
+  lilac: '#C8A2C8',
+  yellow: '#FFFF00',
+  orange: '#FFA500',
+  peach: '#FFCBA4',
+  white: '#FFFFFF',
+  black: '#000000',
+  grey: '#808080',
+  gray: '#808080',
+  brown: '#A52A2A',
+  cream: '#FFFDD0',
+  ivory: '#FFFFF0',
+  coral: '#FF7F50',
+  turquoise: '#40E0D0',
+  'bubblegum': '#FFC1CC',
+  'bubblegum pink': '#FFC1CC',
+};
+
+function colorNameToHex(name) {
+  if (!name) return '#FF69B4';
+  const lower = name.toLowerCase().trim();
+  if (lower.startsWith('#')) return lower;
+  return COLOR_NAME_MAP[lower] || '#FF69B4';
+}
+
+const SAMPLE_CSV = `title,slug,description,short_description,base_price,compare_price,default_stock,category_name,materials,badge,status,is_featured,is_tiktok_featured,rating,review_count,tags,main_image_url,variant_name_1,variant_color_1,variant_stock_1,variant_name_2,variant_color_2,variant_stock_2
+Strawberry Stud Earrings,strawberry-studs,"Adorable hand-sculpted strawberry studs","Cute strawberry polymer clay studs",24.00,30.00,10,Earrings,"Polymer clay, stainless steel posts",new,published,false,true,5,10,"strawberry,fruit,cute",https://example.com/image.jpg,Rose,rose,5,Gold,gold,5
+Croissant Hoop Earrings,croissant-hoops,"Buttery croissant charm hoops","French croissant on gold hoops",26.00,,8,Earrings,"Polymer clay, gold hoops",hot,published,true,false,5,8,"croissant,pastry",,Gold,gold,8,,, 
 `;
 
 function downloadSampleCSV() {
@@ -56,6 +97,44 @@ export default function AdminBulkUpload() {
     }).filter(row => row.title);
   };
 
+  // Extract variants from a CSV row (supports variant_name_1, variant_color_1, variant_stock_1, etc.)
+  const extractVariants = (row) => {
+    const variants = [];
+    let i = 1;
+    while (row[`variant_name_${i}`]) {
+      const name = row[`variant_name_${i}`].trim();
+      if (name) {
+        variants.push({
+          name,
+          color_hex: colorNameToHex(row[`variant_color_${i}`]),
+          stock_quantity: parseInt(row[`variant_stock_${i}`]) || 0,
+          price_adjustment: parseFloat(row[`variant_price_adj_${i}`]) || 0,
+          is_default: i === 1,
+          display_order: i - 1,
+          sku: `${row.slug || row.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${name.toLowerCase().replace(/\s+/g, '-')}`,
+        });
+      }
+      i++;
+    }
+    return variants;
+  };
+
+  // Fetch and re-upload an image URL to base44 storage
+  const reuploadImage = async (url) => {
+    if (!url) return '';
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return url; // fallback to original if fetch fails
+      const blob = await res.blob();
+      const ext = url.split('.').pop().split('?')[0] || 'jpg';
+      const file = new File([blob], `image.${ext}`, { type: blob.type || 'image/jpeg' });
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      return file_url;
+    } catch {
+      return url; // fallback to original on error
+    }
+  };
+
   const handleFileChange = (f) => {
     if (!f) return;
     setFile(f);
@@ -81,13 +160,11 @@ export default function AdminBulkUpload() {
     setResults([]);
     const newResults = [];
 
-    // Build a mutable category lookup so newly created ones are found by subsequent rows
     const categoryLookup = [...categories];
 
     for (const row of preview) {
       let cat = categoryLookup.find(c => c.name.toLowerCase() === (row.category_name || '').toLowerCase());
-      
-      // Auto-create category if it doesn't exist
+
       if (!cat && row.category_name) {
         const slug = row.category_name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         cat = await base44.entities.Category.create({
@@ -100,13 +177,24 @@ export default function AdminBulkUpload() {
         queryClient.invalidateQueries(['admin-categories']);
       }
 
+      // Re-upload main image to base44 storage
+      const main_image_url = row.main_image_url ? await reuploadImage(row.main_image_url) : '';
+
+      const productSlug = row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const variants = extractVariants(row);
+      const defaultStock = parseInt(row.default_stock) || 0;
+
       const productData = {
         title: row.title,
-        slug: row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        slug: productSlug,
         description: row.description || '',
         short_description: row.short_description || '',
         base_price: parseFloat(row.base_price) || 0,
         compare_price: parseFloat(row.compare_price) || undefined,
+        default_stock: defaultStock,
+        total_stock: variants.length > 0
+          ? variants.reduce((s, v) => s + v.stock_quantity, 0)
+          : defaultStock,
         category_id: cat?.id || '',
         materials: row.materials || '',
         badge: row.badge || '',
@@ -116,19 +204,37 @@ export default function AdminBulkUpload() {
         rating: parseFloat(row.rating) || 5,
         review_count: parseInt(row.review_count) || 0,
         tags: row.tags ? row.tags.split(',').map(t => t.trim()) : [],
-        main_image_url: row.main_image_url || '',
+        main_image_url,
         gallery_images: [],
       };
 
-      const result = await base44.entities.Product.create(productData).then(
-        () => ({ title: row.title, status: 'success' })
-      ).catch(err => ({ title: row.title, status: 'error', error: err.message }));
+      try {
+        const product = await base44.entities.Product.create(productData);
 
-      newResults.push(result);
+        // Create variants if present
+        for (let i = 0; i < variants.length; i++) {
+          const v = variants[i];
+          // Re-upload variant image if present
+          const variantImageUrl = row[`variant_image_${i + 1}`]
+            ? await reuploadImage(row[`variant_image_${i + 1}`])
+            : '';
+          await base44.entities.ProductVariant.create({
+            ...v,
+            product_id: product.id,
+            image_url: variantImageUrl,
+          });
+        }
+
+        newResults.push({ title: row.title, status: 'success', variants: variants.length });
+      } catch (err) {
+        newResults.push({ title: row.title, status: 'error', error: err.message });
+      }
+
       setResults([...newResults]);
     }
 
     queryClient.invalidateQueries(['admin-products']);
+    queryClient.invalidateQueries(['admin-variants']);
     setIsUploading(false);
     setIsDone(true);
   };
@@ -153,8 +259,12 @@ export default function AdminBulkUpload() {
               </div>
               <div className="flex-1">
                 <h3 className="text-white font-semibold mb-1">Download Sample CSV</h3>
-                <p className="text-zinc-400 text-sm mb-3">
-                Use this template to format your products correctly. Required columns: <code className="text-pink-400">title, base_price, status</code>. For images, use the full URL from the Image Manager (copy URL after uploading).
+                <p className="text-zinc-400 text-sm mb-2">
+                  Required: <code className="text-pink-400">title, base_price, status</code>. 
+                  Stock: <code className="text-pink-400">default_stock</code>. 
+                  Variants: <code className="text-pink-400">variant_name_1, variant_color_1, variant_stock_1</code> (add _2, _3 etc for more).
+                  Colour values can be plain text (e.g. <code className="text-pink-400">gold</code>, <code className="text-pink-400">rose pink</code>) — they'll be auto-converted to hex on import.
+                  Images from URLs will be automatically re-uploaded to your store's storage.
                 </p>
                 <Button variant="outline" className="border-zinc-700 text-white hover:text-white" onClick={downloadSampleCSV}>
                   <Download className="w-4 h-4 mr-2" />
@@ -217,31 +327,47 @@ export default function AdminBulkUpload() {
                     <tr className="border-b border-zinc-800">
                       <th className="text-left p-3 text-zinc-400">Title</th>
                       <th className="text-left p-3 text-zinc-400">Price</th>
+                      <th className="text-left p-3 text-zinc-400">Stock</th>
                       <th className="text-left p-3 text-zinc-400">Category</th>
                       <th className="text-left p-3 text-zinc-400">Status</th>
-                      <th className="text-left p-3 text-zinc-400">Badge</th>
+                      <th className="text-left p-3 text-zinc-400">Variants</th>
                       <th className="text-left p-3 text-zinc-400">Image</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {preview.map((row, i) => (
-                      <tr key={i} className="border-b border-zinc-800/50">
-                        <td className="p-3 text-white">{row.title}</td>
-                        <td className="p-3 text-pink-400">${row.base_price}</td>
-                        <td className="p-3 text-zinc-300">{row.category_name || '-'}</td>
-                        <td className="p-3">
-                          <Badge className={row.status === 'published' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}>
-                            {row.status || 'draft'}
-                          </Badge>
-                        </td>
-                        <td className="p-3 text-zinc-300">{row.badge || '-'}</td>
-                        <td className="p-3">
-                          {row.main_image_url ? (
-                            <img src={row.main_image_url} alt="" className="w-10 h-10 object-cover rounded" onError={(e) => { e.target.style.display='none'; }} />
-                          ) : <span className="text-zinc-600">-</span>}
-                        </td>
-                      </tr>
-                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {preview.map((row, i) => {
+                      const variants = extractVariants(row);
+                      return (
+                        <tr key={i} className="border-b border-zinc-800/50">
+                          <td className="p-3 text-white">{row.title}</td>
+                          <td className="p-3 text-pink-400">${row.base_price}</td>
+                          <td className="p-3 text-zinc-300">{row.default_stock || 0}</td>
+                          <td className="p-3 text-zinc-300">{row.category_name || '-'}</td>
+                          <td className="p-3">
+                            <Badge className={row.status === 'published' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}>
+                              {row.status || 'draft'}
+                            </Badge>
+                          </td>
+                          <td className="p-3">
+                            {variants.length > 0 ? (
+                              <div className="flex gap-1 flex-wrap">
+                                {variants.map((v, vi) => (
+                                  <div key={vi} className="flex items-center gap-1 bg-zinc-800 rounded px-2 py-0.5">
+                                    <span className="w-3 h-3 rounded-full inline-block border border-zinc-600" style={{ backgroundColor: v.color_hex }} />
+                                    <span className="text-zinc-300 text-xs">{v.name}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : <span className="text-zinc-600">-</span>}
+                          </td>
+                          <td className="p-3">
+                            {row.main_image_url ? (
+                              <img src={row.main_image_url} alt="" className="w-10 h-10 object-cover rounded" onError={(e) => { e.target.style.display='none'; }} />
+                            ) : <span className="text-zinc-600">-</span>}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -272,13 +398,16 @@ export default function AdminBulkUpload() {
                       : <XCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
                     }
                     <span className="text-white text-sm">{r.title}</span>
+                    {r.status === 'success' && r.variants > 0 && (
+                      <span className="text-zinc-400 text-xs">{r.variants} variant{r.variants !== 1 ? 's' : ''}</span>
+                    )}
                     {r.error && <span className="text-red-400 text-xs ml-auto">{r.error}</span>}
                   </div>
                 ))}
                 {!isDone && (
                   <div className="flex items-center gap-2 py-2 text-zinc-400 text-sm">
                     <AlertCircle className="w-4 h-4 animate-pulse" />
-                    Processing...
+                    Processing... (images are being uploaded to your store storage)
                   </div>
                 )}
               </div>
