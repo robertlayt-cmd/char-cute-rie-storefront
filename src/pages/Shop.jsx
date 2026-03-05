@@ -10,6 +10,7 @@ import CategoryFilter from '@/components/store/CategoryFilter';
 import SubcategoryFilter from '@/components/store/SubcategoryFilter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Search, SlidersHorizontal, X, Grid3X3, LayoutGrid } from 'lucide-react';
