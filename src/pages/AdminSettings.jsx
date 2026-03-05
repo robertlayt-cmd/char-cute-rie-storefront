@@ -513,8 +513,103 @@ export default function AdminSettings() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
-      </div>
-    </AdminLayout>
-  );
-}
+
+          {/* Backup & Data */}
+          <TabsContent value="backup">
+           <div className="space-y-4">
+             <Card className="bg-zinc-900 border-zinc-800">
+               <CardHeader>
+                 <CardTitle className="text-white flex items-center gap-2">
+                   <Download className="w-5 h-5 text-pink-400" />
+                   Backup
+                 </CardTitle>
+               </CardHeader>
+               <CardContent>
+                 <p className="text-zinc-400 text-sm mb-4">Download a complete JSON backup of all store data including products, categories, orders, and settings.</p>
+                 <Button onClick={downloadBackup} className="bg-green-600 hover:bg-green-700 text-white">
+                   <Download className="w-4 h-4 mr-2" />
+                   Download Backup
+                 </Button>
+               </CardContent>
+             </Card>
+
+             <Card className="bg-zinc-900 border-zinc-800 border-red-900/50">
+               <CardHeader>
+                 <CardTitle className="text-red-400 flex items-center gap-2">
+                   <Trash2 className="w-5 h-5" />
+                   Danger Zone
+                 </CardTitle>
+               </CardHeader>
+               <CardContent className="space-y-3">
+                 <p className="text-zinc-400 text-sm">⚠️ These actions are permanent and cannot be undone.</p>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                   <Button 
+                     variant="outline" 
+                     onClick={() => setConfirmDialog({ type: 'images', title: 'Clear All Images', desc: 'Remove all product and variant images. Product data will remain.' })}
+                     className="border-yellow-600/50 text-yellow-400 hover:bg-yellow-600/10"
+                   >
+                     <Trash2 className="w-4 h-4 mr-2" />
+                     Clear Images
+                   </Button>
+
+                   <Button 
+                     variant="outline" 
+                     onClick={() => setConfirmDialog({ type: 'products', title: 'Delete All Products', desc: 'Permanently delete all products. Variants will also be removed.' })}
+                     className="border-red-600/50 text-red-400 hover:bg-red-600/10"
+                   >
+                     <Trash2 className="w-4 h-4 mr-2" />
+                     Delete Products
+                   </Button>
+
+                   <Button 
+                     variant="outline" 
+                     onClick={() => setConfirmDialog({ type: 'categories', title: 'Delete All Categories', desc: 'Permanently delete all product categories.' })}
+                     className="border-red-600/50 text-red-400 hover:bg-red-600/10"
+                   >
+                     <Trash2 className="w-4 h-4 mr-2" />
+                     Delete Categories
+                   </Button>
+
+                   <Button 
+                     variant="outline" 
+                     onClick={() => setConfirmDialog({ type: 'reset', title: 'White Label Reset', desc: 'Delete ALL products, categories, variants, orders, and discounts. Reset store settings to defaults. The logged-in admin user will remain.' })}
+                     className="border-red-700/50 text-red-500 hover:bg-red-700/10 font-semibold"
+                   >
+                     <Trash2 className="w-4 h-4 mr-2" />
+                     White Label Reset
+                   </Button>
+                 </div>
+               </CardContent>
+             </Card>
+           </div>
+          </TabsContent>
+          </Tabs>
+
+          {/* Confirmation Dialog */}
+          <AlertDialog open={!!confirmDialog} onOpenChange={(open) => !open && setConfirmDialog(null)}>
+          <AlertDialogContent className="bg-zinc-900 border-zinc-800">
+           <AlertDialogHeader>
+             <AlertDialogTitle className="text-red-400">{confirmDialog?.title}</AlertDialogTitle>
+             <AlertDialogDescription className="text-zinc-400">
+               {confirmDialog?.desc}
+             </AlertDialogDescription>
+           </AlertDialogHeader>
+           <div className="mt-4 p-3 bg-red-900/20 border border-red-600/30 rounded-lg">
+             <p className="text-red-400 text-sm font-medium">This action cannot be undone.</p>
+           </div>
+           <div className="flex gap-3 justify-end">
+             <AlertDialogCancel className="bg-zinc-800 border-zinc-700 text-white hover:bg-zinc-700">Cancel</AlertDialogCancel>
+             <AlertDialogAction 
+               onClick={() => purgeData(confirmDialog?.type)}
+               className="bg-red-600 hover:bg-red-700 text-white border-0"
+             >
+               Confirm Delete
+             </AlertDialogAction>
+           </div>
+          </AlertDialogContent>
+          </AlertDialog>
+          </div>
+          </AdminLayout>
+          );
+          }
