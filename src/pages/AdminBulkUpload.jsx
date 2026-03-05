@@ -148,7 +148,7 @@ export default function AdminBulkUpload() {
     setResults([]);
     const newResults = [];
 
-    const categoryLookup = [...categories];
+    const categoryLookup = [...allCategories];
     const existingProducts = skipIfExists ? await base44.entities.Product.list() : [];
 
     for (const row of preview) {
@@ -161,7 +161,12 @@ export default function AdminBulkUpload() {
         continue;
       }
 
-      let cat = categoryLookup.find(c => c.name.toLowerCase() === (row.category_name || '').toLowerCase());
+      let cat = null;
+      if (row.category_name) {
+        const catNameLower = row.category_name.toLowerCase();
+        // Search for category by exact name match (parent or child)
+        cat = categoryLookup.find(c => c.name.toLowerCase() === catNameLower);
+      }
 
       if (!cat && row.category_name) {
         const slug = row.category_name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -169,6 +174,7 @@ export default function AdminBulkUpload() {
           name: row.category_name,
           slug,
           is_active: true,
+          parent_id: null,
           display_order: categoryLookup.length
         });
         categoryLookup.push(cat);
