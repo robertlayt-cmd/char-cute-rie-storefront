@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
 import { 
   LayoutDashboard, Package, ShoppingCart, Tag, Percent, 
   Settings, Home, Upload, Image, Menu, X, ChevronRight, Users
@@ -20,6 +22,15 @@ const navItems = [
 
 export default function AdminNav({ currentPage }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { data: paidOrderCount = 0 } = useQuery({
+    queryKey: ['admin-paid-orders-count'],
+    queryFn: async () => {
+      const orders = await base44.entities.Order.filter({ status: 'paid' });
+      return orders.length;
+    },
+    refetchInterval: 60000,
+  });
 
   const NavContent = () => (
     <div className="flex flex-col h-full">
@@ -50,7 +61,13 @@ export default function AdminNav({ currentPage }) {
             >
               <item.icon className="w-4 h-4 flex-shrink-0" />
               {item.label}
-              {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+              {item.page === 'AdminOrders' && paidOrderCount > 0 && (
+                <span className="ml-auto bg-pink-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {paidOrderCount > 9 ? '9+' : paidOrderCount}
+                </span>
+              )}
+              {isActive && item.page !== 'AdminOrders' && <ChevronRight className="w-4 h-4 ml-auto" />}
+              {isActive && item.page === 'AdminOrders' && paidOrderCount === 0 && <ChevronRight className="w-4 h-4 ml-auto" />}
             </Link>
           );
         })}

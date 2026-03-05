@@ -134,15 +134,15 @@ export default function AdminOrders() {
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800">
+            <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="paid">Paid</SelectItem>
-              <SelectItem value="shipped">Shipped</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
+              <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Status</SelectItem>
+              <SelectItem value="pending" className="text-white focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
+              <SelectItem value="paid" className="text-white focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
+              <SelectItem value="shipped" className="text-white focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
+              <SelectItem value="cancelled" className="text-white focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -201,14 +201,14 @@ export default function AdminOrders() {
                             value={order.status} 
                             onValueChange={(v) => handleStatusChange(order, v)}
                           >
-                            <SelectTrigger className="w-[130px] bg-zinc-800 border-zinc-700" onClick={(e) => e.stopPropagation()}>
+                            <SelectTrigger className="w-[130px] bg-zinc-800 border-zinc-700 text-white" onClick={(e) => e.stopPropagation()}>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="bg-zinc-800 border-zinc-700">
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="paid">Paid</SelectItem>
-                              <SelectItem value="shipped">Shipped</SelectItem>
-                              <SelectItem value="cancelled">Cancelled</SelectItem>
+                              <SelectItem value="pending" className="text-white focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
+                              <SelectItem value="paid" className="text-white focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
+                              <SelectItem value="shipped" className="text-white focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
+                              <SelectItem value="cancelled" className="text-white focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
                             </SelectContent>
                           </Select>
                         </td>
@@ -270,13 +270,15 @@ export default function AdminOrders() {
                 <div>
                   <h4 className="text-white font-medium mb-3">Items</h4>
                   <div className="space-y-3">
-                    {selectedOrder.line_items?.map((item, i) => (
+                    {selectedOrder.line_items?.length > 0 ? selectedOrder.line_items.map((item, i) => (
                       <div key={i} className="flex gap-4 bg-zinc-800 rounded-lg p-3">
-                        <img
-                          src={item.image_url || 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=80'}
-                          alt={item.product_title}
-                          className="w-16 h-16 object-cover rounded-lg"
-                        />
+                        {item.image_url && (
+                          <img
+                            src={item.image_url}
+                            alt={item.product_title}
+                            className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                          />
+                        )}
                         <div className="flex-1">
                           <p className="text-white font-medium">{item.product_title}</p>
                           {item.variant_name && <p className="text-zinc-400 text-sm">{item.variant_name}</p>}
@@ -284,7 +286,9 @@ export default function AdminOrders() {
                         </div>
                         <p className="text-white font-semibold">${item.total?.toFixed(2)}</p>
                       </div>
-                    ))}
+                    )) : (
+                      <p className="text-zinc-500 text-sm italic">No items found for this order.</p>
+                    )}
                   </div>
                 </div>
 
@@ -317,14 +321,14 @@ export default function AdminOrders() {
                     value={selectedOrder.status} 
                     onValueChange={(v) => handleStatusChange(selectedOrder, v)}
                   >
-                    <SelectTrigger className="w-[160px] bg-zinc-800 border-zinc-700">
+                    <SelectTrigger className="w-[160px] bg-zinc-800 border-zinc-700 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-zinc-800 border-zinc-700">
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="paid">Paid</SelectItem>
-                      <SelectItem value="shipped">Shipped</SelectItem>
-                      <SelectItem value="cancelled">Cancelled</SelectItem>
+                      <SelectItem value="pending" className="text-white focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
+                      <SelectItem value="paid" className="text-white focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
+                      <SelectItem value="shipped" className="text-white focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
+                      <SelectItem value="cancelled" className="text-white focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -36,6 +36,14 @@ export default function Product() {
     queryFn: () => base44.entities.Category.filter({ is_active: true }),
   });
 
+  const { data: settings } = useQuery({
+    queryKey: ['settings'],
+    queryFn: async () => {
+      const all = await base44.entities.StoreSettings.list();
+      return all[0] || {};
+    },
+  });
+
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.filter({ status: 'published' }),
