@@ -149,7 +149,7 @@ export default function Profile() {
             </label>
           </div>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-white">{currentUser.full_name}</h1>
+            <h1 className="text-2xl font-bold text-white">{form.full_name || currentUser.full_name}</h1>
             {form.business_name && <p className="text-pink-400 font-medium">{form.business_name}</p>}
             <p className="text-zinc-400 text-sm">{currentUser.email}</p>
           </div>
