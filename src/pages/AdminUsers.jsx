@@ -142,7 +142,7 @@ export default function AdminUsers() {
                 <p className="text-zinc-400 text-center py-12">No users found</p>
               ) : (
                 <div className="divide-y divide-zinc-800">
-                  {filtered.map(user => (
+                  {paginated.map(user => (
                     <div key={user.id} className="flex items-center gap-4 p-4">
                       {user.profile_image_url ? (
                         <img src={user.profile_image_url} className="w-10 h-10 rounded-full object-cover" alt="" />
