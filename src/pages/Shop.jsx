@@ -15,6 +15,10 @@ import { Search, SlidersHorizontal, X, Grid3X3, LayoutGrid } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Shop() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const categorySlug = params.get('category') || 'all';
+
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('cart');
@@ -24,21 +28,19 @@ export default function Shop() {
   const [sortBy, setSortBy] = useState('newest');
   const [gridCols, setGridCols] = useState(4);
   const [priceRange, setPriceRange] = useState([0, 500]);
-  const [selectedBadges, setSelectedBadges] = useState([]);
-
-  // Read URL params on every render so navigation to ?category= works instantly
-  const urlParams = new URLSearchParams(window.location.search);
-  const categorySlug = urlParams.get('category') || 'all';
-  const filterType = urlParams.get('filter');
+  const [selectedBadges, setSelectedBadges] = useState(() => {
+    const f = params.get('filter');
+    return f ? [f] : [];
+  });
   const [selectedCategory, setSelectedCategory] = useState(categorySlug);
 
-  // Keep selectedCategory in sync whenever the URL changes
+  // React to URL changes (react-router-dom location)
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setSelectedCategory(params.get('category') || 'all');
-    const f = params.get('filter');
+    const p = new URLSearchParams(location.search);
+    setSelectedCategory(p.get('category') || 'all');
+    const f = p.get('filter');
     if (f) setSelectedBadges([f]);
-  }, [window.location.href]);
+  }, [location.search]);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
