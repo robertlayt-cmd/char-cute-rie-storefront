@@ -53,7 +53,7 @@ export default function Profile() {
   });
 
   const [form, setForm] = useState({
-    phone: '', business_name: '', description: '',
+    full_name: '', phone: '', business_name: '', description: '',
     profile_image_url: '', banner_image_url: '',
     website_url: '', tiktok_url: '', instagram_url: '', facebook_url: '',
     default_address: { first_name: '', last_name: '', street: '', city: '', state: '', postcode: '', country: 'Australia' }
@@ -62,6 +62,7 @@ export default function Profile() {
   useEffect(() => {
     if (currentUser) {
       setForm({
+        full_name: currentUser.full_name || '',
         phone: currentUser.phone || '',
         business_name: currentUser.business_name || '',
         description: currentUser.description || '',
