@@ -131,28 +131,6 @@ export default function AdminImageManager() {
 
   const externalCount = allImages.filter(img => isExternal(img.url)).length;
 
-  const exportCSV = () => {
-    const rows = [['Product/Variant', 'Type', 'Field', 'URL', 'Hosted']];
-    allImages.forEach(img => {
-      rows.push([
-        img.productTitle || img.variantName,
-        img.type,
-        img.field,
-        img.url,
-        isExternal(img.url) ? 'External' : 'Base44',
-      ]);
-    });
-    
-    const csv = rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `inventory-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
-
   return (
     <AdminLayout currentPage="AdminImageManager">
       <div className="max-w-7xl mx-auto">
