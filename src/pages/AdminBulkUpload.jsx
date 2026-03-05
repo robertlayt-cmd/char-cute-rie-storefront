@@ -404,13 +404,16 @@ export default function AdminBulkUpload() {
                   <div key={i} className="flex items-center gap-3 py-2 border-b border-zinc-800/50 last:border-0">
                     {r.status === 'success'
                       ? <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                      : r.status === 'skipped'
+                      ? <AlertCircle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
                       : <XCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
                     }
                     <span className="text-white text-sm">{r.title}</span>
                     {r.status === 'success' && r.variants > 0 && (
                       <span className="text-zinc-400 text-xs">{r.variants} variant{r.variants !== 1 ? 's' : ''}</span>
                     )}
-                    {r.error && <span className="text-red-400 text-xs ml-auto">{r.error}</span>}
+                    {r.status === 'skipped' && <span className="text-yellow-400 text-xs ml-auto">Skipped</span>}
+                    {r.error && r.status !== 'skipped' && <span className="text-red-400 text-xs ml-auto">{r.error}</span>}
                   </div>
                 ))}
                 {!isDone && (
