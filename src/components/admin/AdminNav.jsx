@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { 
   LayoutDashboard, Package, ShoppingCart, Tag, Percent, 
-  Settings, Home, Upload, Image, Menu, X, ChevronRight, Users
+  Settings, Home, Upload, Image, Menu, X, ChevronRight, Users, Palette
 } from 'lucide-react';
 
 const navItems = [
