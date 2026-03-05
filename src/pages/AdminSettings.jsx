@@ -119,6 +119,20 @@ export default function AdminSettings() {
           await base44.entities.Category.delete(c.id);
         }
         toast.success('All categories deleted');
+      } else if (type === 'orders') {
+        const orders = await base44.entities.Order.list();
+        for (const o of orders) {
+          await base44.entities.Order.delete(o.id);
+        }
+        toast.success('All orders deleted');
+      } else if (type === 'non-admin-users') {
+        const users = await base44.entities.User.list();
+        for (const u of users) {
+          if (u.role !== 'admin') {
+            await base44.entities.User.delete(u.id);
+          }
+        }
+        toast.success('Non-admin users removed');
       } else if (type === 'reset') {
         const products = await base44.entities.Product.list();
         for (const p of products) {
