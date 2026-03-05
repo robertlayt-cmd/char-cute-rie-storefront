@@ -53,21 +53,13 @@ export default function Footer() {
                   All Products
                 </Link>
               </li>
-              <li>
-                <Link to={`${createPageUrl('Shop')}?category=earrings`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  Earrings
-                </Link>
-              </li>
-              <li>
-                <Link to={`${createPageUrl('Shop')}?category=brooches`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  Brooches
-                </Link>
-              </li>
-              <li>
-                <Link to={`${createPageUrl('Shop')}?category=decor`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
-                  Decor
-                </Link>
-              </li>
+              {categories.map(cat => (
+                <li key={cat.id}>
+                  <Link to={`${createPageUrl('Shop')}?category=${cat.slug}`} className="text-zinc-400 hover:text-pink-400 transition-colors text-sm">
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
