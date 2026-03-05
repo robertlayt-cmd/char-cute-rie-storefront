@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ShoppingBag, Menu, X, User, LogIn, UserPlus, LogOut, Settings, ChevronDown, ChevronRight } from 'lucide-react';
+import { ShoppingBag, Menu, X, User, LogIn, UserPlus, LogOut, Settings, ChevronDown, ChevronRight, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { motion, AnimatePresence } from 'framer-motion';
