@@ -215,55 +215,55 @@ export default function AdminProducts() {
             <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-white">All Status</SelectItem>
-              <SelectItem value="published" className="text-white">Published</SelectItem>
-              <SelectItem value="draft" className="text-white">Draft</SelectItem>
-              <SelectItem value="archived" className="text-white">Archived</SelectItem>
+            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="published">Published</SelectItem>
+              <SelectItem value="draft">Draft</SelectItem>
+              <SelectItem value="archived">Archived</SelectItem>
             </SelectContent>
           </Select>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
             <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-white">All Categories</SelectItem>
-              {categories.map(c => <SelectItem key={c.id} value={c.id} className="text-white">{c.name}</SelectItem>)}
+            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+              <SelectItem value="all">All Categories</SelectItem>
+              {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
             </SelectContent>
           </Select>
           <Select value={badgeFilter} onValueChange={setBadgeFilter}>
             <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="Badge" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-white">All Badges</SelectItem>
-              <SelectItem value={null} className="text-white">No Badge</SelectItem>
-              <SelectItem value="new" className="text-white">New</SelectItem>
-              <SelectItem value="hot" className="text-white">Hot</SelectItem>
-              <SelectItem value="limited" className="text-white">Limited</SelectItem>
-              <SelectItem value="tiktok" className="text-white">TikTok Fave</SelectItem>
-              <SelectItem value="bestseller" className="text-white">Bestseller</SelectItem>
+            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+              <SelectItem value="all">All Badges</SelectItem>
+              <SelectItem value={null}>No Badge</SelectItem>
+              <SelectItem value="new">New</SelectItem>
+              <SelectItem value="hot">Hot</SelectItem>
+              <SelectItem value="limited">Limited</SelectItem>
+              <SelectItem value="tiktok">TikTok Fave</SelectItem>
+              <SelectItem value="bestseller">Bestseller</SelectItem>
             </SelectContent>
           </Select>
           <Select value={featuredFilter} onValueChange={v => { setFeaturedFilter(v); setPage(1); }}>
             <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="Featured" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-white">All</SelectItem>
-              <SelectItem value="hero" className="text-white">Featured in Hero</SelectItem>
-              <SelectItem value="tiktok" className="text-white">TikTok Featured</SelectItem>
+            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="hero">Featured in Hero</SelectItem>
+              <SelectItem value="tiktok">TikTok Featured</SelectItem>
             </SelectContent>
           </Select>
           <Select value={String(pageSize)} onValueChange={v => { setPageSize(Number(v)); setPage(1); }}>
             <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="10" className="text-white">10 per page</SelectItem>
-              <SelectItem value="20" className="text-white">20 per page</SelectItem>
-              <SelectItem value="50" className="text-white">50 per page</SelectItem>
-              <SelectItem value="100" className="text-white">100 per page</SelectItem>
+            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+              <SelectItem value="10">10 per page</SelectItem>
+              <SelectItem value="20">20 per page</SelectItem>
+              <SelectItem value="50">50 per page</SelectItem>
+              <SelectItem value="100">100 per page</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -276,11 +276,11 @@ export default function AdminProducts() {
               <SelectTrigger className="w-[180px] bg-zinc-800 border-zinc-700 text-white h-8">
                 <SelectValue placeholder="Bulk action..." />
               </SelectTrigger>
-              <SelectContent className="bg-zinc-800 border-zinc-700">
-                <SelectItem value="publish" className="text-white">Set Published</SelectItem>
-                <SelectItem value="draft" className="text-white">Set Draft</SelectItem>
-                <SelectItem value="archive" className="text-white">Set Archived</SelectItem>
-                <SelectItem value="delete" className="text-white">Delete</SelectItem>
+              <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                <SelectItem value="publish">Set Published</SelectItem>
+                <SelectItem value="draft">Set Draft</SelectItem>
+                <SelectItem value="archive">Set Archived</SelectItem>
+                <SelectItem value="delete">Delete</SelectItem>
               </SelectContent>
             </Select>
             <Button size="sm" onClick={handleBulkAction} disabled={!bulkAction} className="bg-pink-500 hover:bg-pink-600 text-white h-8">
@@ -352,7 +352,7 @@ export default function AdminProducts() {
                           <SelectTrigger className="w-[120px] h-8 bg-transparent border-zinc-700 text-xs text-white">
                             <Badge className={`${statusBadge(product.status)} text-xs`}>{product.status}</Badge>
                           </SelectTrigger>
-                          <SelectContent className="bg-zinc-800 border-zinc-700">
+                          <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
                             <SelectItem value="published">Published</SelectItem>
                             <SelectItem value="draft">Draft</SelectItem>
                             <SelectItem value="archived">Archived</SelectItem>
@@ -435,26 +435,26 @@ export default function AdminProducts() {
                     <Label className="text-zinc-200">Category</Label>
                     <Select value={editingProduct.category_id} onValueChange={(v) => setEditingProduct({ ...editingProduct, category_id: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue placeholder="Select category" /></SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-600">
-                        {categories.filter(c => !c.parent_id).map(parent => (
-                          <React.Fragment key={parent.id}>
-                            <SelectItem value={parent.id} className="text-white focus:bg-zinc-700 focus:text-white font-medium">{parent.name}</SelectItem>
-                            {categories.filter(c => c.parent_id === parent.id).map(child => (
-                              <SelectItem key={child.id} value={child.id} className="text-zinc-300 focus:bg-zinc-700 focus:text-white pl-6">↳ {child.name}</SelectItem>
-                            ))}
-                          </React.Fragment>
-                        ))}
-                      </SelectContent>
+                      <SelectContent className="bg-zinc-800 border-zinc-600 text-white">
+                         {categories.filter(c => !c.parent_id).map(parent => (
+                           <React.Fragment key={parent.id}>
+                             <SelectItem value={parent.id} className="focus:bg-zinc-700 focus:text-white font-medium">{parent.name}</SelectItem>
+                             {categories.filter(c => c.parent_id === parent.id).map(child => (
+                               <SelectItem key={child.id} value={child.id} className="focus:bg-zinc-700 focus:text-white pl-6">↳ {child.name}</SelectItem>
+                             ))}
+                           </React.Fragment>
+                         ))}
+                       </SelectContent>
                     </Select>
                   </div>
                   <div>
                     <Label className="text-zinc-200">Status</Label>
                     <Select value={editingProduct.status} onValueChange={(v) => setEditingProduct({ ...editingProduct, status: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue /></SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-600">
-                        <SelectItem value="draft" className="text-white focus:bg-zinc-700 focus:text-white">Draft</SelectItem>
-                        <SelectItem value="published" className="text-white focus:bg-zinc-700 focus:text-white">Published</SelectItem>
-                        <SelectItem value="archived" className="text-white focus:bg-zinc-700 focus:text-white">Archived</SelectItem>
+                      <SelectContent className="bg-zinc-800 border-zinc-600 text-white">
+                        <SelectItem value="draft" className="focus:bg-zinc-700 focus:text-white">Draft</SelectItem>
+                        <SelectItem value="published" className="focus:bg-zinc-700 focus:text-white">Published</SelectItem>
+                        <SelectItem value="archived" className="focus:bg-zinc-700 focus:text-white">Archived</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -462,13 +462,13 @@ export default function AdminProducts() {
                     <Label className="text-zinc-200">Badge</Label>
                     <Select value={editingProduct.badge || ''} onValueChange={(v) => setEditingProduct({ ...editingProduct, badge: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue placeholder="No badge" /></SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-600">
-                        <SelectItem value={null} className="text-white focus:bg-zinc-700 focus:text-white">None</SelectItem>
-                        <SelectItem value="new" className="text-white focus:bg-zinc-700 focus:text-white">New</SelectItem>
-                        <SelectItem value="hot" className="text-white focus:bg-zinc-700 focus:text-white">Hot</SelectItem>
-                        <SelectItem value="limited" className="text-white focus:bg-zinc-700 focus:text-white">Limited</SelectItem>
-                        <SelectItem value="tiktok" className="text-white focus:bg-zinc-700 focus:text-white">TikTok Fave</SelectItem>
-                        <SelectItem value="bestseller" className="text-white focus:bg-zinc-700 focus:text-white">Bestseller</SelectItem>
+                      <SelectContent className="bg-zinc-800 border-zinc-600 text-white">
+                        <SelectItem value={null} className="focus:bg-zinc-700 focus:text-white">None</SelectItem>
+                        <SelectItem value="new" className="focus:bg-zinc-700 focus:text-white">New</SelectItem>
+                        <SelectItem value="hot" className="focus:bg-zinc-700 focus:text-white">Hot</SelectItem>
+                        <SelectItem value="limited" className="focus:bg-zinc-700 focus:text-white">Limited</SelectItem>
+                        <SelectItem value="tiktok" className="focus:bg-zinc-700 focus:text-white">TikTok Fave</SelectItem>
+                        <SelectItem value="bestseller" className="focus:bg-zinc-700 focus:text-white">Bestseller</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
