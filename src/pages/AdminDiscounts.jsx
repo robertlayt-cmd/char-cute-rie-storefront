@@ -165,7 +165,7 @@ export default function AdminDiscounts() {
 
         {/* Edit Dialog */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-zinc-900 border-zinc-800">
+          <DialogContent className="bg-zinc-900 border-zinc-800 [&>button]:text-white [&>button]:bg-zinc-700 [&>button]:hover:bg-zinc-600 [&>button]:rounded-md [&>button]:border [&>button]:border-zinc-600">
             <DialogHeader>
               <DialogTitle className="text-white">
                 {editingCode?.id ? 'Edit Discount Code' : 'New Discount Code'}

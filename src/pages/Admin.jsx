@@ -100,7 +100,7 @@ export default function Admin() {
               </Button>
             </Link>
             <Link to={createPageUrl('Home')}>
-              <Button variant="outline" className="border-zinc-700">
+              <Button variant="outline" className="border-zinc-700 text-white hover:text-white">
                 View Store
               </Button>
             </Link>
