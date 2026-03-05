@@ -211,22 +211,7 @@ export default function AdminImageManager() {
               <Upload className="w-4 h-4 mr-2" />
               Bulk Upload
             </Button>
-            <Button
-              onClick={() => setShowCSVImport(true)}
-              variant="outline"
-              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
-            >
-              <Upload className="w-4 h-4 mr-2" />
-              Import CSV
-            </Button>
-            <Button
-              onClick={exportCSV}
-              variant="outline"
-              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
-            >
-              <FileDown className="w-4 h-4 mr-2" />
-              Export All CSV
-            </Button>
+
           </div>
         </div>
 
