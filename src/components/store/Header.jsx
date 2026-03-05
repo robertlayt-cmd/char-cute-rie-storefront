@@ -85,7 +85,7 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
             </Button>
 
             {/* Logo */}
-            <Link to={createPageUrl('Home')} className={`flex items-center gap-2 absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0 transition-all duration-300 ${atTop ? 'pt-10' : ''}`}>
+            <Link to={createPageUrl('Home')} className={`flex items-center gap-2 absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0 transition-all duration-300 ${atTop ? 'pt-20' : ''}`}>
               <img
                 src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png"
                 alt="Char'Cute'rie"
