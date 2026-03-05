@@ -453,8 +453,7 @@ export default function AdminImageManager() {
           </AlertDialog>
         )}
 
-        {/* CSV Import Modal */}
-        <BulkCSVImport isOpen={showCSVImport} onOpenChange={setShowCSVImport} />
+
       </div>
     </AdminLayout>
   );
