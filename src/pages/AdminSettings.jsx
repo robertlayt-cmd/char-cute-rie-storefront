@@ -158,22 +158,28 @@ export default function AdminSettings() {
                   />
                 </div>
 
-                <div>
-                  <Label className="text-zinc-200">TikTok URL</Label>
-                  <Input
-                    value={settings.tiktok_url}
-                    onChange={(e) => setSettings({ ...settings, tiktok_url: e.target.value })}
-                    className="bg-zinc-800 border-zinc-600 text-white"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-zinc-200">Instagram URL</Label>
-                  <Input
-                    value={settings.instagram_url}
-                    onChange={(e) => setSettings({ ...settings, instagram_url: e.target.value })}
-                    className="bg-zinc-800 border-zinc-600 text-white"
-                  />
+                <div className="pt-2">
+                  <p className="text-zinc-400 text-sm font-medium mb-3">Social Media Links <span className="text-zinc-600">(leave blank to hide)</span></p>
+                  <div className="space-y-3">
+                    {[
+                      { key: 'tiktok_url', label: 'TikTok URL' },
+                      { key: 'instagram_url', label: 'Instagram URL' },
+                      { key: 'facebook_url', label: 'Facebook URL' },
+                      { key: 'youtube_url', label: 'YouTube URL' },
+                      { key: 'pinterest_url', label: 'Pinterest URL' },
+                      { key: 'twitter_url', label: 'X / Twitter URL' },
+                    ].map(({ key, label }) => (
+                      <div key={key}>
+                        <Label className="text-zinc-200">{label}</Label>
+                        <Input
+                          value={settings[key] || ''}
+                          onChange={(e) => setSettings({ ...settings, [key]: e.target.value })}
+                          className="bg-zinc-800 border-zinc-600 text-white"
+                          placeholder="https://..."
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
