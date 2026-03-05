@@ -6,12 +6,21 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Header({ cartCount = 0, onCartClick, categories = [] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
+
+  const { data: settings } = useQuery({
+    queryKey: ['settings'],
+    queryFn: async () => {
+      const all = await base44.entities.StoreSettings.list();
+      return all[0] || {};
+    },
+  });
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [expandedMobile, setExpandedMobile] = useState({});
