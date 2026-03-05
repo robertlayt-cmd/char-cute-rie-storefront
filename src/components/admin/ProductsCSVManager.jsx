@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Loader, Download, Upload } from 'lucide-react';
+import { convertColorNameToHex } from '@/components/utils/colorConverter';
 
 export default function ProductsCSVManager({ isOpen, onOpenChange }) {
   const queryClient = useQueryClient();
