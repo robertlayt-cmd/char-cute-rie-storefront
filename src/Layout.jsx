@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import ErrorLogger from '@/components/ErrorLogger';
 
 export default function Layout({ children }) {
   const { pathname, search } = useLocation();
@@ -8,5 +9,10 @@ export default function Layout({ children }) {
     window.scrollTo(0, 0);
   }, [pathname, search]);
 
-  return children;
+  return (
+    <>
+      <ErrorLogger />
+      {children}
+    </>
+  );
 }
