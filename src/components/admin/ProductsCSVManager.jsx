@@ -25,9 +25,9 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
 
   const downloadSampleCSV = () => {
     const sampleData = [
-      ['id', 'title', 'base_price', 'compare_price', 'default_stock', 'status'],
-      ['', 'Sample Product', '29.99', '49.99', '50', 'draft'],
-      ['', 'Another Product', '39.99', '59.99', '100', 'published'],
+      ['product_id', 'product_type', 'title', 'slug', 'description', 'short_description', 'base_price', 'compare_price', 'category_id', 'main_image_url', 'thumbnail_url', 'gallery_images', 'materials', 'care_instructions', 'tags', 'badge', 'is_featured', 'is_tiktok_featured', 'status', 'default_stock', 'variant_id', 'variant_name', 'variant_color', 'variant_image_url', 'variant_price_adjustment', 'variant_stock', 'variant_sku'],
+      ['', 'product', 'Sample Product', 'sample-product', 'Full product description here', 'Short description', '29.99', '49.99', 'category-123', 'https://example.com/main.jpg', 'https://example.com/thumb.jpg', 'https://example.com/gallery1.jpg', 'Cotton, Polyester', 'Hand wash cold', 'tag1,tag2', 'new', '1', '0', 'published', '50', '', '', '', '', '', '', ''],
+      ['', 'product', 'Sample Product', 'sample-product', 'Full product description here', 'Short description', '29.99', '49.99', 'category-123', 'https://example.com/main.jpg', 'https://example.com/thumb.jpg', 'https://example.com/gallery1.jpg', 'Cotton, Polyester', 'Hand wash cold', 'tag1,tag2', 'new', '1', '0', 'published', '50', '', 'Bubblegum Pink', 'hot pink', 'https://example.com/variant.jpg', '5', '20', 'SKU-001'],
     ];
     
     const csv = sampleData.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
