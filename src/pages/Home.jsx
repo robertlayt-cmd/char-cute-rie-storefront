@@ -161,7 +161,7 @@ export default function Home() {
       />
 
       {/* TikTok Section */}
-      {tiktokProducts.length > 0 && (
+      {tiktokProducts.length > 0 && settings?.tiktok_url && (
         <section className="py-16 bg-gradient-to-b from-zinc-950 via-pink-950/20 to-zinc-950">
           <ProductSection
             title="As Seen on TikTok"
