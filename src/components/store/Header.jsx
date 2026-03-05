@@ -210,6 +210,16 @@ export default function Header({ cartCount = 0, onCartClick, categories = [] }) 
                             <Settings className="w-4 h-4" />
                             Edit Profile
                           </Link>
+                          {currentUser.role === 'admin' && (
+                            <Link
+                              to={createPageUrl('Admin')}
+                              onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center gap-2 px-4 py-2.5 text-pink-400 hover:text-pink-300 hover:bg-zinc-800 transition-colors text-sm"
+                            >
+                              <LayoutDashboard className="w-4 h-4" />
+                              Admin Panel
+                            </Link>
+                          )}
                           <button
                             onClick={handleLogout}
                             className="w-full flex items-center gap-2 px-4 py-2.5 text-zinc-300 hover:text-red-400 hover:bg-zinc-800 transition-colors text-sm"
