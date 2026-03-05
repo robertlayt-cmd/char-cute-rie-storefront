@@ -189,10 +189,20 @@ export default function AdminProducts() {
             <h1 className="text-3xl font-bold text-white">Products</h1>
             <p className="text-zinc-400">{products.length} products</p>
           </div>
-          <Button onClick={() => openEditDialog()} className="bg-pink-500 hover:bg-pink-600 text-white">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Product
-          </Button>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setShowCSVManager(true)}
+              variant="outline"
+              className="border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800"
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              Import/Export CSV
+            </Button>
+            <Button onClick={() => openEditDialog()} className="bg-pink-500 hover:bg-pink-600 text-white">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Product
+            </Button>
+          </div>
         </div>
 
         {/* Filters */}
