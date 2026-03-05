@@ -424,7 +424,14 @@ export default function AdminProducts() {
                     <Select value={editingProduct.category_id} onValueChange={(v) => setEditingProduct({ ...editingProduct, category_id: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue placeholder="Select category" /></SelectTrigger>
                       <SelectContent className="bg-zinc-800 border-zinc-600">
-                        {categories.map(c => <SelectItem key={c.id} value={c.id} className="text-white focus:bg-zinc-700 focus:text-white">{c.name}</SelectItem>)}
+                        {categories.filter(c => !c.parent_id).map(parent => (
+                          <React.Fragment key={parent.id}>
+                            <SelectItem value={parent.id} className="text-white focus:bg-zinc-700 focus:text-white font-medium">{parent.name}</SelectItem>
+                            {categories.filter(c => c.parent_id === parent.id).map(child => (
+                              <SelectItem key={child.id} value={child.id} className="text-zinc-300 focus:bg-zinc-700 focus:text-white pl-6">↳ {child.name}</SelectItem>
+                            ))}
+                          </React.Fragment>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
