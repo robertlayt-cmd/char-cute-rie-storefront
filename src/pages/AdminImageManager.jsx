@@ -229,7 +229,7 @@ export default function AdminImageManager() {
               className={layoutView === 'grid' ? 'group relative bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden hover:border-pink-500/50 transition-all' : 'flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-800 rounded-lg hover:border-pink-500/50 transition-all'}
             >
               {/* Image Preview */}
-              <div className="aspect-square bg-zinc-800 overflow-hidden">
+              <div className={layoutView === 'grid' ? 'aspect-square bg-zinc-800 overflow-hidden' : 'w-16 h-16 bg-zinc-800 overflow-hidden rounded flex-shrink-0'}>
                 <img
                   src={img.url}
                   alt=""
