@@ -222,11 +222,11 @@ export default function Shop() {
               <SelectTrigger className="w-[160px] bg-zinc-800 border-zinc-700 text-white">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
-              <SelectContent className="bg-zinc-800 border-zinc-700">
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="name">Name A-Z</SelectItem>
+              <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                <SelectItem value="newest" className="text-white focus:bg-zinc-700 focus:text-white">Newest</SelectItem>
+                <SelectItem value="price-low" className="text-white focus:bg-zinc-700 focus:text-white">Price: Low to High</SelectItem>
+                <SelectItem value="price-high" className="text-white focus:bg-zinc-700 focus:text-white">Price: High to Low</SelectItem>
+                <SelectItem value="name" className="text-white focus:bg-zinc-700 focus:text-white">Name A-Z</SelectItem>
               </SelectContent>
             </Select>
 
