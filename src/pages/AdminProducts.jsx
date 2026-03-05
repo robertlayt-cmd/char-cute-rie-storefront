@@ -365,6 +365,34 @@ export default function AdminProducts() {
           </div>
         </div>
 
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-4">
+            <p className="text-zinc-400 text-sm">{filtered.length} products · page {page} of {totalPages}</p>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 1).map((p, idx, arr) => (
+                <React.Fragment key={p}>
+                  {idx > 0 && arr[idx - 1] !== p - 1 && <span className="text-zinc-600">…</span>}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`h-8 w-8 text-sm ${page === p ? 'bg-pink-500 text-white' : 'text-zinc-400 hover:text-white'}`}
+                    onClick={() => setPage(p)}
+                  >
+                    {p}
+                  </Button>
+                </React.Fragment>
+              ))}
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Edit Dialog */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="bg-zinc-900 border-zinc-800 max-w-4xl max-h-[90vh] overflow-y-auto [&>button]:text-white [&>button]:bg-zinc-700 [&>button]:hover:bg-zinc-600 [&>button]:rounded-md [&>button]:border [&>button]:border-zinc-600">
