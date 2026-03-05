@@ -163,26 +163,40 @@ export default function AdminImages() {
           />
         </div>
 
-        {/* Search + Stats */}
-        {images.length > 0 && (
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
-              <Input
-                placeholder="Search images..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 bg-zinc-900 border-zinc-700 text-white"
-              />
-            </div>
-            <div className="text-zinc-400 text-sm whitespace-nowrap">
-              {images.length} image{images.length !== 1 ? 's' : ''} •{' '}
-              <span className="text-green-400">
-                {formatBytes(images.reduce((sum, img) => sum + img.saved, 0))} saved
-              </span>
-            </div>
-          </div>
-        )}
+        {/* Search + Filter + Stats */}
+         {images.length > 0 && (
+           <div className="flex flex-col gap-4 mb-6">
+             <div className="flex items-center gap-4">
+               <div className="relative flex-1">
+                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                 <Input
+                   placeholder="Search images..."
+                   value={search}
+                   onChange={(e) => setSearch(e.target.value)}
+                   className="pl-10 bg-zinc-900 border-zinc-700 text-white"
+                 />
+               </div>
+               <div className="text-zinc-400 text-sm whitespace-nowrap">
+                 {images.length} image{images.length !== 1 ? 's' : ''} •{' '}
+                 <span className="text-green-400">
+                   {formatBytes(images.reduce((sum, img) => sum + img.saved, 0))} saved
+                 </span>
+               </div>
+             </div>
+             <div className="flex items-center gap-2">
+               <span className="text-sm text-zinc-400">Filter:</span>
+               <select
+                 value={imageFilter}
+                 onChange={(e) => setImageFilter(e.target.value)}
+                 className="bg-zinc-900 border border-zinc-700 text-white rounded px-3 py-2 text-sm"
+               >
+                 <option value="all">All Images</option>
+                 <option value="local">Local (Migrated)</option>
+                 <option value="external">External (cuterie.me)</option>
+               </select>
+             </div>
+           </div>
+         )}
 
         {/* Image Grid */}
         {filtered.length === 0 && images.length === 0 && !uploading && (
