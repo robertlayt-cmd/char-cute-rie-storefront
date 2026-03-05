@@ -356,7 +356,7 @@ export default function AdminProducts() {
                     <Select value={editingProduct.category_id} onValueChange={(v) => setEditingProduct({ ...editingProduct, category_id: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue placeholder="Select category" /></SelectTrigger>
                       <SelectContent className="bg-zinc-800 border-zinc-600">
-                        {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                        {categories.map(c => <SelectItem key={c.id} value={c.id} className="text-white focus:bg-zinc-700 focus:text-white">{c.name}</SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
@@ -365,9 +365,9 @@ export default function AdminProducts() {
                     <Select value={editingProduct.status} onValueChange={(v) => setEditingProduct({ ...editingProduct, status: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue /></SelectTrigger>
                       <SelectContent className="bg-zinc-800 border-zinc-600">
-                        <SelectItem value="draft">Draft</SelectItem>
-                        <SelectItem value="published">Published</SelectItem>
-                        <SelectItem value="archived">Archived</SelectItem>
+                        <SelectItem value="draft" className="text-white focus:bg-zinc-700 focus:text-white">Draft</SelectItem>
+                        <SelectItem value="published" className="text-white focus:bg-zinc-700 focus:text-white">Published</SelectItem>
+                        <SelectItem value="archived" className="text-white focus:bg-zinc-700 focus:text-white">Archived</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -376,12 +376,12 @@ export default function AdminProducts() {
                     <Select value={editingProduct.badge || ''} onValueChange={(v) => setEditingProduct({ ...editingProduct, badge: v })}>
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white"><SelectValue placeholder="No badge" /></SelectTrigger>
                       <SelectContent className="bg-zinc-800 border-zinc-600">
-                        <SelectItem value={null}>None</SelectItem>
-                        <SelectItem value="new">New</SelectItem>
-                        <SelectItem value="hot">Hot</SelectItem>
-                        <SelectItem value="limited">Limited</SelectItem>
-                        <SelectItem value="tiktok">TikTok Fave</SelectItem>
-                        <SelectItem value="bestseller">Bestseller</SelectItem>
+                        <SelectItem value={null} className="text-white focus:bg-zinc-700 focus:text-white">None</SelectItem>
+                        <SelectItem value="new" className="text-white focus:bg-zinc-700 focus:text-white">New</SelectItem>
+                        <SelectItem value="hot" className="text-white focus:bg-zinc-700 focus:text-white">Hot</SelectItem>
+                        <SelectItem value="limited" className="text-white focus:bg-zinc-700 focus:text-white">Limited</SelectItem>
+                        <SelectItem value="tiktok" className="text-white focus:bg-zinc-700 focus:text-white">TikTok Fave</SelectItem>
+                        <SelectItem value="bestseller" className="text-white focus:bg-zinc-700 focus:text-white">Bestseller</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -393,11 +393,11 @@ export default function AdminProducts() {
 
                 <div className="flex gap-6">
                   <div className="flex items-center gap-2">
-                    <Switch checked={editingProduct.is_featured} onCheckedChange={(v) => setEditingProduct({ ...editingProduct, is_featured: v })} />
+                    <Switch checked={editingProduct.is_featured} onCheckedChange={(v) => setEditingProduct({ ...editingProduct, is_featured: v })} className="data-[state=checked]:bg-pink-500 data-[state=unchecked]:bg-zinc-600" />
                     <Label className="text-zinc-200">Featured in Hero</Label>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Switch checked={editingProduct.is_tiktok_featured} onCheckedChange={(v) => setEditingProduct({ ...editingProduct, is_tiktok_featured: v })} />
+                    <Switch checked={editingProduct.is_tiktok_featured} onCheckedChange={(v) => setEditingProduct({ ...editingProduct, is_tiktok_featured: v })} className="data-[state=checked]:bg-pink-500 data-[state=unchecked]:bg-zinc-600" />
                     <Label className="text-zinc-200">TikTok Featured</Label>
                   </div>
                 </div>
