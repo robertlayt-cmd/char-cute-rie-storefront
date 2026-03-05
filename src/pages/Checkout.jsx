@@ -100,8 +100,10 @@ export default function Checkout() {
 
   const appliedDiscount = JSON.parse(localStorage.getItem('appliedDiscount') || 'null');
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const freeShippingEnabled = settings?.free_shipping_enabled !== false;
   const shippingThreshold = settings?.free_shipping_threshold || 75;
-  const shippingCost = subtotal >= shippingThreshold ? 0 : (settings?.shipping_flat_rate || 9.95);
+  const flatRate = settings?.shipping_flat_rate || 9.95;
+  const shippingCost = freeShippingEnabled && subtotal >= shippingThreshold ? 0 : flatRate;
 
   let discountAmount = 0;
   if (appliedDiscount) {

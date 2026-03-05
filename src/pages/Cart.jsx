@@ -44,8 +44,10 @@ export default function Cart() {
   });
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const freeShippingEnabled = settings?.free_shipping_enabled !== false;
   const shippingThreshold = settings?.free_shipping_threshold || 75;
-  const shippingCost = subtotal >= shippingThreshold ? 0 : (settings?.shipping_flat_rate || 9.95);
+  const flatRate = settings?.shipping_flat_rate || 9.95;
+  const shippingCost = freeShippingEnabled && subtotal >= shippingThreshold ? 0 : flatRate;
   
   let discountAmount = 0;
   if (appliedDiscount) {
@@ -205,7 +207,7 @@ export default function Cart() {
                   <h3 className="text-xl font-bold text-white mb-6">Order Summary</h3>
 
                   {/* Free Shipping Progress */}
-                  {subtotal < shippingThreshold && (
+                  {freeShippingEnabled && subtotal < shippingThreshold && (
                     <div className="mb-6">
                       <div className="flex items-center justify-between text-sm mb-2">
                         <span className="text-zinc-400">Free shipping progress</span>
