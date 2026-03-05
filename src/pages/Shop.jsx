@@ -51,10 +51,11 @@ export default function Shop() {
   const { data: categories = [], isLoading: catsLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      // Fetch ALL categories (parents + children) to ensure subcategories are available
       const cats = await base44.entities.Category.list('display_order');
       return cats.filter(c => c.is_active !== false);
     },
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   const { data: products = [], isLoading } = useQuery({
