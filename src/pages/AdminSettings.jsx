@@ -573,6 +573,24 @@ export default function AdminSettings() {
 
                    <Button 
                      variant="outline" 
+                     onClick={() => setConfirmDialog({ type: 'orders', title: 'Delete All Orders', desc: 'Permanently delete all order records.' })}
+                     className="border-red-600/50 text-red-400 hover:bg-red-600/10"
+                   >
+                     <Trash2 className="w-4 h-4 mr-2" />
+                     Delete Orders
+                   </Button>
+
+                   <Button 
+                     variant="outline" 
+                     onClick={() => setConfirmDialog({ type: 'non-admin-users', title: 'Remove Non-Admin Users', desc: 'Delete all user accounts except admin roles. Admin users will remain.' })}
+                     className="border-red-600/50 text-red-400 hover:bg-red-600/10"
+                   >
+                     <Trash2 className="w-4 h-4 mr-2" />
+                     Remove Non-Admin Users
+                   </Button>
+
+                   <Button 
+                     variant="outline" 
                      onClick={() => setConfirmDialog({ type: 'reset', title: 'White Label Reset', desc: 'Delete ALL products, categories, variants, orders, and discounts. Reset store settings to defaults. The logged-in admin user will remain.' })}
                      className="border-red-700/50 text-red-500 hover:bg-red-700/10 font-semibold"
                    >
