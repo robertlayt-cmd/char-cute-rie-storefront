@@ -277,8 +277,17 @@ export default function AdminBulkUpload() {
 
         {/* Upload Area */}
         <Card className="bg-zinc-900 border-zinc-800 mb-6">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-white">Upload CSV File</CardTitle>
+            <label className="flex items-center gap-2 text-sm text-zinc-400 cursor-pointer hover:text-white">
+              <input
+                type="checkbox"
+                checked={skipIfExists}
+                onChange={(e) => setSkipIfExists(e.target.checked)}
+                className="rounded"
+              />
+              Skip if product exists
+            </label>
           </CardHeader>
           <CardContent>
             <div
