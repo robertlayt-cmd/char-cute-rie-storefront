@@ -217,6 +217,11 @@ export default function AdminMenu() {
                 <DialogTitle className="text-white">{editingItem ? 'Edit Menu Item' : 'Add Menu Item'}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
+                {formData.parent_id && (
+                  <div className="p-3 bg-zinc-800/50 rounded-lg border border-zinc-700">
+                    <p className="text-xs text-zinc-400">Adding submenu to: <span className="text-pink-400 font-medium">{menuItems.find(m => m.id === formData.parent_id)?.label}</span></p>
+                  </div>
+                )}
                 <div>
                   <label className="text-zinc-300 text-sm mb-1 block">Label</label>
                   <Input
