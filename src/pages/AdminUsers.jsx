@@ -176,6 +176,11 @@ export default function AdminUsers() {
                             <SelectItem value="admin" className="text-white focus:bg-zinc-700 text-xs">Admin</SelectItem>
                           </SelectContent>
                         </Select>
+                        <Link to={`${createPageUrl('Profile')}?userId=${user.id}`}>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white" title="View/Edit Profile">
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   ))}
