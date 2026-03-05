@@ -57,6 +57,7 @@ import AdminMenu from './pages/AdminMenu';
 import AdminOrders from './pages/AdminOrders';
 import AdminProducts from './pages/AdminProducts';
 import AdminSettings from './pages/AdminSettings';
+import AdminThemes from './pages/AdminThemes';
 import AdminUsers from './pages/AdminUsers';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -68,7 +69,6 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
-import AdminThemes from './pages/AdminThemes';
 import __Layout from './Layout.jsx';
 
 
@@ -83,6 +83,7 @@ export const PAGES = {
     "AdminOrders": AdminOrders,
     "AdminProducts": AdminProducts,
     "AdminSettings": AdminSettings,
+    "AdminThemes": AdminThemes,
     "AdminUsers": AdminUsers,
     "Cart": Cart,
     "Checkout": Checkout,
@@ -94,7 +95,6 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
-    "AdminThemes": AdminThemes,
 }
 
 export const pagesConfig = {
