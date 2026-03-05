@@ -54,10 +54,8 @@ export default function Shop() {
       const cats = await base44.entities.Category.list('display_order');
       return cats.filter(c => c.is_active !== false);
     },
-    staleTime: Infinity,
-    gcTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
   const { data: products = [], isLoading } = useQuery({
