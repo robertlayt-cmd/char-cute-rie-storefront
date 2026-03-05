@@ -304,7 +304,7 @@ export default function AdminProducts() {
                 {!isLoading && filtered.length === 0 && (
                   <tr><td colSpan={7} className="p-8 text-center text-zinc-500">No products found</td></tr>
                 )}
-                {filtered.map((product) => {
+                {paginated.map((product) => {
                   const productVariants = variants.filter(v => v.product_id === product.id);
                   const totalStock = productVariants.length > 0
                     ? productVariants.reduce((sum, v) => sum + (v.stock_quantity || 0), 0)
