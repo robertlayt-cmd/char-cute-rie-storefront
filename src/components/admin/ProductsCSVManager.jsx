@@ -124,6 +124,33 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
     window.URL.revokeObjectURL(url);
   };
 
+  const parseCSVLine = (line) => {
+    const values = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      const nextChar = line[i + 1];
+      
+      if (char === '"') {
+        if (inQuotes && nextChar === '"') {
+          current += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        values.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    values.push(current.trim());
+    return values;
+  };
+
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -134,43 +161,85 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
     try {
       const text = await file.text();
       const lines = text.trim().split('\n');
-      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+      const headerLine = lines[0];
+      const headers = parseCSVLine(headerLine).map(h => h.toLowerCase().replace(/"/g, ''));
       
       const rows = lines.slice(1).map(line => {
-        const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+        const values = parseCSVLine(line);
         return headers.reduce((obj, header, idx) => {
-          obj[header] = values[idx];
+          obj[header] = values[idx] || '';
           return obj;
         }, {});
-      }).filter(row => row.title || row.id);
+      }).filter(row => row.product_id || row.title);
 
       let successCount = 0;
       let errorCount = 0;
       const errors = [];
+      const processedProducts = new Set();
 
       for (const row of rows) {
         try {
-          const updateData = {
-            title: row.title,
-            base_price: parseFloat(row.base_price) || 0,
-            compare_price: row.compare_price ? parseFloat(row.compare_price) : undefined,
-            category_id: row.category_id || undefined,
-            status: row.status || 'draft',
-            default_stock: row.default_stock ? parseInt(row.default_stock) : 0,
-            is_featured: row.is_featured === '1',
-            badge: row.badge || '',
-          };
+          const productId = row.product_id;
+          const isVariant = row.product_type === 'variant';
 
-          Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
+          if (!isVariant && row.title) {
+            // Process product
+            if (!processedProducts.has(productId)) {
+              const productData = {
+                title: row.title,
+                slug: row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                description: row.description || undefined,
+                short_description: row.short_description || undefined,
+                base_price: parseFloat(row.base_price) || 0,
+                compare_price: row.compare_price ? parseFloat(row.compare_price) : undefined,
+                category_id: row.category_id || undefined,
+                main_image_url: row.main_image_url || undefined,
+                thumbnail_url: row.thumbnail_url || undefined,
+                gallery_images: row.gallery_images ? row.gallery_images.split('|').map(s => s.trim()).filter(Boolean) : undefined,
+                materials: row.materials || undefined,
+                care_instructions: row.care_instructions || undefined,
+                tags: row.tags ? row.tags.split(',').map(s => s.trim()).filter(Boolean) : undefined,
+                badge: row.badge || '',
+                is_featured: row.is_featured === '1',
+                is_tiktok_featured: row.is_tiktok_featured === '1',
+                status: row.status || 'draft',
+                default_stock: row.default_stock ? parseInt(row.default_stock) : 0,
+              };
 
-          if (row.id) {
-            await base44.entities.Product.update(row.id, updateData);
-          } else if (row.title) {
-            await base44.entities.Product.create({
-              ...updateData,
-              slug: (row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')),
-            });
+              Object.keys(productData).forEach(key => productData[key] === undefined && delete productData[key]);
+
+              if (productId) {
+                await base44.entities.Product.update(productId, productData);
+              } else {
+                await base44.entities.Product.create(productData);
+              }
+              processedProducts.add(productId);
+            }
           }
+
+          // Process variant if present
+          if (isVariant || row.variant_name) {
+            const colorHex = row.variant_color ? convertColorNameToHex(row.variant_color) : row.variant_color || '';
+            
+            const variantData = {
+              product_id: productId,
+              name: row.variant_name,
+              sku: row.variant_sku,
+              color_hex: colorHex || undefined,
+              image_url: row.variant_image_url || undefined,
+              price_adjustment: row.variant_price_adjustment ? parseFloat(row.variant_price_adjustment) : 0,
+              stock_quantity: row.variant_stock ? parseInt(row.variant_stock) : 0,
+            };
+
+            Object.keys(variantData).forEach(key => variantData[key] === undefined && delete variantData[key]);
+
+            if (row.variant_id) {
+              await base44.entities.ProductVariant.update(row.variant_id, variantData);
+            } else if (row.variant_name) {
+              await base44.entities.ProductVariant.create(variantData);
+            }
+          }
+
           successCount++;
         } catch (err) {
           errorCount++;
@@ -178,8 +247,9 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
         }
       }
 
-      queryClient.invalidateQueries(['admin-products']);
-      queryClient.invalidateQueries(['admin-products-csv']);
+      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-products-csv'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-variants-csv'] });
 
       setImportStatus({
         success: true,
