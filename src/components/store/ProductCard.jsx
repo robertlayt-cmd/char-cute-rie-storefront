@@ -28,7 +28,9 @@ export default function ProductCard({ product, variants = [], onAddToCart }) {
   
   const displayImage = selectedVariant?.image_url || product.main_image_url;
   const totalStock = variants.reduce((sum, v) => sum + (v.stock_quantity || 0), 0);
-  const inStock = variants.length > 0 ? totalStock > 0 : true;
+  const inStock = variants.length > 0
+    ? (selectedVariant ? selectedVariant.stock_quantity > 0 : totalStock > 0)
+    : (product.default_stock ?? product.total_stock ?? 1) > 0;
 
   const handleCardClick = () => {
     navigate(`${createPageUrl('Product')}?slug=${product.slug}`);
