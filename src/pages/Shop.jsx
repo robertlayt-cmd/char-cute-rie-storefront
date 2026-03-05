@@ -69,7 +69,7 @@ export default function Shop() {
       if (selectedCategory === 'all') return allProducts;
       
       const selectedCat = categoriesRef.current.find(c => c.slug === selectedCategory);
-      if (!selectedCat) return allProducts;
+      if (!selectedCat) return [];
       
       if (!selectedCat.parent_id) {
         // Parent category - include children
