@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function HeroCarousel({ products = [] }) {
+export default function HeroCarousel({ products = [], categories = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -23,6 +23,7 @@ export default function HeroCarousel({ products = [] }) {
   if (!products.length) return null;
 
   const currentProduct = products[currentIndex];
+  const currentCategory = categories.find(c => c.id === currentProduct.category_id);
 
   const slideVariants = {
     enter: (direction) => ({
@@ -107,7 +108,7 @@ export default function HeroCarousel({ products = [] }) {
               </h1>
               
               <p className="text-lg text-zinc-300 mb-6 max-w-lg mx-auto lg:mx-0">
-                {currentProduct.short_description || currentProduct.description?.slice(0, 150)}
+                {currentCategory?.name || 'Featured'}
               </p>
               
               <div className="flex items-center gap-4 justify-center lg:justify-start mb-8">

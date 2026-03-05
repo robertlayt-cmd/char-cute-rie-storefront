@@ -124,7 +124,10 @@ export default function Home() {
       />
 
       {/* Hero */}
-      <HeroCarousel products={featuredProducts.length ? featuredProducts : products.slice(0, 3)} />
+      <HeroCarousel 
+        products={featuredProducts.length ? featuredProducts : products.slice(0, 3)}
+        categories={categories}
+      />
 
       {/* Features Bar */}
       <section className="bg-zinc-900/50 border-y border-zinc-800 py-6">
