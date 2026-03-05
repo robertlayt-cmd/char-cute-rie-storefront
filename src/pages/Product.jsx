@@ -325,11 +325,16 @@ export default function Product() {
 
                 <Button
                   size="lg"
-                  className={`flex-1 btn-shine ${addedToCart ? 'bg-green-500' : 'bg-pink-500 hover:bg-pink-600'}`}
+                  className={`flex-1 btn-shine ${!inStock ? 'bg-zinc-700 text-zinc-400 cursor-not-allowed' : addedToCart ? 'bg-green-500' : 'bg-pink-500 hover:bg-pink-600'}`}
                   onClick={handleAddToCart}
                   disabled={!inStock}
                 >
-                  {addedToCart ? (
+                  {!inStock ? (
+                    <>
+                      <AlertCircle className="w-5 h-5 mr-2" />
+                      Sold Out
+                    </>
+                  ) : addedToCart ? (
                     <>
                       <Check className="w-5 h-5 mr-2" />
                       Added!
