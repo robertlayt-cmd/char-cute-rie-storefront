@@ -30,6 +30,14 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
     },
   });
 
+  const { data: menuConfig = [] } = useQuery({
+    queryKey: ['header-menu-config'],
+    queryFn: async () => {
+      const all = await base44.entities.MenuConfig.filter({ is_active: true }, 'display_order', 100);
+      return all.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+    },
+  });
+
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [expandedMobile, setExpandedMobile] = useState({});
