@@ -164,8 +164,10 @@ export default function AdminBulkUpload() {
         queryClient.invalidateQueries(['admin-categories']);
       }
 
-      // Re-upload main image to base44 storage
-      const main_image_url = row.main_image_url ? await reuploadImage(row.main_image_url) : '';
+      // Re-upload main image to base44 storage, resize + generate thumbnail
+      const { full_url: main_image_url, thumbnail_url } = row.main_image_url
+        ? await reuploadImageFromUrl(row.main_image_url)
+        : { full_url: '', thumbnail_url: '' };
 
       const productSlug = row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       const variants = extractVariants(row);
