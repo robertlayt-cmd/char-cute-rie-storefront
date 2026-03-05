@@ -30,6 +30,12 @@ export default function Shop() {
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [selectedBadges, setSelectedBadges] = useState(filterType ? [filterType] : []);
 
+  // Sync category from URL when navigating via header links
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setSelectedCategory(params.get('category') || 'all');
+  }, [window.location.search]);
+
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
