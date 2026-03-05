@@ -304,6 +304,26 @@ export default function Shop() {
               ))}
             </div>
           )}
+
+          {/* Category Filters */}
+          <div className="mt-6">
+            <CategoryFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => {
+                setSelectedCategory(cat);
+                navigate(`?category=${cat === 'all' ? '' : cat}`, { replace: true });
+              }}
+            />
+            <SubcategoryFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => {
+                setSelectedCategory(cat);
+                navigate(`?category=${cat === 'all' ? '' : cat}`, { replace: true });
+              }}
+            />
+          </div>
         </div>
       </div>
 
