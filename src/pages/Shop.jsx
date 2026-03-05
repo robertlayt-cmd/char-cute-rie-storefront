@@ -165,17 +165,22 @@ export default function Shop() {
 
   const currentCategory = categories.find(c => c.slug === selectedCategory);
 
-  // Wait for categories to load before rendering anything
+  // Block page render until categories load
   if (catsLoading) {
     return (
       <div className="dark min-h-screen bg-zinc-950 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-400 mx-auto mb-4"></div>
-          <p className="text-white">Loading...</p>
+          <p className="text-white">Loading shop...</p>
         </div>
       </div>
     );
   }
+
+  // Ensure categories are ready with hierarchy
+  const activeCategories = categories.filter(c => c.is_active);
+  const parentCategories = activeCategories.filter(c => !c.parent_id).sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
+  const getChildren = (parentId) => activeCategories.filter(c => c.parent_id === parentId).sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
 
   return (
     <div className="dark min-h-screen bg-zinc-950">
