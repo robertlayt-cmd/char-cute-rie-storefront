@@ -8,14 +8,19 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Search, Mail, Shield, User, UserPlus, ExternalLink } from 'lucide-react';
+import { Search, Mail, Shield, User, UserPlus, ExternalLink, Pencil, ChevronLeft, ChevronRight } from 'lucide-react';
+import { createPageUrl } from '@/utils';
+import { Link } from 'react-router-dom';
 
 export default function AdminUsers() {
   const [search, setSearch] = useState('');
+  const [roleFilter, setRoleFilter] = useState('all');
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState('user');
   const [inviting, setInviting] = useState(false);
   const [inviteMsg, setInviteMsg] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
   const queryClient = useQueryClient();
 
   const { data: users = [], isLoading } = useQuery({
