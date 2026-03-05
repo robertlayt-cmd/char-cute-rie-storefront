@@ -184,36 +184,36 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
                           >
                             {!item.link_type.includes('external') && (
                               <Link
-                                to={getMenuLink(item)}
-                                onClick={() => setOpenDropdown(null)}
-                                className="flex items-center gap-2 px-4 py-2.5 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
-                              >
-                                All {item.label}
-                              </Link>
-                            )}
-                            {children.map(child => (
-                              child.link_type === 'external' ? (
-                                <a
-                                  key={child.id}
-                                  href={child.external_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={() => setOpenDropdown(null)}
-                                  className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
-                                >
-                                  {child.label}
-                                </a>
-                              ) : (
-                                <Link
-                                  key={child.id}
-                                  to={getMenuLink(child)}
-                                  onClick={() => setOpenDropdown(null)}
-                                  className="flex items-center gap-2 px-4 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors text-sm"
-                                >
-                                  {child.label}
-                                </Link>
-                              )
-                            ))}
+                                 to={getMenuLink(item)}
+                                 onClick={() => setOpenDropdown(null)}
+                                 className="flex items-center gap-2 px-4 py-2.5 text-white hover:text-white hover:bg-zinc-800 transition-colors text-sm font-medium border-b border-zinc-800"
+                               >
+                                 All {item.label}
+                               </Link>
+                              )}
+                              {children.map(child => (
+                               child.link_type === 'external' ? (
+                                 <a
+                                   key={child.id}
+                                   href={child.external_url}
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   onClick={() => setOpenDropdown(null)}
+                                   className="flex items-center gap-2 px-4 py-2.5 text-white hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                                 >
+                                   {child.label}
+                                 </a>
+                               ) : (
+                                 <Link
+                                   key={child.id}
+                                   to={getMenuLink(child)}
+                                   onClick={() => setOpenDropdown(null)}
+                                   className="flex items-center gap-2 px-4 py-2.5 text-white hover:text-white hover:bg-zinc-800 transition-colors text-sm"
+                                 >
+                                   {child.label}
+                                 </Link>
+                               )
+                              ))}
                           </motion.div>
                         )}
                       </AnimatePresence>
