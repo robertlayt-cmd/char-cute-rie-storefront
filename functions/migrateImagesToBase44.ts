@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
     const batchProducts = products.slice(offset, offset + batchSize);
     const results = [];
 
-    for (const product of products) {
+    for (const product of batchProducts) {
       const productResult = { productId: product.id, title: product.title, migrated: [], failed: [] };
 
       // Migrate main image
