@@ -76,6 +76,107 @@ export default function AdminSettings() {
     setSettings({ ...settings, logo_url: file_url });
   };
 
+  const downloadBackup = async () => {
+    const data = {
+      products: await base44.entities.Product.list(),
+      categories: await base44.entities.Category.list(),
+      variants: await base44.entities.ProductVariant.list(),
+      discounts: await base44.entities.DiscountCode.list(),
+      orders: await base44.entities.Order.list(),
+      settings: settings
+    };
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const purgeData = async (type) => {
+    try {
+      if (type === 'images') {
+        const products = await base44.entities.Product.list();
+        for (const p of products) {
+          await base44.entities.Product.update(p.id, { main_image_url: '', gallery_images: [] });
+        }
+        const variants = await base44.entities.ProductVariant.list();
+        for (const v of variants) {
+          await base44.entities.ProductVariant.update(v.id, { image_url: '' });
+        }
+        toast.success('All images cleared');
+      } else if (type === 'products') {
+        const products = await base44.entities.Product.list();
+        for (const p of products) {
+          await base44.entities.Product.delete(p.id);
+        }
+        toast.success('All products deleted');
+      } else if (type === 'categories') {
+        const categories = await base44.entities.Category.list();
+        for (const c of categories) {
+          await base44.entities.Category.delete(c.id);
+        }
+        toast.success('All categories deleted');
+      } else if (type === 'reset') {
+        const products = await base44.entities.Product.list();
+        for (const p of products) {
+          await base44.entities.Product.delete(p.id);
+        }
+        const categories = await base44.entities.Category.list();
+        for (const c of categories) {
+          await base44.entities.Category.delete(c.id);
+        }
+        const variants = await base44.entities.ProductVariant.list();
+        for (const v of variants) {
+          await base44.entities.ProductVariant.delete(v.id);
+        }
+        const discounts = await base44.entities.DiscountCode.list();
+        for (const d of discounts) {
+          await base44.entities.DiscountCode.delete(d.id);
+        }
+        const orders = await base44.entities.Order.list();
+        for (const o of orders) {
+          await base44.entities.Order.delete(o.id);
+        }
+        const defaultSettings = {
+          store_name: "Char'Cute'rie",
+          logo_url: '',
+          tagline: '',
+          contact_email: '',
+          tiktok_url: '',
+          instagram_url: '',
+          facebook_url: '',
+          youtube_url: '',
+          pinterest_url: '',
+          twitter_url: '',
+          shipping_flat_rate: 9.95,
+          free_shipping_enabled: true,
+          free_shipping_threshold: 75,
+          paypal_mode: 'sandbox',
+          currency: 'AUD',
+          about_text: '',
+          shipping_policy: '',
+          returns_policy: '',
+          page_about_active: true,
+          page_shipping_active: true,
+          page_returns_active: true,
+          page_contact_active: true
+        };
+        if (settings.id) {
+          await base44.entities.StoreSettings.update(settings.id, defaultSettings);
+        }
+        setSettings(defaultSettings);
+        toast.success('Store reset to white label defaults');
+      }
+      queryClient.invalidateQueries(['admin-settings']);
+    } catch (error) {
+      toast.error('Error: ' + error.message);
+    }
+    setConfirmDialog(null);
+  };
+
   if (isLoading || !settings) {
     return (
       <AdminLayout currentPage="AdminSettings">
