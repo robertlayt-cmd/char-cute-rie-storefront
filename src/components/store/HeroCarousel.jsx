@@ -24,6 +24,7 @@ export default function HeroCarousel({ products = [], categories = [] }) {
 
   const currentProduct = products[currentIndex];
   const currentCategory = categories.find(c => c.id === currentProduct.category_id);
+  const categoryName = currentCategory?.name || categories.find(c => c.parent_id === currentProduct.category_id)?.name || 'Featured';
 
   const slideVariants = {
     enter: (direction) => ({
@@ -108,7 +109,7 @@ export default function HeroCarousel({ products = [], categories = [] }) {
               </h1>
               
               <p className="text-lg text-zinc-300 mb-6 max-w-lg mx-auto lg:mx-0">
-                {currentCategory?.name || 'Featured'}
+                {categoryName}
               </p>
               
               <div className="flex items-center gap-4 justify-center lg:justify-start mb-8">
