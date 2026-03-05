@@ -21,6 +21,9 @@ export default function AdminImageManager() {
   const [migrationStatus, setMigrationStatus] = useState(null);
   const [layoutView, setLayoutView] = useState('grid');
   const [showBulkUpload, setShowBulkUpload] = useState(false);
+  const [showCSVImport, setShowCSVImport] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const { data: products = [] } = useQuery({
     queryKey: ['admin-products-images'],
