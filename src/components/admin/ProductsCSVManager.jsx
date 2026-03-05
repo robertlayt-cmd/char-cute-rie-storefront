@@ -295,12 +295,20 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
             <h3 className="font-semibold text-white mb-3">Import Products</h3>
             
-            <div className="space-y-3 mb-3">
-              <p className="text-sm text-zinc-300">
-                CSV should have these columns: <code className="bg-black/30 px-2 py-1 rounded text-blue-300 text-xs">id, title, slug, base_price, compare_price, category_id, status, default_stock, is_featured, badge</code>
+            <div className="space-y-3 mb-3 text-sm text-zinc-300">
+              <p className="font-semibold text-white mb-2">CSV Columns Required:</p>
+              <div className="bg-black/30 rounded p-3 space-y-2 text-xs">
+                <div><strong>Product Fields:</strong> product_id, product_type, title, slug, description, short_description, base_price, compare_price, category_id, main_image_url, thumbnail_url, gallery_images (pipe-separated), materials, care_instructions, tags (comma-separated), badge, is_featured, is_tiktok_featured, status, default_stock</div>
+                <div><strong>Variant Fields:</strong> variant_id, variant_name, variant_color (text name or hex, e.g., "gold" or "#FFD700"), variant_image_url, variant_price_adjustment, variant_stock, variant_sku</div>
+              </div>
+              <p className="text-zinc-400 mt-3">
+                • Leave <code className="bg-black/30 px-2 py-1 rounded">product_id</code> empty to create new products
               </p>
-              <p className="text-sm text-zinc-400">
-                Leave <code className="bg-black/30 px-2 py-1 rounded text-xs">id</code> empty to create new products, or add it to update existing ones.
+              <p className="text-zinc-400">
+                • For variants, set <code className="bg-black/30 px-2 py-1 rounded">product_type</code> to "variant" and include variant fields
+              </p>
+              <p className="text-zinc-400">
+                • Color names (case-insensitive) are auto-converted to hex: gold, blue, pink, etc.
               </p>
             </div>
 
