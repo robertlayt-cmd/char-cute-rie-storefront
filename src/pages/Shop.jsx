@@ -316,7 +316,7 @@ export default function Shop() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <p className="text-zinc-400 mb-6">{filtered.length} products</p>
 
-        {isLoading ? (
+        {productsLoading ? (
           <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${gridCols} gap-4 md:gap-6`}>
             {[...Array(8)].map((_, i) => (
               <div key={i} className="bg-zinc-900 rounded-2xl overflow-hidden animate-pulse">
