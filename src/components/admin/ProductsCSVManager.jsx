@@ -17,6 +17,12 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
     enabled: isOpen,
   });
 
+  const { data: variants = [] } = useQuery({
+    queryKey: ['admin-variants-csv'],
+    queryFn: () => base44.entities.ProductVariant.list('-created_date'),
+    enabled: isOpen,
+  });
+
   const downloadSampleCSV = () => {
     const sampleData = [
       ['id', 'title', 'base_price', 'compare_price', 'default_stock', 'status'],
