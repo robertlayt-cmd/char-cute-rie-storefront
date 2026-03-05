@@ -191,10 +191,10 @@ export default function AdminProducts() {
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="published">Published</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="archived">Archived</SelectItem>
+              <SelectItem value="all" className="text-white">All Status</SelectItem>
+              <SelectItem value="published" className="text-white">Published</SelectItem>
+              <SelectItem value="draft" className="text-white">Draft</SelectItem>
+              <SelectItem value="archived" className="text-white">Archived</SelectItem>
             </SelectContent>
           </Select>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>

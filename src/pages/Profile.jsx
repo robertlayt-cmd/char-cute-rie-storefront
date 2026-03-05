@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { 
   User, Camera, Globe, ShoppingBag, MapPin, 
-  Save, Loader2, CheckCircle, Package, Clock, Truck
+  Save, Loader2, CheckCircle, Package, Clock, Truck, LogOut
 } from 'lucide-react';
 import { createPageUrl } from '@/utils';
 import { Link } from 'react-router-dom';
