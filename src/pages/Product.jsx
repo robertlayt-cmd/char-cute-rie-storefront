@@ -92,8 +92,12 @@ export default function Product() {
   ].filter(Boolean);
 
   const currentPrice = product.base_price + (selectedVariant?.price_adjustment || 0);
-  const inStock = selectedVariant ? selectedVariant.stock_quantity > 0 : (product.total_stock > 0);
-  const stockLevel = selectedVariant?.stock_quantity || 0;
+  const hasVariants = variants.length > 0;
+  const effectiveStock = hasVariants
+    ? (selectedVariant?.stock_quantity ?? 0)
+    : (product.default_stock ?? product.total_stock ?? 0);
+  const inStock = effectiveStock > 0;
+  const stockLevel = effectiveStock;
 
   const handleAddToCart = () => {
     const existingIndex = cartItems.findIndex(
