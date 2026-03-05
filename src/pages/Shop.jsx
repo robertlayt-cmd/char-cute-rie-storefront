@@ -55,19 +55,25 @@ export default function Shop() {
     queryFn: () => base44.entities.Category.list('display_order'),
   });
 
+  const categoriesRef = useRef(categories);
+  
+  useEffect(() => {
+    categoriesRef.current = categories;
+  }, [categories]);
+
   const { data: products = [], isLoading } = useQuery({
-    queryKey: ['products', selectedCategory, categories],
+    queryKey: ['products', selectedCategory],
     queryFn: async () => {
       const allProducts = await base44.entities.Product.filter({ status: 'published' });
       
       if (selectedCategory === 'all') return allProducts;
       
-      const selectedCat = categories.find(c => c.slug === selectedCategory);
-      if (!selectedCat) return [];
+      const selectedCat = categoriesRef.current.find(c => c.slug === selectedCategory);
+      if (!selectedCat) return allProducts;
       
       if (!selectedCat.parent_id) {
         // Parent category - include children
-        const childIds = categories.filter(c => c.parent_id === selectedCat.id).map(c => c.id);
+        const childIds = categoriesRef.current.filter(c => c.parent_id === selectedCat.id).map(c => c.id);
         const matchIds = [selectedCat.id, ...childIds];
         return allProducts.filter(p => matchIds.includes(p.category_id));
       } else {
@@ -75,7 +81,7 @@ export default function Shop() {
         return allProducts.filter(p => p.category_id === selectedCat.id);
       }
     },
-    enabled: !!selectedCategory,
+    enabled: !!selectedCategory && !catsLoading && categories.length > 0,
   });
 
   const { data: allVariants = [] } = useQuery({
