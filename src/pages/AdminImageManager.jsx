@@ -199,8 +199,30 @@ export default function AdminImageManager() {
           </Button>
         </div>
 
+        {/* Bulk Upload Section */}
+        {showBulkUpload && (
+          <div className="mb-8 p-6 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+            <h2 className="text-lg font-semibold text-white mb-4">Bulk Image Upload</h2>
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-blue-500/50 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors">
+                <div className="text-zinc-400">
+                  <p className="font-medium mb-2">Drop images here or click to upload</p>
+                  <p className="text-sm">Supports JPG, PNG, WebP</p>
+                </div>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="hidden"
+                  id="bulk-upload-input"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Gallery Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className={layoutView === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'space-y-2'}>
           {filtered.map((img) => (
             <div
               key={img.id}
