@@ -285,7 +285,9 @@ export default function AdminProducts() {
                 )}
                 {filtered.map((product) => {
                   const productVariants = variants.filter(v => v.product_id === product.id);
-                  const totalStock = productVariants.reduce((sum, v) => sum + (v.stock_quantity || 0), 0);
+                  const totalStock = productVariants.length > 0
+                    ? productVariants.reduce((sum, v) => sum + (v.stock_quantity || 0), 0)
+                    : (product.default_stock ?? 0);
                   const cat = categories.find(c => c.id === product.category_id);
                   
                   return (
