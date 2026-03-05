@@ -160,13 +160,13 @@ export default function HeroCarousel({ products = [] }) {
         <>
           <button
             onClick={() => navigate(-1)}
-            className="absolute left-4 lg:top-1/2 lg:-translate-y-1/2 bottom-20 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="absolute left-4 bottom-20 lg:bottom-4 lg:right-20 lg:left-auto z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={() => navigate(1)}
-            className="absolute right-4 lg:top-1/2 lg:-translate-y-1/2 bottom-20 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="absolute right-4 bottom-20 lg:bottom-4 lg:right-4 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
