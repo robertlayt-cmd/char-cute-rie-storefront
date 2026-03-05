@@ -299,7 +299,7 @@ export default function AdminCategories() {
                       {parentCategories
                         .filter(c => c.id !== editingCategory.id)
                         .map(c => (
-                          <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                          <SelectItem key={c.id} value={c.id} className="text-white">{c.name}</SelectItem>
                         ))}
                     </SelectContent>
                   </Select>

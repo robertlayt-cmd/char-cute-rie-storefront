@@ -137,12 +137,12 @@ export default function AdminOrders() {
             <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Status</SelectItem>
-              <SelectItem value="pending" className="text-white focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
-              <SelectItem value="paid" className="text-white focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
-              <SelectItem value="shipped" className="text-white focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
-              <SelectItem value="cancelled" className="text-white focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
+            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+              <SelectItem value="all" className="focus:bg-zinc-700 focus:text-white">All Status</SelectItem>
+              <SelectItem value="pending" className="focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
+              <SelectItem value="paid" className="focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
+              <SelectItem value="shipped" className="focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
+              <SelectItem value="cancelled" className="focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -204,11 +204,11 @@ export default function AdminOrders() {
                             <SelectTrigger className="w-[130px] bg-zinc-800 border-zinc-700 text-white" onClick={(e) => e.stopPropagation()}>
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectContent className="bg-zinc-800 border-zinc-700">
-                              <SelectItem value="pending" className="text-white focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
-                              <SelectItem value="paid" className="text-white focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
-                              <SelectItem value="shipped" className="text-white focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
-                              <SelectItem value="cancelled" className="text-white focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
+                            <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                               <SelectItem value="pending" className="focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
+                               <SelectItem value="paid" className="focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
+                               <SelectItem value="shipped" className="focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
+                               <SelectItem value="cancelled" className="focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
                             </SelectContent>
                           </Select>
                         </td>
@@ -324,11 +324,11 @@ export default function AdminOrders() {
                     <SelectTrigger className="w-[160px] bg-zinc-800 border-zinc-700 text-white">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-zinc-800 border-zinc-700">
-                      <SelectItem value="pending" className="text-white focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
-                      <SelectItem value="paid" className="text-white focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
-                      <SelectItem value="shipped" className="text-white focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
-                      <SelectItem value="cancelled" className="text-white focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
+                    <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                      <SelectItem value="pending" className="focus:bg-zinc-700 focus:text-white">Pending</SelectItem>
+                      <SelectItem value="paid" className="focus:bg-zinc-700 focus:text-white">Paid</SelectItem>
+                      <SelectItem value="shipped" className="focus:bg-zinc-700 focus:text-white">Shipped</SelectItem>
+                      <SelectItem value="cancelled" className="focus:bg-zinc-700 focus:text-white">Cancelled</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

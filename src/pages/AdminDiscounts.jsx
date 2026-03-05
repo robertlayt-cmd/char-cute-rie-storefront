@@ -194,10 +194,10 @@ export default function AdminDiscounts() {
                       <SelectTrigger className="bg-zinc-800 border-zinc-600 text-white">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-800 border-zinc-600">
-                        <SelectItem value="percentage">Percentage</SelectItem>
-                        <SelectItem value="fixed">Fixed Amount</SelectItem>
-                      </SelectContent>
+                      <SelectContent className="bg-zinc-800 border-zinc-600 text-white">
+                         <SelectItem value="percentage">Percentage</SelectItem>
+                         <SelectItem value="fixed">Fixed Amount</SelectItem>
+                       </SelectContent>
                     </Select>
                   </div>
                   <div>
