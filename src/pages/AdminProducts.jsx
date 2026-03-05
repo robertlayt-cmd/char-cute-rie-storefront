@@ -233,7 +233,7 @@ export default function AdminProducts() {
               <SelectItem value="bestseller" className="text-white">Bestseller</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={featuredFilter} onValueChange={setFeaturedFilter}>
+          <Select value={featuredFilter} onValueChange={v => { setFeaturedFilter(v); setPage(1); }}>
             <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
               <SelectValue placeholder="Featured" />
             </SelectTrigger>
@@ -241,6 +241,17 @@ export default function AdminProducts() {
               <SelectItem value="all" className="text-white">All</SelectItem>
               <SelectItem value="hero" className="text-white">Featured in Hero</SelectItem>
               <SelectItem value="tiktok" className="text-white">TikTok Featured</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={String(pageSize)} onValueChange={v => { setPageSize(Number(v)); setPage(1); }}>
+            <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-800 text-white">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-800 border-zinc-700">
+              <SelectItem value="10" className="text-white">10 per page</SelectItem>
+              <SelectItem value="20" className="text-white">20 per page</SelectItem>
+              <SelectItem value="50" className="text-white">50 per page</SelectItem>
+              <SelectItem value="100" className="text-white">100 per page</SelectItem>
             </SelectContent>
           </Select>
         </div>
