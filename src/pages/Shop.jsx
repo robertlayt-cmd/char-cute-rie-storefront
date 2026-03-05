@@ -50,7 +50,10 @@ export default function Shop() {
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => base44.entities.Category.filter({ is_active: true }, 'display_order'),
+    queryFn: async () => {
+      const cats = await base44.entities.Category.list();
+      return cats.filter(c => c.is_active !== false);
+    },
   });
 
   const { data: products = [], isLoading } = useQuery({
