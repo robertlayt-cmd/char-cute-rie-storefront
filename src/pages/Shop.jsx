@@ -79,22 +79,22 @@ export default function Shop() {
 
 
   // Filter products - if a parent category is selected, include its children too
-   let filtered = products.filter(p => {
-     if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
-     if (selectedCategory !== 'all' && categories.length > 0) {
-       const selectedCat = categories.find(c => c.slug === selectedCategory);
-       if (selectedCat) {
-         // If it's a parent category, include its children
-         if (!selectedCat.parent_id) {
-          const childIds = getChildren(selectedCat.id).map(c => c.id);
-          const matchIds = [selectedCat.id, ...childIds];
-          if (!matchIds.includes(p.category_id)) return false;
-         } else {
-          // If it's a subcategory, only match exact category_id
-          if (p.category_id !== selectedCat.id) return false;
-         }
-       }
-     }
+    let filtered = products.filter(p => {
+      if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
+      if (selectedCategory !== 'all' && categories.length > 0) {
+        const selectedCat = categories.find(c => c.slug === selectedCategory);
+        if (selectedCat) {
+          // If it's a parent category, include its children
+          if (!selectedCat.parent_id) {
+            const childIds = getChildren(selectedCat.id).map(c => c.id);
+            const matchIds = [selectedCat.id, ...childIds];
+            if (!matchIds.includes(p.category_id)) return false;
+          } else {
+            // If it's a subcategory, only match exact category_id
+            if (p.category_id !== selectedCat.id) return false;
+          }
+        }
+      }
      if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
      if (selectedBadges.length > 0) {
        if (selectedBadges.includes('tiktok') && !p.is_tiktok_featured) return false;
@@ -218,18 +218,18 @@ export default function Shop() {
               <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
                 <SelectItem value="all" className="text-white focus:bg-zinc-700 focus:text-white">All Categories</SelectItem>
                 {parentCategories.map(cat => {
-                  const children = getChildren(cat.id);
-                  return (
-                    <React.Fragment key={cat.id}>
-                      <SelectItem value={cat.slug} className="font-medium text-white focus:bg-zinc-700 focus:text-white">{cat.name}</SelectItem>
-                      {children.map(child => (
-                        <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-300 focus:bg-zinc-700 focus:text-white">
-                          ↳ {child.name}
-                        </SelectItem>
-                      ))}
-                    </React.Fragment>
-                  );
-                })}
+                   const children = getChildren(cat.id);
+                   return (
+                     <div key={cat.id}>
+                       <SelectItem value={cat.slug} className="font-medium text-white focus:bg-zinc-700 focus:text-white">{cat.name}</SelectItem>
+                       {children.map(child => (
+                         <SelectItem key={child.id} value={child.slug} className="pl-6 text-zinc-300 focus:bg-zinc-700 focus:text-white">
+                           ↳ {child.name}
+                         </SelectItem>
+                       ))}
+                     </div>
+                   );
+                 })}
               </SelectContent>
             </Select>
 
