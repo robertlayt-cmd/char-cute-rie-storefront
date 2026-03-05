@@ -231,15 +231,24 @@ export default function Admin() {
                     <p className="text-zinc-400 text-sm">Manage promotions</p>
                   </div>
                 </Link>
+                <Link to={createPageUrl('AdminMenu')} className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 transition-colors">
+                   <div className="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                     <Settings className="w-5 h-5 text-orange-400" />
+                   </div>
+                   <div>
+                     <p className="text-white font-medium">Menu</p>
+                     <p className="text-zinc-400 text-sm">Manage navigation</p>
+                   </div>
+                </Link>
                 <Link to={createPageUrl('AdminSettings')} className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 transition-colors">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-500/20 flex items-center justify-center">
-                    <Settings className="w-5 h-5 text-zinc-400" />
-                  </div>
-                  <div>
-                    <p className="text-white font-medium">Settings</p>
-                    <p className="text-zinc-400 text-sm">Store configuration</p>
-                  </div>
-                        </Link>
+                   <div className="w-10 h-10 rounded-lg bg-zinc-500/20 flex items-center justify-center">
+                     <Settings className="w-5 h-5 text-zinc-400" />
+                   </div>
+                   <div>
+                     <p className="text-white font-medium">Settings</p>
+                     <p className="text-zinc-400 text-sm">Store configuration</p>
+                   </div>
+                </Link>
                       </CardContent>
                     </Card>
                   </div>
