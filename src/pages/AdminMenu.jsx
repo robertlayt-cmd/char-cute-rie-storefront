@@ -140,29 +140,72 @@ export default function AdminMenu() {
                 </div>
               ) : (
                 <div className="divide-y divide-zinc-800">
-                  {parentItems.map((item, index) => (
-                    <motion.div key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 hover:bg-zinc-800/50 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <GripVertical className="w-5 h-5 text-zinc-600" />
-                        <div className="flex-1">
-                          <p className="text-white font-medium">{item.label}</p>
-                          <p className="text-zinc-400 text-sm capitalize">
-                            {item.link_type === 'category' && `Category: ${categories.find(c => c.id === item.category_id)?.name || 'Unknown'}`}
-                            {item.link_type === 'page' && `Page: ${item.page_name}`}
-                            {item.link_type === 'external' && `Link: ${item.external_url}`}
-                          </p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
-                            <Edit2 className="w-4 h-4 text-zinc-400" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
-                            <Trash2 className="w-4 h-4 text-red-400" />
-                          </Button>
-                        </div>
+                  {parentItems.map((item) => {
+                    const children = getChildItems(item.id);
+                    const isExpanded = expandedItems[item.id];
+
+                    return (
+                      <div key={item.id}>
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 hover:bg-zinc-800/50 transition-colors">
+                          <div className="flex items-center gap-4">
+                            <GripVertical className="w-5 h-5 text-zinc-600" />
+                            <div className="flex-1">
+                              <p className="text-white font-medium">{item.label}</p>
+                              <p className="text-zinc-400 text-sm capitalize">
+                                {item.link_type === 'category' && `Category: ${categories.find(c => c.id === item.category_id)?.name || 'Unknown'}`}
+                                {item.link_type === 'page' && `Page: ${item.page_name}`}
+                                {item.link_type === 'external' && `Link: ${item.external_url}`}
+                              </p>
+                            </div>
+                            <div className="flex gap-2">
+                              {children.length > 0 && (
+                                <Button variant="ghost" size="icon" onClick={() => toggleExpanded(item.id)} className="text-zinc-400">
+                                  <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                                </Button>
+                              )}
+                              <Button variant="ghost" size="icon" onClick={() => { setFormData({ ...formData, parent_id: item.id }); setShowDialog(true); }} className="text-zinc-400">
+                                <Plus className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
+                                <Edit2 className="w-4 h-4 text-zinc-400" />
+                              </Button>
+                              <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+                                <Trash2 className="w-4 h-4 text-red-400" />
+                              </Button>
+                            </div>
+                          </div>
+                        </motion.div>
+
+                        {children.length > 0 && isExpanded && (
+                          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="bg-zinc-800/30 border-t border-zinc-800">
+                            {children.map((child) => (
+                              <div key={child.id} className="p-4 pl-12 hover:bg-zinc-800/50 transition-colors border-b border-zinc-800 last:border-b-0">
+                                <div className="flex items-center gap-4">
+                                  <GripVertical className="w-4 h-4 text-zinc-600" />
+                                  <div className="flex-1">
+                                    <p className="text-white font-medium text-sm">{child.label}</p>
+                                    <p className="text-zinc-400 text-xs capitalize">
+                                      {child.link_type === 'category' && `Category: ${categories.find(c => c.id === child.category_id)?.name || 'Unknown'}`}
+                                      {child.link_type === 'page' && `Page: ${child.page_name}`}
+                                      {child.link_type === 'external' && `Link: ${child.external_url}`}
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-2">
+                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(child)} className="h-8 w-8">
+                                      <Edit2 className="w-3 h-3 text-zinc-400" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(child.id)} className="h-8 w-8">
+                                      <Trash2 className="w-3 h-3 text-red-400" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </motion.div>
+                        )}
                       </div>
-                    </motion.div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </CardContent>
