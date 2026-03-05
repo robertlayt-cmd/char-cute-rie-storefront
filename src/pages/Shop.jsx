@@ -50,12 +50,7 @@ export default function Shop() {
 
   const { data: categories = [], isLoading: catsLoading } = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => {
-      const cats = await base44.entities.Category.list('display_order');
-      return cats.filter(c => c.is_active !== false);
-    },
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
+    queryFn: () => base44.entities.Category.list('display_order'),
   });
 
   const { data: products = [], isLoading } = useQuery({
