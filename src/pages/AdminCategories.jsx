@@ -244,10 +244,20 @@ export default function AdminCategories() {
             <h1 className="text-3xl font-bold text-white">Categories</h1>
             <p className="text-zinc-400">{parentCategories.length} parent · {categories.length - parentCategories.length} sub</p>
           </div>
-          <Button onClick={() => openEditDialog()} className="bg-pink-500 hover:bg-pink-600">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Category
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => rebuildCategories.mutate()}
+              disabled={rebuildCategories.isPending}
+              className="bg-amber-600 hover:bg-amber-700"
+              title="Auto-assign parent IDs to subcategories based on standard structure"
+            >
+              Rebuild Hierarchy
+            </Button>
+            <Button onClick={() => openEditDialog()} className="bg-pink-500 hover:bg-pink-600">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Category
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-2">
