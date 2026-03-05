@@ -440,7 +440,7 @@ export default function AdminProducts() {
                 </div>
 
                 <div className="flex gap-3 justify-end">
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="border-zinc-700 text-white">Cancel</Button>
+                  <Button onClick={() => setIsDialogOpen(false)} className="bg-zinc-700 hover:bg-zinc-600 text-white border-0">Cancel</Button>
                   <Button onClick={handleSave} className="bg-pink-500 hover:bg-pink-600 text-white" disabled={createProduct.isPending || updateProduct.isPending}>
                     Save Product
                   </Button>
