@@ -101,8 +101,7 @@ export default function AdminImageManager() {
   // Collect all images with metadata
   const allImages = [
     ...products.flatMap(p => [
-      p.main_image_url && { id: p.id, type: 'product', field: 'main', url: p.main_image_url, productTitle: p.title, productId: p.id },
-      p.thumbnail_url && { id: p.id, type: 'product', field: 'thumbnail', url: p.thumbnail_url, productTitle: p.title, productId: p.id },
+      p.main_image_url && { id: p.id, type: 'product', field: 'main', url: p.main_image_url, productTitle: p.title, productId: p.id, thumbnail: p.thumbnail_url },
       ...(p.gallery_images || []).map((url, idx) => ({ id: `${p.id}-gallery-${idx}`, type: 'product', field: 'gallery', url, productTitle: p.title, productId: p.id, index: idx })),
     ]).filter(Boolean),
     ...variants.map(v => ({
