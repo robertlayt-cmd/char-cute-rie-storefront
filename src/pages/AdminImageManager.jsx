@@ -159,7 +159,11 @@ export default function AdminImageManager() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-3xl font-bold text-white">Image Manager</h1>
-            <p className="text-zinc-400">{allImages.length} total images · {externalCount} external</p>
+            <p className="text-zinc-400">
+              <span className="font-medium text-white">{allImages.length}</span> total &nbsp;·&nbsp;
+              <span className="font-medium text-green-400">{allImages.length - externalCount}</span> local &nbsp;·&nbsp;
+              <span className="font-medium text-yellow-400">{externalCount}</span> external
+            </p>
           </div>
           <Button
             onClick={handleMigrate}
