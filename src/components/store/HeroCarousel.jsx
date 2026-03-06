@@ -107,19 +107,15 @@ export default function HeroCarousel({ products = [], categories = [] }) {
               transition={{ duration: 0.5 }}
               className="text-center lg:text-left"
             >
-              {currentProduct.badge && (
+              {getCategoryLabel(currentProduct) && (
                 <span className="inline-block px-4 py-1.5 bg-pink-500/20 border border-pink-500/30 text-pink-400 text-sm font-medium rounded-full mb-4">
-                  ✨ Featured Product
+                  {getCategoryLabel(currentProduct)}
                 </span>
               )}
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                 {currentProduct.title}
               </h1>
-              
-              <p className="text-lg text-zinc-300 mb-6 max-w-lg mx-auto lg:mx-0">
-                {categoryName}
-              </p>
               
               <div className="flex items-center gap-4 justify-center lg:justify-start mb-8">
                 <span className="text-3xl font-bold text-white">
