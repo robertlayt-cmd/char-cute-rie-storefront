@@ -128,7 +128,7 @@ export default function Profile() {
       <Header cartCount={0} onCartClick={() => window.location.href = createPageUrl('Cart')} categories={[]} />
 
       {/* Banner */}
-      <div className="relative h-48 bg-gradient-to-r from-pink-900/40 to-purple-900/40 pt-16">
+      <div className="relative bg-gradient-to-r from-pink-900/40 to-purple-900/40" style={{ height: '25rem', paddingTop: '6rem' }}>
         {form.banner_image_url && (
           <img src={form.banner_image_url} className="w-full h-full object-cover" alt="Banner" />
         )}
