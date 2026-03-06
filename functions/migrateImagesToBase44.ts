@@ -72,36 +72,21 @@ Deno.serve(async (req) => {
       results.push(productResult);
     }
 
-    // Migrate variant images
-    const variants = await base44.asServiceRole.entities.ProductVariant.list();
-    const variantResults = [];
-
-    for (const variant of variants) {
-      if (isCuterie(variant.image_url)) {
-        try {
-          const file_url = await reuploadImage(variant.image_url, base44);
-          await base44.asServiceRole.entities.ProductVariant.update(variant.id, { image_url: file_url });
-          variantResults.push({ variantId: variant.id, name: variant.name, status: 'migrated' });
-        } catch (err) {
-          variantResults.push({ variantId: variant.id, name: variant.name, status: 'failed', error: err.message });
-        }
-      }
-    }
-
     const migratedProducts = results.filter(r => r.migrated.length > 0).length;
     const failedProducts = results.filter(r => r.failed.length > 0).length;
 
     return Response.json({
       success: true,
       products: results,
-      variants: variantResults,
       summary: {
-        totalProducts: products.length,
+        totalProducts: allProducts.length,
+        batchSize,
+        offset,
+        processedCount: products.length,
         migratedProducts,
         failedProducts,
-        totalVariants: variants.length,
-        migratedVariants: variantResults.filter(v => v.status === 'migrated').length,
-        failedVariants: variantResults.filter(v => v.status === 'failed').length,
+        hasMore: offset + batchSize < allProducts.length,
+        nextOffset: offset + batchSize,
       },
     });
   } catch (error) {
