@@ -320,19 +320,23 @@ export default function Checkout() {
     payment_method: 'paypal'
   });
 
-  const sendConfirmationEmail = (orderNumber) => {
-    const itemRows = cartItems.map(item =>
+  const sendConfirmationEmail = (orderNumber, order) => {
+    const lineItems = order.line_items || [];
+    const firstName = order.customer_name?.split(' ')[0] || '';
+    const addr = order.shipping_address || {};
+
+    const itemRows = lineItems.map(item =>
       '<tr>' +
       '<td style="padding:12px 8px;border-bottom:1px solid #27272a;"><strong style="color:#ffffff;">' + item.product_title + '</strong>' +
       (item.variant_name ? '<br/><span style="color:#a1a1aa;font-size:13px;">' + item.variant_name + '</span>' : '') +
       '</td>' +
       '<td style="padding:12px 8px;border-bottom:1px solid #27272a;color:#a1a1aa;text-align:center;">x' + item.quantity + '</td>' +
-      '<td style="padding:12px 8px;border-bottom:1px solid #27272a;color:#ec4899;font-weight:bold;text-align:right;">$' + (item.price * item.quantity).toFixed(2) + '</td>' +
+      '<td style="padding:12px 8px;border-bottom:1px solid #27272a;color:#ec4899;font-weight:bold;text-align:right;">$' + (item.unit_price * item.quantity).toFixed(2) + '</td>' +
       '</tr>'
     ).join('');
 
-    const discountRow = discountAmount > 0
-      ? '<tr><td style="color:#22c55e;padding:6px 8px;">Discount (' + appliedDiscount?.code + ')</td><td style="color:#22c55e;text-align:right;padding:6px 8px;">-$' + discountAmount.toFixed(2) + '</td></tr>'
+    const discountRow = order.discount_amount > 0
+      ? '<tr><td style="color:#22c55e;padding:6px 8px;">Discount (' + (order.discount_code || '') + ')</td><td style="color:#22c55e;text-align:right;padding:6px 8px;">-$' + order.discount_amount.toFixed(2) + '</td></tr>'
       : '';
 
     const emailBody = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>' +
@@ -342,7 +346,7 @@ export default function Checkout() {
       '<div style="background:linear-gradient(135deg,#ec4899,#a855f7);border-radius:16px;padding:32px;text-align:center;margin-bottom:24px;">' +
       '<div style="font-size:48px;margin-bottom:12px;">🎉</div>' +
       '<h1 style="color:#ffffff;margin:0 0 8px;font-size:28px;font-weight:800;">Order Confirmed!</h1>' +
-      '<p style="color:rgba(255,255,255,0.85);margin:0;font-size:16px;">Thanks ' + formData.firstName + '! We\'re so excited to make your order.</p>' +
+      '<p style="color:rgba(255,255,255,0.85);margin:0;font-size:16px;">Thanks ' + firstName + '! We\'re so excited to make your order.</p>' +
       '</div>' +
       '<div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:16px;">' +
       '<p style="color:#a1a1aa;font-size:13px;margin:0 0 4px;">Order Number</p>' +
@@ -352,21 +356,21 @@ export default function Checkout() {
       '<h3 style="color:#ffffff;margin:0 0 16px;font-size:16px;">Your Items</h3>' +
       '<table style="width:100%;border-collapse:collapse;">' + itemRows + '</table>' +
       '<table style="width:100%;border-collapse:collapse;margin-top:16px;">' +
-      '<tr><td style="color:#a1a1aa;padding:6px 8px;">Subtotal</td><td style="color:#ffffff;text-align:right;padding:6px 8px;">$' + subtotal.toFixed(2) + '</td></tr>' +
-      '<tr><td style="color:#a1a1aa;padding:6px 8px;">Shipping</td><td style="color:#ffffff;text-align:right;padding:6px 8px;">' + (shippingCost === 0 ? 'FREE' : '$' + shippingCost.toFixed(2)) + '</td></tr>' +
+      '<tr><td style="color:#a1a1aa;padding:6px 8px;">Subtotal</td><td style="color:#ffffff;text-align:right;padding:6px 8px;">$' + order.subtotal.toFixed(2) + '</td></tr>' +
+      '<tr><td style="color:#a1a1aa;padding:6px 8px;">Shipping</td><td style="color:#ffffff;text-align:right;padding:6px 8px;">' + (order.shipping_cost === 0 ? 'FREE' : '$' + order.shipping_cost.toFixed(2)) + '</td></tr>' +
       discountRow +
-      '<tr style="border-top:1px solid #27272a;"><td style="color:#ffffff;font-weight:700;font-size:18px;padding:12px 8px;">Total</td><td style="color:#ec4899;font-weight:700;font-size:18px;text-align:right;padding:12px 8px;">$' + total.toFixed(2) + ' AUD</td></tr>' +
+      '<tr style="border-top:1px solid #27272a;"><td style="color:#ffffff;font-weight:700;font-size:18px;padding:12px 8px;">Total</td><td style="color:#ec4899;font-weight:700;font-size:18px;text-align:right;padding:12px 8px;">$' + order.total.toFixed(2) + ' AUD</td></tr>' +
       '</table></div>' +
       '<div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:24px;">' +
       '<h3 style="color:#ffffff;margin:0 0 12px;font-size:16px;">Shipping To</h3>' +
-      '<p style="color:#d4d4d8;margin:0;line-height:1.6;">' + formData.street + '<br/>' + formData.city + ', ' + formData.state + ' ' + formData.postcode + '<br/>Australia</p>' +
+      '<p style="color:#d4d4d8;margin:0;line-height:1.6;">' + addr.street + '<br/>' + addr.city + ', ' + addr.state + ' ' + addr.postcode + '<br/>Australia</p>' +
       '</div>' +
       '<div style="text-align:center;margin-bottom:24px;"><a href="https://www.tiktok.com/@char.cute.rie" style="display:inline-block;background:linear-gradient(135deg,#ec4899,#a855f7);color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:15px;">Follow @char.cute.rie on TikTok 💕</a></div>' +
       '<p style="color:#52525b;text-align:center;font-size:13px;margin:0;">© 2024 Char\'Cute\'rie · Made with love in Melbourne, Australia 🇦🇺</p>' +
       '</div></body></html>';
 
     base44.integrations.Core.SendEmail({
-      to: formData.email,
+      to: order.customer_email,
       from_name: "Char'Cute'rie",
       subject: 'Order Confirmed! 🎉 ' + orderNumber,
       body: emailBody,
