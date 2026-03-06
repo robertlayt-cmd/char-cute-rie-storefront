@@ -70,6 +70,7 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
+import AdminCommunity from './pages/AdminCommunity';
 import __Layout from './Layout.jsx';
 
 
@@ -97,6 +98,7 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
+    "AdminCommunity": AdminCommunity,
 }
 
 export const pagesConfig = {
