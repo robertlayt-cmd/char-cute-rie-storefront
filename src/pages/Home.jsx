@@ -22,7 +22,7 @@ export default function Home() {
   }, [cartItems]);
 
   const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
+    queryKey: ['header-categories'],
     queryFn: async () => {
       const all = await base44.entities.Category.filter({ is_active: true }, 'display_order', 100);
       return all.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
