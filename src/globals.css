@@ -169,3 +169,9 @@
 .pt-24 {
   padding-top: 8rem;
 }
+
+@media (max-width: 768px) {
+  .pt-24 {
+    padding-top: 10rem;
+  }
+}
