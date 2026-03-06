@@ -46,9 +46,9 @@ function MemberCard({ member, index }) {
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
       </div>
       <div className="px-4 -mt-9">
-        <div className="w-16 h-16 rounded-xl border-2 border-zinc-900 overflow-hidden bg-zinc-800">
+        <div className="w-16 h-16 rounded-xl border-2 border-zinc-900 overflow-hidden bg-zinc-800 relative z-10">
           {member.profile_image_url ? (
-            <img src={member.profile_image_url} alt={member.full_name} className="w-full h-full object-cover" />
+            <img src={member.profile_image_url} alt={member.full_name} className="w-full h-full object-cover relative z-10" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-zinc-500">
               {member.business_name?.[0] || '?'}
