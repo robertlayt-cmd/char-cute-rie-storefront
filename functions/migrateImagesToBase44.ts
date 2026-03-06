@@ -11,7 +11,12 @@ Deno.serve(async (req) => {
 
     const isCuterie = (url) => url && typeof url === 'string' && url.includes('cuterie.me');
 
-    const products = await base44.asServiceRole.entities.Product.list();
+    const body = await req.json().catch(() => ({}));
+    const batchSize = body.batchSize || 10;
+    const offset = body.offset || 0;
+
+    const allProducts = await base44.asServiceRole.entities.Product.list();
+    const products = allProducts.slice(offset, offset + batchSize);
     const results = [];
 
     for (const product of products) {
