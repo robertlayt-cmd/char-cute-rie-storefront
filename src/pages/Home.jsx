@@ -9,6 +9,7 @@ import MiniCart from '@/components/store/MiniCart';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { Sparkles, Truck, Heart, Shield } from 'lucide-react';
+import CommunitySection from '@/components/store/CommunitySection';
 
 export default function Home() {
   const [cartOpen, setCartOpen] = useState(false);

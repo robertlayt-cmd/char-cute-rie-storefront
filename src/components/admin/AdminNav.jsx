@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { 
   LayoutDashboard, Package, ShoppingCart, Tag, Percent, 
-  Settings, Home, Image, Menu, X, ChevronRight, Users, Palette
+  Settings, Home, Image, Menu, X, ChevronRight, Users, Palette, HeartHandshake
 } from 'lucide-react';
 
 const navItems = [
@@ -14,6 +14,7 @@ const navItems = [
   { label: 'Orders', page: 'AdminOrders', icon: ShoppingCart },
   { label: 'Categories', page: 'AdminCategories', icon: Tag },
   { label: 'Discounts', page: 'AdminDiscounts', icon: Percent },
+  { label: 'Community', page: 'AdminCommunity', icon: HeartHandshake },
   { label: 'Themes', page: 'AdminThemes', icon: Palette },
   { label: 'Users', page: 'AdminUsers', icon: Users },
   { label: 'Image Manager', page: 'AdminImageManager', icon: Image },
