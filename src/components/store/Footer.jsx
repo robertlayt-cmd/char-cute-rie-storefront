@@ -140,7 +140,7 @@ export default function Footer() {
 
         <div className="border-t border-zinc-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-zinc-500 text-sm">
-            © 2024 Char'Cute'rie. All rights reserved.
+            © {new Date().getFullYear()} Char'Cute'rie. All rights reserved.
           </p>
           <p className="text-zinc-500 text-sm flex items-center gap-1">
             Made with <Heart className="w-4 h-4 text-pink-500 fill-pink-500" /> in Australia
