@@ -274,6 +274,87 @@ export default function AdminCommunity() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Profile Preview Dialog */}
+      <Dialog open={!!viewingUser} onOpenChange={() => setViewingUser(null)}>
+        <DialogContent className="bg-zinc-900 border-zinc-800 max-w-lg max-h-[90vh] overflow-y-auto [&>button]:text-white [&>button]:bg-zinc-700 [&>button]:hover:bg-zinc-600 [&>button]:rounded-md [&>button]:border [&>button]:border-zinc-600">
+          <DialogHeader>
+            <DialogTitle className="text-white">Profile Preview</DialogTitle>
+          </DialogHeader>
+          {viewingUser && (
+            <div className="space-y-4">
+              {/* Banner */}
+              <div className="relative h-36 rounded-xl overflow-hidden bg-zinc-800">
+                {viewingUser.banner_image_url ? (
+                  <img src={viewingUser.banner_image_url} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-pink-900/40 to-purple-900/40" />
+                )}
+              </div>
+              {/* Profile pic + name */}
+              <div className="flex items-center gap-4 -mt-10 px-2">
+                <div className="w-16 h-16 rounded-xl border-2 border-zinc-900 overflow-hidden bg-zinc-800 flex-shrink-0">
+                  {viewingUser.profile_image_url ? (
+                    <img src={viewingUser.profile_image_url} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-zinc-500">
+                      {viewingUser.business_name?.[0] || '?'}
+                    </div>
+                  )}
+                </div>
+                <div className="mt-8">
+                  <p className="text-white font-bold text-lg">{viewingUser.business_name}</p>
+                  <p className="text-zinc-400 text-sm">{viewingUser.full_name} · {viewingUser.email}</p>
+                </div>
+              </div>
+              {/* Description */}
+              {viewingUser.description && (
+                <div className="bg-zinc-800 rounded-lg p-3">
+                  <p className="text-zinc-300 text-sm">{viewingUser.description}</p>
+                </div>
+              )}
+              {/* Links */}
+              <div className="space-y-2">
+                {viewingUser.website_url && (
+                  <a href={viewingUser.website_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-pink-400 text-sm hover:text-pink-300">
+                    <Globe className="w-4 h-4" /> {viewingUser.website_url}
+                  </a>
+                )}
+                {viewingUser.tiktok_url && (
+                  <a href={viewingUser.tiktok_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-400 text-sm hover:text-white">
+                    <span className="text-xs font-bold">TikTok</span> {viewingUser.tiktok_url}
+                  </a>
+                )}
+                {viewingUser.instagram_url && (
+                  <a href={viewingUser.instagram_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-400 text-sm hover:text-white">
+                    <span className="text-xs font-bold">Instagram</span> {viewingUser.instagram_url}
+                  </a>
+                )}
+              </div>
+              {/* Approve/Disable actions */}
+              <div className="flex gap-3 pt-2 border-t border-zinc-800">
+                {viewingUser.community_status !== 'enabled' && (
+                  <Button
+                    className="bg-green-600 hover:bg-green-700 flex-1"
+                    onClick={() => { handleUserStatus(viewingUser, 'enabled'); setViewingUser(null); }}
+                  >
+                    Approve & Enable
+                  </Button>
+                )}
+                {viewingUser.community_status !== 'disabled' && (
+                  <Button
+                    variant="outline"
+                    className="border-red-500/50 text-red-400 hover:bg-red-500/10 flex-1"
+                    onClick={() => { handleUserStatus(viewingUser, 'disabled'); setViewingUser(null); }}
+                  >
+                    Disable
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 }
