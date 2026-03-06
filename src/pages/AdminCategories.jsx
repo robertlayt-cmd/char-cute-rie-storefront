@@ -19,8 +19,7 @@ export default function AdminCategories() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [expandedParents, setExpandedParents] = useState({});
-
-  const [imageTab, setImageTab] = useState('upload'); // 'upload' | 'product'
+  const [imageTab, setImageTab] = useState('upload');
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const { data: categories = [] } = useQuery({
