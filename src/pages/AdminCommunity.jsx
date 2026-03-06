@@ -237,6 +237,15 @@ export default function AdminCommunity() {
 
                       {/* Actions */}
                       <div className="flex gap-2 flex-shrink-0">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setViewingUser(user)}
+                          className="border-zinc-600 text-zinc-300 hover:bg-zinc-700 text-xs h-8 gap-1"
+                        >
+                          <Eye className="w-3 h-3" />
+                          View
+                        </Button>
                         {user.community_status !== 'enabled' && (
                           <Button
                             size="sm"
