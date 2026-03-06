@@ -90,7 +90,7 @@ function CommunityCard({ member, index }) {
 
         {/* Website Button */}
         {member.website_url &&
-        <a href={member.website_url} target="_blank" rel="noopener noreferrer" className="block mt-3">
+        <a href={member.website_url.startsWith('http') ? member.website_url : `https://${member.website_url}`} target="_blank" rel="noopener noreferrer" className="block mt-3">
             <Button size="sm" className="w-full bg-pink-500 hover:bg-pink-600 text-white text-xs">
               <ExternalLink className="w-3 h-3 mr-1.5" />
               Visit Website
