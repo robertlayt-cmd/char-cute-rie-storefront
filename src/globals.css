@@ -170,8 +170,6 @@
   padding-top: 8rem;
 }
 
-@media (max-width: 768px) {
-  .pt-24 {
-    padding-top: 10rem;
-  }
+.pb-12 {
+  padding-bottom: 1rem;
 }
