@@ -145,7 +145,7 @@ export default function Profile() {
         {/* Profile Header */}
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-end -mt-12 mb-8 relative z-10">
           <div className="relative">
-            <div className="w-24 h-24 rounded-2xl bg-zinc-800 border-4 border-zinc-950 overflow-hidden">
+            <div className="w-24 h-24 rounded-2xl bg-zinc-800 border-4 border-zinc-950 overflow-hidden relative z-10">
               {form.profile_image_url
                 ? <img src={form.profile_image_url} className="w-full h-full object-cover" alt="Profile" />
                 : <div className="w-full h-full flex items-center justify-center"><User className="w-10 h-10 text-zinc-600" /></div>
