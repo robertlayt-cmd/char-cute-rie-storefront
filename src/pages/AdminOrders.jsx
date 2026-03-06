@@ -65,16 +65,40 @@ export default function AdminOrders() {
     return true;
   });
 
-  const handleStatusChange = async (order, newStatus) => {
-    await updateOrder.mutateAsync({ id: order.id, data: { status: newStatus } });
-    if (selectedOrder?.id === order.id) {
-      setSelectedOrder({ ...selectedOrder, status: newStatus });
+  const handleStatusChange = (order, newStatus) => {
+    if (newStatus === 'shipped') {
+      setTrackingNumber('');
+      setTrackingCarrier('');
+      setTrackingPrompt({ order, newStatus });
+    } else {
+      commitStatusChange(order, newStatus, null, null);
     }
+  };
+
+  const commitStatusChange = async (order, newStatus, trackNum, trackCarrier) => {
+    const updateData = { status: newStatus };
+    if (trackNum) updateData.tracking_number = trackNum;
+    if (trackCarrier) updateData.tracking_carrier = trackCarrier;
+
+    await updateOrder.mutateAsync({ id: order.id, data: updateData });
+    if (selectedOrder?.id === order.id) {
+      setSelectedOrder({ ...selectedOrder, status: newStatus, ...updateData });
+    }
+    setTrackingPrompt(null);
 
     // Send email notification to customer
+    const trackingSection = (trackNum || trackCarrier) ? `
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin-bottom:16px;">
+      <h3 style="color:#ffffff;margin:0 0 12px;font-size:16px;">📦 Tracking Information</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        ${trackCarrier ? `<tr><td style="color:#a1a1aa;padding:6px 0;">Carrier</td><td style="color:#ffffff;font-weight:600;text-align:right;padding:6px 0;">${trackCarrier}</td></tr>` : ''}
+        ${trackNum ? `<tr><td style="color:#a1a1aa;padding:6px 0;">Tracking Number</td><td style="color:#ec4899;font-family:monospace;font-weight:700;text-align:right;padding:6px 0;">${trackNum}</td></tr>` : ''}
+      </table>
+    </div>` : '';
+
     const statusMessages = {
       paid: { subject: `Order ${order.order_number} - Payment Confirmed! 🎉`, emoji: '✅', title: 'Payment Confirmed!', msg: `Great news! Your payment has been confirmed and we're now preparing your order with love. 💕` },
-      shipped: { subject: `Order ${order.order_number} - Your order is on its way! 📦`, emoji: '📦', title: 'Your Order is Shipped!', msg: `Exciting news! Your Char'Cute'rie order has been shipped and is on its way to you. It should arrive within the estimated delivery window.` },
+      shipped: { subject: `Order ${order.order_number} - Your order is on its way! 📦`, emoji: '📦', title: 'Your Order is Shipped!', msg: `Exciting news! Your Char'Cute'rie order has been shipped and is on its way to you.` },
       cancelled: { subject: `Order ${order.order_number} - Order Cancelled`, emoji: '😢', title: 'Order Cancelled', msg: `Your order has been cancelled. If you have any questions or this was a mistake, please contact us and we'll do our best to help.` },
     };
 
@@ -103,6 +127,7 @@ export default function AdminOrders() {
         <tr><td style="color:#a1a1aa;padding:6px 0;">Order Total</td><td style="color:#ffffff;font-weight:700;text-align:right;padding:6px 0;">$${order.total?.toFixed(2)} AUD</td></tr>
       </table>
     </div>
+    ${trackingSection}
     <div style="text-align:center;margin-bottom:24px;">
       <a href="https://www.tiktok.com/@char.cute.rie" style="display:inline-block;background:linear-gradient(135deg,#ec4899,#a855f7);color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:15px;">Follow @char.cute.rie on TikTok 💕</a>
     </div>
