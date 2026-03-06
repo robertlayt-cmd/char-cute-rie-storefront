@@ -55,35 +55,35 @@ export default function Shop() {
     queryFn: async () => {
       const all = await base44.entities.Category.filter({ is_active: true }, 'display_order', 100);
       return all.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
-    },
+    }
   });
 
   const { data: allProducts = [], isLoading: productsLoading } = useQuery({
     queryKey: ['products-all'],
-    queryFn: () => base44.entities.Product.filter({ status: 'published' }),
+    queryFn: () => base44.entities.Product.filter({ status: 'published' })
   });
 
   // Filter products by category synchronously in useMemo
   const products = useMemo(() => {
     if (selectedCategory === 'all') return allProducts;
-    
-    const selectedCat = categories.find(c => c.slug === selectedCategory);
+
+    const selectedCat = categories.find((c) => c.slug === selectedCategory);
     if (!selectedCat) return [];
-    
+
     if (!selectedCat.parent_id) {
       // Parent category - include children
-      const childIds = categories.filter(c => c.parent_id === selectedCat.id).map(c => c.id);
+      const childIds = categories.filter((c) => c.parent_id === selectedCat.id).map((c) => c.id);
       const matchIds = [selectedCat.id, ...childIds];
-      return allProducts.filter(p => matchIds.includes(p.category_id));
+      return allProducts.filter((p) => matchIds.includes(p.category_id));
     } else {
       // Subcategory - exact match
-      return allProducts.filter(p => p.category_id === selectedCat.id);
+      return allProducts.filter((p) => p.category_id === selectedCat.id);
     }
   }, [selectedCategory, categories, allProducts]);
 
   const { data: allVariants = [] } = useQuery({
     queryKey: ['variants'],
-    queryFn: () => base44.entities.ProductVariant.list(),
+    queryFn: () => base44.entities.ProductVariant.list()
   });
 
   const variantsByProduct = allVariants.reduce((acc, v) => {
@@ -93,9 +93,9 @@ export default function Shop() {
   }, {});
 
   // Filter products by search and badges only (category filtering done in query)
-  let filtered = products.filter(p => {
+  let filtered = products.filter((p) => {
     if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
-    
+
     if (p.base_price < priceRange[0] || p.base_price > priceRange[1]) return false;
     if (selectedBadges.length > 0) {
       if (selectedBadges.includes('tiktok') && !p.is_tiktok_featured) return false;
@@ -107,18 +107,18 @@ export default function Shop() {
   // Sort products
   filtered = [...filtered].sort((a, b) => {
     switch (sortBy) {
-      case 'newest': return new Date(b.created_date) - new Date(a.created_date);
-      case 'price-low': return a.base_price - b.base_price;
-      case 'price-high': return b.base_price - a.base_price;
-      case 'name': return a.title.localeCompare(b.title);
-      default: return 0;
+      case 'newest':return new Date(b.created_date) - new Date(a.created_date);
+      case 'price-low':return a.base_price - b.base_price;
+      case 'price-high':return b.base_price - a.base_price;
+      case 'name':return a.title.localeCompare(b.title);
+      default:return 0;
     }
   });
 
   const handleAddToCart = (product, variant) => {
     const price = product.base_price + (variant?.price_adjustment || 0);
     const existingIndex = cartItems.findIndex(
-      item => item.product_id === product.id && item.variant_id === variant?.id
+      (item) => item.product_id === product.id && item.variant_id === variant?.id
     );
 
     if (existingIndex >= 0) {
@@ -144,26 +144,26 @@ export default function Shop() {
       handleRemoveItem(item);
       return;
     }
-    setCartItems(cartItems.map(i => 
-      i.product_id === item.product_id && i.variant_id === item.variant_id
-        ? { ...i, quantity: newQty }
-        : i
+    setCartItems(cartItems.map((i) =>
+    i.product_id === item.product_id && i.variant_id === item.variant_id ?
+    { ...i, quantity: newQty } :
+    i
     ));
   };
 
   const handleRemoveItem = (item) => {
-    setCartItems(cartItems.filter(i => 
-      !(i.product_id === item.product_id && i.variant_id === item.variant_id)
+    setCartItems(cartItems.filter((i) =>
+    !(i.product_id === item.product_id && i.variant_id === item.variant_id)
     ));
   };
 
   const toggleBadge = (badge) => {
-    setSelectedBadges(prev => 
-      prev.includes(badge) ? prev.filter(b => b !== badge) : [...prev, badge]
+    setSelectedBadges((prev) =>
+    prev.includes(badge) ? prev.filter((b) => b !== badge) : [...prev, badge]
     );
   };
 
-  const currentCategory = categories.find(c => c.slug === selectedCategory);
+  const currentCategory = categories.find((c) => c.slug === selectedCategory);
 
   // Block page render until categories load
   if (catsLoading) {
@@ -173,29 +173,29 @@ export default function Shop() {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-400 mx-auto mb-4"></div>
           <p className="text-white">Loading shop...</p>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
     <div className="dark min-h-screen bg-zinc-950">
-      <Header 
+      <Header
         cartCount={cartItems.reduce((sum, i) => sum + i.quantity, 0)}
         onCartClick={() => setCartOpen(true)}
-        categories={categories}
-      />
+        categories={categories} />
+
 
       <MiniCart
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
         items={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />
+        onRemoveItem={handleRemoveItem} />
+
 
       {/* Hero */}
-      <div className="pt-24 pb-12 bg-gradient-to-b from-zinc-900 to-zinc-950">
-        <div className="max-w-7xl mx-auto px-4">
+      <div className="bg-gradient-to-b pt-24 pb-4 from-zinc-900 to-zinc-950">
+        <div className="mt-8 px-4 max-w-7xl">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             {currentCategory?.name || 'All Products'}
           </h1>
@@ -216,8 +216,8 @@ export default function Shop() {
                 placeholder="Search products..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 bg-zinc-800 border-zinc-700 text-white"
-              />
+                className="pl-10 bg-zinc-800 border-zinc-700 text-white" />
+
             </div>
 
             {/* Sort */}
@@ -249,16 +249,16 @@ export default function Shop() {
                   <div>
                     <h4 className="text-white font-medium mb-3">Badges</h4>
                     <div className="space-y-2">
-                      {['new', 'hot', 'limited', 'tiktok', 'bestseller'].map(badge => (
-                        <div key={badge} className="flex items-center gap-2">
+                      {['new', 'hot', 'limited', 'tiktok', 'bestseller'].map((badge) =>
+                      <div key={badge} className="flex items-center gap-2">
                           <Checkbox
-                            id={badge}
-                            checked={selectedBadges.includes(badge)}
-                            onCheckedChange={() => toggleBadge(badge)}
-                          />
+                          id={badge}
+                          checked={selectedBadges.includes(badge)}
+                          onCheckedChange={() => toggleBadge(badge)} />
+
                           <label htmlFor={badge} className="text-zinc-300 capitalize">{badge}</label>
                         </div>
-                      ))}
+                      )}
                     </div>
                   </div>
                 </div>
@@ -271,42 +271,42 @@ export default function Shop() {
                 variant="ghost"
                 size="icon"
                 className={gridCols === 3 ? 'text-pink-400' : 'text-zinc-400'}
-                onClick={() => setGridCols(3)}
-              >
+                onClick={() => setGridCols(3)}>
+
                 <LayoutGrid className="w-4 h-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className={gridCols === 4 ? 'text-pink-400' : 'text-zinc-400'}
-                onClick={() => setGridCols(4)}
-              >
+                onClick={() => setGridCols(4)}>
+
                 <Grid3X3 className="w-4 h-4" />
               </Button>
             </div>
           </div>
 
           {/* Active Filters */}
-          {(selectedBadges.length > 0 || search) && (
-            <div className="flex flex-wrap gap-2 mt-4">
-              {search && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-zinc-800 text-zinc-300 text-sm rounded-full">
+          {(selectedBadges.length > 0 || search) &&
+          <div className="flex flex-wrap gap-2 mt-4">
+              {search &&
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-zinc-800 text-zinc-300 text-sm rounded-full">
                   Search: {search}
                   <button onClick={() => setSearch('')}>
                     <X className="w-3 h-3" />
                   </button>
                 </span>
-              )}
-              {selectedBadges.map(badge => (
-                <span key={badge} className="inline-flex items-center gap-1 px-3 py-1 bg-pink-500/20 text-pink-400 text-sm rounded-full">
+            }
+              {selectedBadges.map((badge) =>
+            <span key={badge} className="inline-flex items-center gap-1 px-3 py-1 bg-pink-500/20 text-pink-400 text-sm rounded-full">
                   {badge}
                   <button onClick={() => toggleBadge(badge)}>
                     <X className="w-3 h-3" />
                   </button>
                 </span>
-              ))}
+            )}
             </div>
-          )}
+          }
 
 
         </div>
@@ -316,49 +316,49 @@ export default function Shop() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <p className="text-zinc-400 mb-6">{filtered.length} products</p>
 
-        {productsLoading ? (
-          <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${gridCols} gap-4 md:gap-6`}>
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-zinc-900 rounded-2xl overflow-hidden animate-pulse">
+        {productsLoading ?
+        <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${gridCols} gap-4 md:gap-6`}>
+            {[...Array(8)].map((_, i) =>
+          <div key={i} className="bg-zinc-900 rounded-2xl overflow-hidden animate-pulse">
                 <div className="aspect-square bg-zinc-800" />
                 <div className="p-4 space-y-3">
                   <div className="h-4 bg-zinc-800 rounded w-3/4" />
                   <div className="h-4 bg-zinc-800 rounded w-1/2" />
                 </div>
               </div>
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-20">
+          )}
+          </div> :
+        filtered.length === 0 ?
+        <div className="text-center py-20">
             <div className="w-24 h-24 rounded-full bg-zinc-800 flex items-center justify-center mx-auto mb-6">
               <Search className="w-12 h-12 text-zinc-600" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">No products found</h3>
             <p className="text-zinc-400 mb-6">Try adjusting your filters or search</p>
-            <Button onClick={() => { setSearch(''); setSelectedCategory('all'); setSelectedBadges([]); }}>
+            <Button onClick={() => {setSearch('');setSelectedCategory('all');setSelectedBadges([]);}}>
               Clear Filters
             </Button>
-          </div>
-        ) : (
-          <motion.div 
-            layout
-            className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${gridCols} gap-4 md:gap-6`}
-          >
+          </div> :
+
+        <motion.div
+          layout
+          className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-${gridCols} gap-4 md:gap-6`}>
+
             <AnimatePresence>
-              {filtered.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  variants={variantsByProduct[product.id] || []}
-                  onAddToCart={handleAddToCart}
-                />
-              ))}
+              {filtered.map((product) =>
+            <ProductCard
+              key={product.id}
+              product={product}
+              variants={variantsByProduct[product.id] || []}
+              onAddToCart={handleAddToCart} />
+
+            )}
             </AnimatePresence>
           </motion.div>
-        )}
+        }
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>);
+
 }
