@@ -60,16 +60,16 @@
 
 /* Custom scrollbar for dark theme */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(240 10% 9%);
+  background: hsl(240 10% 6%);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(240 10% 25%);
+  background: hsl(240 10% 22%);
   border-radius: 4px;
 }
 

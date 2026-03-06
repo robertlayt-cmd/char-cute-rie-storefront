@@ -42,7 +42,7 @@ export default function AdminNav({ currentPage }) {
             style={{ width: '8rem', margin: '0px auto' }}
           />
         </Link>
-        <p className="text-xs text-zinc-500 mt-1 pl-0.5">Admin Panel</p>
+
       </div>
 
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
