@@ -94,6 +94,7 @@ export default function AdminCategories() {
         is_active: true
       });
     }
+    setImageTab('upload');
     setIsDialogOpen(true);
   };
 
