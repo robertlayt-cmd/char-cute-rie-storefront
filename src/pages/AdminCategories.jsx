@@ -121,8 +121,10 @@ export default function AdminCategories() {
   const handleUploadImage = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setUploadingImage(true);
     const { full_url } = await uploadProductImage(file);
-    setEditingCategory({ ...editingCategory, image_url: full_url });
+    setEditingCategory(prev => ({ ...prev, image_url: full_url }));
+    setUploadingImage(false);
   };
 
   const toggleActive = async (category) => {
