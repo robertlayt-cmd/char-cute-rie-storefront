@@ -192,6 +192,11 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
           if (!isVariant && row.title) {
             // Process product
             if (!processedProducts.has(productId)) {
+              // Resolve category name to ID (case-insensitive), fallback to raw value if it's already an ID
+              const rawCat = row.category_name || row.category_id || '';
+              const matchedCat = categories.find(c => c.name.toLowerCase() === rawCat.toLowerCase());
+              const resolvedCategoryId = matchedCat ? matchedCat.id : (rawCat || undefined);
+
               const productData = {
                 title: row.title,
                 slug: row.slug || row.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -199,7 +204,7 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
                 short_description: row.short_description || undefined,
                 base_price: parseFloat(row.base_price) || 0,
                 compare_price: row.compare_price ? parseFloat(row.compare_price) : undefined,
-                category_id: row.category_id || undefined,
+                category_id: resolvedCategoryId,
                 main_image_url: row.main_image_url || undefined,
                 thumbnail_url: row.thumbnail_url || undefined,
                 gallery_images: row.gallery_images ? row.gallery_images.split('|').map(s => s.trim()).filter(Boolean) : undefined,
