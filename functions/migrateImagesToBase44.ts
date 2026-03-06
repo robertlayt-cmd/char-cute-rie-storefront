@@ -9,23 +9,20 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
     }
 
-    // Get batch size and offset from request body
-    const body = await req.json().catch(() => ({}));
-    const batchSize = body.batchSize || 5;
-    const offset = body.offset || 0;
+    const isCuterie = (url) => url && typeof url === 'string' && url.includes('cuterie.me');
 
     const products = await base44.asServiceRole.entities.Product.list();
-    const batchProducts = products.slice(offset, offset + batchSize);
     const results = [];
 
-    for (const product of batchProducts) {
+    for (const product of products) {
       const productResult = { productId: product.id, title: product.title, migrated: [], failed: [] };
+      const updates = {};
 
       // Migrate main image
-      if (product.main_image_url && product.main_image_url.includes('cuterie.me')) {
+      if (isCuterie(product.main_image_url)) {
         try {
-          const { file_url } = await reuploadImage(product.main_image_url, 1200);
-          await base44.asServiceRole.entities.Product.update(product.id, { main_image_url: file_url });
+          const file_url = await reuploadImage(product.main_image_url, base44);
+          updates.main_image_url = file_url;
           productResult.migrated.push('main_image_url');
         } catch (err) {
           productResult.failed.push({ field: 'main_image_url', error: err.message });
@@ -33,10 +30,10 @@ Deno.serve(async (req) => {
       }
 
       // Migrate thumbnail
-      if (product.thumbnail_url && product.thumbnail_url.includes('cuterie.me')) {
+      if (isCuterie(product.thumbnail_url)) {
         try {
-          const { file_url } = await reuploadImage(product.thumbnail_url, 400);
-          await base44.asServiceRole.entities.Product.update(product.id, { thumbnail_url: file_url });
+          const file_url = await reuploadImage(product.thumbnail_url, base44);
+          updates.thumbnail_url = file_url;
           productResult.migrated.push('thumbnail_url');
         } catch (err) {
           productResult.failed.push({ field: 'thumbnail_url', error: err.message });
@@ -44,57 +41,62 @@ Deno.serve(async (req) => {
       }
 
       // Migrate gallery images
-      if (product.gallery_images && Array.isArray(product.gallery_images)) {
+      if (Array.isArray(product.gallery_images) && product.gallery_images.length > 0) {
         const migratedGallery = [];
         for (const imgUrl of product.gallery_images) {
-          if (imgUrl.includes('cuterie.me')) {
+          if (isCuterie(imgUrl)) {
             try {
-              const { file_url } = await reuploadImage(imgUrl, 1200);
+              const file_url = await reuploadImage(imgUrl, base44);
               migratedGallery.push(file_url);
-              productResult.migrated.push('gallery_images');
+              productResult.migrated.push('gallery_image');
             } catch (err) {
+              migratedGallery.push(imgUrl); // keep original if failed
               productResult.failed.push({ field: 'gallery_images', url: imgUrl, error: err.message });
             }
           } else {
             migratedGallery.push(imgUrl);
           }
         }
-        if (migratedGallery.length > 0) {
-          await base44.asServiceRole.entities.Product.update(product.id, { gallery_images: migratedGallery });
-        }
+        updates.gallery_images = migratedGallery;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        await base44.asServiceRole.entities.Product.update(product.id, updates);
       }
 
       results.push(productResult);
     }
 
-    // Also migrate variant images
+    // Migrate variant images
     const variants = await base44.asServiceRole.entities.ProductVariant.list();
     const variantResults = [];
 
     for (const variant of variants) {
-      if (variant.image_url && variant.image_url.includes('cuterie.me')) {
+      if (isCuterie(variant.image_url)) {
         try {
-          const { file_url } = await reuploadImage(variant.image_url, 800);
+          const file_url = await reuploadImage(variant.image_url, base44);
           await base44.asServiceRole.entities.ProductVariant.update(variant.id, { image_url: file_url });
-          variantResults.push({ variantId: variant.id, status: 'migrated' });
+          variantResults.push({ variantId: variant.id, name: variant.name, status: 'migrated' });
         } catch (err) {
-          variantResults.push({ variantId: variant.id, status: 'failed', error: err.message });
+          variantResults.push({ variantId: variant.id, name: variant.name, status: 'failed', error: err.message });
         }
       }
     }
+
+    const migratedProducts = results.filter(r => r.migrated.length > 0).length;
+    const failedProducts = results.filter(r => r.failed.length > 0).length;
 
     return Response.json({
       success: true,
       products: results,
       variants: variantResults,
       summary: {
-        batchSize,
-        offset,
-        processedCount: batchProducts.length,
         totalProducts: products.length,
+        migratedProducts,
+        failedProducts,
         totalVariants: variants.length,
-        nextOffset: offset + batchSize,
-        hasMore: offset + batchSize < products.length,
+        migratedVariants: variantResults.filter(v => v.status === 'migrated').length,
+        failedVariants: variantResults.filter(v => v.status === 'failed').length,
       },
     });
   } catch (error) {
@@ -102,28 +104,15 @@ Deno.serve(async (req) => {
   }
 });
 
-async function reuploadImage(url, maxWidth) {
-   const res = await fetch(url);
-   if (!res.ok) throw new Error(`Failed to fetch image: ${res.statusText}`);
+async function reuploadImage(url, base44) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to fetch image from ${url}: ${res.status} ${res.statusText}`);
 
-   const blob = await res.blob();
-   const arrayBuffer = await blob.arrayBuffer();
-   const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-   const dataUrl = `data:${blob.type};base64,${base64}`;
+  const blob = await res.blob();
+  const file = new File([blob], `migrated-${Date.now()}.jpg`, { type: blob.type || 'image/jpeg' });
 
-   // Create FormData for upload
-   const formData = new FormData();
-   const file = new File([blob], `migrated-${Date.now()}.jpg`, { type: 'image/jpeg' });
-   formData.append('file', file);
+  const result = await base44.integrations.Core.UploadFile({ file });
+  if (!result || !result.file_url) throw new Error('Upload returned no file_url');
 
-   // Upload to base44
-   const uploadRes = await fetch('https://api.base44.com/upload', {
-     method: 'POST',
-     body: formData,
-   });
-
-   if (!uploadRes.ok) throw new Error(`Upload failed: ${uploadRes.statusText}`);
-   const { file_url } = await uploadRes.json();
-
-   return { file_url };
+  return result.file_url;
 }
