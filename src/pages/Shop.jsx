@@ -313,7 +313,7 @@ export default function Shop() {
       </div>
 
       {/* Products */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="mx-auto px-4 py-6 max-w-7xl">
         <p className="text-zinc-400 mb-6">{filtered.length} products</p>
 
         {productsLoading ?
