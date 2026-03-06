@@ -111,23 +111,47 @@ function CommunityCard({ member, index }) {
 export default function CommunitySection({ members = [], title = 'Community' }) {
   if (!members.length) return null;
 
+  // Show only first 4 (1 row on large screens)
+  const preview = members.slice(0, 4);
+
   return (
     <section className="py-6">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-10">
-          <span className="inline-block px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full mb-3">
-            💜 OUR COMMUNITY
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">{title}</h2>
-          <p className="text-zinc-400 mt-2">Discover amazing businesses in our community</p>
+        <div className="mb-10 flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <span className="inline-block px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full mb-3">
+              💜 OUR COMMUNITY
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">{title}</h2>
+            <p className="text-zinc-400 mt-2">Discover amazing businesses in our community</p>
+          </div>
+          {members.length > 4 && (
+            <Link to={createPageUrl('Community')}>
+              <Button variant="outline" className="border-pink-500/50 text-pink-400 hover:bg-pink-500/10 gap-2">
+                View All {members.length} Members
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          )}
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {members.map((member, index) =>
-          <CommunityCard key={member.id} member={member} index={index} />
+          {preview.map((member, index) =>
+            <CommunityCard key={member.id} member={member} index={index} />
           )}
         </div>
-      </div>
-    </section>);
 
+        {members.length > 4 && (
+          <div className="text-center mt-8">
+            <Link to={createPageUrl('Community')}>
+              <Button className="bg-pink-500 hover:bg-pink-600 gap-2">
+                See All Community Members
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }
