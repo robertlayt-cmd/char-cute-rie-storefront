@@ -274,6 +274,7 @@ export default function Checkout() {
   useEffect(() => { orderNotesRef.current = orderNotes; }, [orderNotes]);
   useEffect(() => { differentShippingRef.current = differentShipping; }, [differentShipping]);
   useEffect(() => { shippingDataRef.current = shippingData; }, [shippingData]);
+  useEffect(() => { cartItemsRef.current = cartItems; }, [cartItems]);
 
   const generateOrderNumber = () => {
     const prefix = 'CC';
