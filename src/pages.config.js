@@ -71,6 +71,7 @@ import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Shop from './pages/Shop';
 import ThankYou from './pages/ThankYou';
+import Community from './pages/Community';
 import __Layout from './Layout.jsx';
 
 
@@ -99,6 +100,7 @@ export const PAGES = {
     "Shipping": Shipping,
     "Shop": Shop,
     "ThankYou": ThankYou,
+    "Community": Community,
 }
 
 export const pagesConfig = {

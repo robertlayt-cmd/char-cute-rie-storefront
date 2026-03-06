@@ -8,8 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Search, CheckCircle, XCircle, Clock, Save, Loader2, Globe } from 'lucide-react';
+import { Users, Search, CheckCircle, XCircle, Clock, Save, Loader2, Globe, Eye, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const statusColors = {
   enabled: 'bg-green-500/20 text-green-400 border-green-500/30',
