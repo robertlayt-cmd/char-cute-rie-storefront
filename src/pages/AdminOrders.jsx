@@ -32,6 +32,9 @@ export default function AdminOrders() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [trackingPrompt, setTrackingPrompt] = useState(null); // { order, newStatus }
+  const [trackingNumber, setTrackingNumber] = useState('');
+  const [trackingCarrier, setTrackingCarrier] = useState('');
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ['admin-orders'],
