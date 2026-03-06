@@ -39,7 +39,7 @@ export default function AdminNav({ currentPage }) {
           <img
             src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png"
             alt="Char'Cute'rie"
-            className="h-8"
+            style={{ width: '8rem', margin: '0px auto' }}
           />
         </Link>
         <p className="text-xs text-zinc-500 mt-1 pl-0.5">Admin Panel</p>
