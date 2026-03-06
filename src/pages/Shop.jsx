@@ -236,7 +236,7 @@ export default function Shop() {
             {/* Mobile Filters */}
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" className="md:hidden border-zinc-700">
+                <Button variant="outline" className="bg-background text-slate-50 px-4 py-2 text-sm font-medium rounded-md inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border shadow-sm hover:bg-accent hover:text-accent-foreground h-9 md:hidden border-zinc-700">
                   <SlidersHorizontal className="w-4 h-4 mr-2" />
                   Filters
                 </Button>
