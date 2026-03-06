@@ -101,7 +101,7 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/50 py-2' : 'bg-transparent py-6'
+        isScrolled ? 'bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/50 py-2' : 'bg-transparent pt-2 pb-6'
       }`}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
@@ -121,6 +121,7 @@ export default function Header({ cartCount = 0, onCartClick, categories: propCat
                 src="https://cuterie.me/skins/Cuterie2026/images/default/logo/default.png"
                 alt="Char'Cute'rie"
                 className={`transition-all duration-300 ${atTop ? 'h-32 md:h-20' : 'h-12 md:h-12'}`}
+                style={{ filter: 'brightness(0) invert(1)' }}
               />
             </Link>
 
