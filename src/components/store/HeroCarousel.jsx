@@ -15,7 +15,7 @@ export default function HeroCarousel({ products = [], categories = [] }) {
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % products.length);
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [products.length]);
@@ -107,7 +107,7 @@ export default function HeroCarousel({ products = [], categories = [] }) {
               transition={{ duration: 0.5 }}
               className="text-center lg:text-left"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight capitalize">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight capitalize">
                 {currentProduct.title}
               </h1>
 
