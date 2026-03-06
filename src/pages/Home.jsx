@@ -214,6 +214,11 @@ export default function Home() {
         </section>
       )}
 
+      {/* Community */}
+      {settings?.community_enabled && communityMembers.length > 0 && (
+        <CommunitySection members={communityMembers} title={settings.community_title || 'Community'} />
+      )}
+
       {/* Best Sellers */}
       <ProductSection
         title="Best Sellers"
