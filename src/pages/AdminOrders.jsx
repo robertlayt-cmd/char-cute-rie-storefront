@@ -249,6 +249,50 @@ export default function AdminOrders() {
           </CardContent>
         </Card>
 
+        {/* Tracking Info Dialog */}
+        <Dialog open={!!trackingPrompt} onOpenChange={() => setTrackingPrompt(null)}>
+          <DialogContent className="bg-zinc-900 border-zinc-800 max-w-md [&>button]:text-white [&>button]:bg-zinc-700 [&>button]:hover:bg-zinc-600 [&>button]:rounded-md [&>button]:border [&>button]:border-zinc-600">
+            <DialogHeader>
+              <DialogTitle className="text-white flex items-center gap-2">
+                <Truck className="w-5 h-5 text-blue-400" />
+                Shipping Tracking Info
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 pt-2">
+              <p className="text-zinc-400 text-sm">Optionally add tracking details — they'll be included in the shipping notification email.</p>
+              <div>
+                <label className="text-zinc-300 text-sm mb-1 block">Carrier (e.g. Australia Post, StarTrack)</label>
+                <Input
+                  value={trackingCarrier}
+                  onChange={e => setTrackingCarrier(e.target.value)}
+                  placeholder="Australia Post"
+                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
+                />
+              </div>
+              <div>
+                <label className="text-zinc-300 text-sm mb-1 block">Tracking Number</label>
+                <Input
+                  value={trackingNumber}
+                  onChange={e => setTrackingNumber(e.target.value)}
+                  placeholder="e.g. 7XXXXXXXXXX"
+                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
+                />
+              </div>
+              <div className="flex gap-3 pt-2">
+                <Button
+                  className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  onClick={() => commitStatusChange(trackingPrompt.order, trackingPrompt.newStatus, trackingNumber, trackingCarrier)}
+                >
+                  Mark as Shipped &amp; Send Email
+                </Button>
+                <Button variant="outline" className="border-zinc-700 text-zinc-300" onClick={() => setTrackingPrompt(null)}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* Order Detail Dialog */}
         <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
           <DialogContent className="bg-zinc-900 border-zinc-800 max-w-2xl max-h-[90vh] overflow-y-auto [&>button]:text-white [&>button]:bg-zinc-700 [&>button]:hover:bg-zinc-600 [&>button]:rounded-md [&>button]:border [&>button]:border-zinc-600">
