@@ -58,9 +58,10 @@
   }
 }
 
-/* Ensure select dropdown items have white text in dark contexts */
-[data-radix-popper-content-wrapper] [data-radix-select-item] {
-  color: white;
+/* Ensure select dropdown items have white text */
+.bg-zinc-800 [data-radix-select-item],
+[data-radix-select-viewport] [data-radix-select-item] {
+  color: white !important;
 }
 
 /* Custom scrollbar for dark theme */
