@@ -58,7 +58,7 @@ function CommunityCard({ member, index }) {
       </div>
 
       {/* Content */}
-      <div className="pt-2 px-4 pb-4">
+      <div className="pt-2 px-4 pb-4 flex flex-col flex-1">
         <h3 className="text-white font-bold text-base capitalize leading-tight">{member.business_name}</h3>
         {member.description &&
         <p className="text-zinc-400 text-xs mt-1 line-clamp-2">{member.description}</p>
@@ -88,15 +88,19 @@ function CommunityCard({ member, index }) {
           </div>
         }
 
-        {/* Website Button */}
-        {member.website_url &&
-        <a href={member.website_url.startsWith('http') ? member.website_url : `https://${member.website_url}`} target="_blank" rel="noopener noreferrer" className="block mt-3">
-            <Button size="sm" className="w-full bg-pink-500 hover:bg-pink-600 text-white text-xs">
-              <ExternalLink className="w-3 h-3 mr-1.5" />
-              Visit Website
-            </Button>
-          </a>
-        }
+        {/* Website Button — always at bottom */}
+        <div className="mt-auto pt-3">
+          {member.website_url ? (
+            <a href={member.website_url.startsWith('http') ? member.website_url : `https://${member.website_url}`} target="_blank" rel="noopener noreferrer" className="block">
+              <Button size="sm" className="w-full bg-pink-500 hover:bg-pink-600 text-white text-xs">
+                <ExternalLink className="w-3 h-3 mr-1.5" />
+                Visit Website
+              </Button>
+            </a>
+          ) : (
+            <div className="h-8" />
+          )}
+        </div>
       </div>
     </motion.div>);
 
