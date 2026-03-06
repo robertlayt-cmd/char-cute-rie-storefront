@@ -54,6 +54,15 @@ export default function Home() {
     return acc;
   }, {});
 
+  const { data: communityMembers = [] } = useQuery({
+    queryKey: ['community-members'],
+    queryFn: async () => {
+      const all = await base44.entities.User.list();
+      return all.filter(u => u.business_name && u.community_status === 'enabled');
+    },
+    enabled: settings?.community_enabled === true,
+  });
+
   const featuredProducts = products.filter(p => p.is_featured).slice(0, 5);
   const newArrivals = products.filter(p => p.badge === 'new').slice(0, 8);
   const tiktokProducts = products.filter(p => p.is_tiktok_featured).slice(0, 8);
