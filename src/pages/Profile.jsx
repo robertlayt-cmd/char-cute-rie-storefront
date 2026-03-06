@@ -78,7 +78,14 @@ export default function Profile() {
   }, [currentUser?.id]);
 
   const saveMutation = useMutation({
-    mutationFn: (data) => base44.auth.updateMe(data),
+    mutationFn: async (data) => {
+      // If user was community-enabled and changed key profile fields, set back to pending
+      const communityFields = ['business_name', 'description', 'profile_image_url', 'banner_image_url', 'website_url', 'tiktok_url', 'instagram_url', 'facebook_url'];
+      const wasEnabled = currentUser?.community_status === 'enabled';
+      const hasChanges = wasEnabled && communityFields.some(f => data[f] !== currentUser[f]);
+      const payload = hasChanges ? { ...data, community_status: 'pending' } : data;
+      return base44.auth.updateMe(payload);
+    },
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(['me'], (old) => ({ ...old, ...updatedUser }));
       queryClient.invalidateQueries({ queryKey: ['me'] });
