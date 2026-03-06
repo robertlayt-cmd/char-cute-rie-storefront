@@ -97,6 +97,9 @@ export default function AdminProducts() {
     setSelected(next);
   };
 
+  const [bulkBadgeValue, setBulkBadgeValue] = useState('');
+  const [bulkFeaturedValue, setBulkFeaturedValue] = useState('');
+
   const handleBulkAction = async () => {
     if (!bulkAction || selected.size === 0) return;
     const ids = Array.from(selected);
@@ -110,9 +113,17 @@ export default function AdminProducts() {
       for (const id of ids) await updateProduct.mutateAsync({ id, data: { status: 'draft' } });
     } else if (bulkAction === 'archive') {
       for (const id of ids) await updateProduct.mutateAsync({ id, data: { status: 'archived' } });
+    } else if (bulkAction === 'badge') {
+      for (const id of ids) await updateProduct.mutateAsync({ id, data: { badge: bulkBadgeValue } });
+    } else if (bulkAction === 'featured_hero') {
+      for (const id of ids) await updateProduct.mutateAsync({ id, data: { is_featured: bulkFeaturedValue === 'true' } });
+    } else if (bulkAction === 'featured_tiktok') {
+      for (const id of ids) await updateProduct.mutateAsync({ id, data: { is_tiktok_featured: bulkFeaturedValue === 'true' } });
     }
     setSelected(new Set());
     setBulkAction('');
+    setBulkBadgeValue('');
+    setBulkFeaturedValue('');
   };
 
   const handleSave = async () => {
@@ -250,7 +261,7 @@ export default function AdminProducts() {
               <SelectValue placeholder="Featured" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
-              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="all">All (Featured)</SelectItem>
               <SelectItem value="hero">Featured in Hero</SelectItem>
               <SelectItem value="tiktok">TikTok Featured</SelectItem>
             </SelectContent>
@@ -280,9 +291,38 @@ export default function AdminProducts() {
                 <SelectItem value="publish">Set Published</SelectItem>
                 <SelectItem value="draft">Set Draft</SelectItem>
                 <SelectItem value="archive">Set Archived</SelectItem>
+                <SelectItem value="badge">Assign Badge</SelectItem>
+                <SelectItem value="featured_hero">Set Hero Featured</SelectItem>
+                <SelectItem value="featured_tiktok">Set TikTok Featured</SelectItem>
                 <SelectItem value="delete">Delete</SelectItem>
               </SelectContent>
             </Select>
+            {bulkAction === 'badge' && (
+              <Select value={bulkBadgeValue} onValueChange={setBulkBadgeValue}>
+                <SelectTrigger className="w-[150px] bg-zinc-800 border-zinc-700 text-white h-8">
+                  <SelectValue placeholder="Pick badge..." />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                  <SelectItem value={null}>None</SelectItem>
+                  <SelectItem value="new">New</SelectItem>
+                  <SelectItem value="hot">Hot</SelectItem>
+                  <SelectItem value="limited">Limited</SelectItem>
+                  <SelectItem value="tiktok">TikTok Fave</SelectItem>
+                  <SelectItem value="bestseller">Bestseller</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+            {(bulkAction === 'featured_hero' || bulkAction === 'featured_tiktok') && (
+              <Select value={bulkFeaturedValue} onValueChange={setBulkFeaturedValue}>
+                <SelectTrigger className="w-[130px] bg-zinc-800 border-zinc-700 text-white h-8">
+                  <SelectValue placeholder="On/Off..." />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
+                  <SelectItem value="true">Enable</SelectItem>
+                  <SelectItem value="false">Disable</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
             <Button size="sm" onClick={handleBulkAction} disabled={!bulkAction} className="bg-pink-500 hover:bg-pink-600 text-white h-8">
               Apply
             </Button>
