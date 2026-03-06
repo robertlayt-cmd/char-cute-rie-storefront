@@ -195,7 +195,7 @@ export default function Shop() {
 
       {/* Hero */}
       <div className="bg-gradient-to-b pt-24 pb-4 from-zinc-900 to-zinc-950">
-        <div className="mt-8 px-4 max-w-7xl">
+        <div className="mt-8 px-4 max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             {currentCategory?.name || 'All Products'}
           </h1>
