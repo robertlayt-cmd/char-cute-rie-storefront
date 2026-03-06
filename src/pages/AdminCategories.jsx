@@ -352,16 +352,51 @@ export default function AdminCategories() {
 
                 <div>
                   <Label className="text-zinc-200">Image</Label>
-                  <div className="flex gap-4 mt-2">
-                    {editingCategory.image_url && (
-                      <img src={editingCategory.image_url} className="w-24 h-24 object-cover rounded-lg" alt="" />
-                    )}
-                    <label className="w-24 h-24 border-2 border-dashed border-zinc-700 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-pink-500">
-                      <Upload className="w-6 h-6 text-zinc-400" />
-                      <span className="text-xs text-zinc-400 mt-1">Upload</span>
-                      <input type="file" accept="image/*" className="hidden" onChange={handleUploadImage} />
-                    </label>
+                  
+                  {/* Tabs */}
+                  <div className="flex gap-2 mt-2 mb-3">
+                    <button
+                      onClick={() => setImageTab('upload')}
+                      className={`px-3 py-1 rounded text-sm font-medium transition-colors ${imageTab === 'upload' ? 'bg-pink-500 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
+                    >Upload</button>
+                    <button
+                      onClick={() => setImageTab('product')}
+                      className={`px-3 py-1 rounded text-sm font-medium transition-colors ${imageTab === 'product' ? 'bg-pink-500 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
+                    >From Products {categoryProducts.length > 0 && `(${categoryProducts.length})`}</button>
                   </div>
+
+                  {imageTab === 'upload' ? (
+                    <div className="flex gap-4">
+                      {editingCategory.image_url && (
+                        <img src={editingCategory.image_url} className="w-24 h-24 object-cover rounded-lg" alt="" />
+                      )}
+                      <label className={`w-24 h-24 border-2 border-dashed border-zinc-700 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-pink-500 ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
+                        <Upload className="w-6 h-6 text-zinc-400" />
+                        <span className="text-xs text-zinc-400 mt-1">{uploadingImage ? 'Uploading...' : 'Upload'}</span>
+                        <input type="file" accept="image/*" className="hidden" onChange={handleUploadImage} />
+                      </label>
+                    </div>
+                  ) : categoryProducts.length === 0 ? (
+                    <p className="text-zinc-500 text-sm">No products with images found in this category.</p>
+                  ) : (
+                    <div className="grid grid-cols-4 gap-2 max-h-48 overflow-y-auto pr-1">
+                      {categoryProducts.map(product => (
+                        <button
+                          key={product.id}
+                          onClick={() => setEditingCategory(prev => ({ ...prev, image_url: product.main_image_url }))}
+                          className={`relative rounded-lg overflow-hidden aspect-square border-2 transition-colors ${editingCategory.image_url === product.main_image_url ? 'border-pink-500' : 'border-transparent hover:border-zinc-500'}`}
+                        >
+                          <img src={product.thumbnail_url || product.main_image_url} alt={product.title} className="w-full h-full object-cover" />
+                          {editingCategory.image_url === product.main_image_url && (
+                            <div className="absolute inset-0 bg-pink-500/30 flex items-center justify-center">
+                              <Check className="w-5 h-5 text-white" />
+                            </div>
+                          )}
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] px-1 py-0.5 truncate">{product.title}</div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-2">
