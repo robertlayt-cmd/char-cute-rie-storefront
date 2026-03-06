@@ -310,7 +310,7 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
             <div className="space-y-3 mb-3 text-sm text-zinc-300">
               <p className="font-semibold text-white mb-2">CSV Columns Required:</p>
               <div className="bg-black/30 rounded p-3 space-y-2 text-xs">
-                <div><strong>Product Fields:</strong> product_id, product_type, title, slug, description, short_description, base_price, compare_price, category_id, main_image_url, thumbnail_url, gallery_images (pipe-separated), materials, care_instructions, tags (comma-separated), badge, is_featured, is_tiktok_featured, status, default_stock</div>
+                <div><strong>Product Fields:</strong> product_id, product_type, title, slug, description, short_description, base_price, compare_price, category_name (e.g. "Earrings" - case insensitive), main_image_url, thumbnail_url, gallery_images (pipe-separated), materials, care_instructions, tags (comma-separated), badge, is_featured, is_tiktok_featured, status, default_stock</div>
                 <div><strong>Variant Fields:</strong> variant_id, variant_name, variant_color (text name or hex, e.g., "gold" or "#FFD700"), variant_image_url, variant_price_adjustment, variant_stock, variant_sku</div>
               </div>
               <p className="text-zinc-400 mt-3">
