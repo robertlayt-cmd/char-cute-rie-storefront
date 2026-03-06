@@ -92,7 +92,7 @@ export default function AdminOrders() {
       <h3 style="color:#ffffff;margin:0 0 12px;font-size:16px;">📦 Tracking Information</h3>
       <table style="width:100%;border-collapse:collapse;">
         ${trackCarrier ? `<tr><td style="color:#a1a1aa;padding:6px 0;">Carrier</td><td style="color:#ffffff;font-weight:600;text-align:right;padding:6px 0;">${trackCarrier}</td></tr>` : ''}
-        ${trackNum ? `<tr><td style="color:#a1a1aa;padding:6px 0;">Tracking Number</td><td style="color:#ec4899;font-family:monospace;font-weight:700;text-align:right;padding:6px 0;">${trackNum}</td></tr>` : ''}
+        ${trackNum ? `<tr><td style="color:#a1a1aa;padding:6px 0;">Tracking Number</td><td style="color:#ffffff;font-family:monospace;font-weight:700;text-align:right;padding:6px 0;">${trackNum}</td></tr>` : ''}
       </table>
     </div>` : '';
 
@@ -131,7 +131,7 @@ export default function AdminOrders() {
     <div style="text-align:center;margin-bottom:24px;">
       <a href="https://www.tiktok.com/@char.cute.rie" style="display:inline-block;background:linear-gradient(135deg,#ec4899,#a855f7);color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:15px;">Follow @char.cute.rie on TikTok 💕</a>
     </div>
-    <p style="color:#52525b;text-align:center;font-size:13px;margin:0;">© 2024 Char'Cute'rie · Made with love in Melbourne, Australia 🇦🇺</p>
+    <p style="color:#ffffff;text-align:center;font-size:13px;margin:0;">© 2024 Char'Cute'rie · Made with love in Melbourne, Australia 🇦🇺</p>
   </div>
 </body>
 </html>`
