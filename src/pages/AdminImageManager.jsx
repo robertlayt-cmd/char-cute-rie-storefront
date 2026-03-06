@@ -85,21 +85,38 @@ export default function AdminImageManager() {
 
   const handleMigrate = async () => {
     setIsMigrating(true);
+    let offset = 0;
+    const batchSize = 5;
+    let totalMigrated = 0;
+    let totalFailed = 0;
+    let totalProducts = 0;
+
     setMigrationStatus({ status: 'running', message: 'Starting migration...' });
+
     try {
-      const response = await base44.functions.invoke('migrateImagesToBase44', {});
+      while (true) {
+        setMigrationStatus({ status: 'running', message: `Migrating images... (processed ${offset} so far)` });
+        const response = await base44.functions.invoke('migrateImagesToBase44', { batchSize, offset });
+        const data = response.data;
+
+        if (!data.success) throw new Error(data.error || 'Migration failed');
+
+        totalMigrated += data.summary.migratedProducts || 0;
+        totalFailed += data.summary.failedProducts || 0;
+        totalProducts = data.summary.totalProducts || 0;
+
+        if (!data.summary.hasMore) break;
+        offset = data.summary.nextOffset;
+      }
+
       setMigrationStatus({
         status: 'success',
-        message: 'Migration complete!',
-        data: response.data,
+        message: `Migration complete! ${totalMigrated} products updated, ${totalFailed} failed out of ${totalProducts} total.`,
       });
       queryClient.invalidateQueries(['admin-products-images']);
       queryClient.invalidateQueries(['admin-variants-images']);
     } catch (error) {
-      setMigrationStatus({
-        status: 'error',
-        message: error.message,
-      });
+      setMigrationStatus({ status: 'error', message: error.message });
     }
     setIsMigrating(false);
   };
