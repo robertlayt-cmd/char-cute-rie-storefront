@@ -22,6 +22,7 @@ export default function AdminImageManager() {
   const [showBulkUpload, setShowBulkUpload] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [imageFilter, setImageFilter] = useState('all');
 
   const { data: products = [] } = useQuery({
     queryKey: ['admin-products-images'],
