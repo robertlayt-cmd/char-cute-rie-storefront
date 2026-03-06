@@ -122,9 +122,12 @@ export default function AdminImageManager() {
 
   const isExternal = (url) => url?.includes('cuterie.me') || url?.includes('unsplash.com');
 
-  const filtered = useMemo(() => allImages.filter(img =>
-    !search || img.productTitle?.toLowerCase().includes(search.toLowerCase()) || img.variantName?.toLowerCase().includes(search.toLowerCase())
-  ), [allImages, search]);
+  const filtered = useMemo(() => allImages.filter(img => {
+    const matchesSearch = !search || img.productTitle?.toLowerCase().includes(search.toLowerCase()) || img.variantName?.toLowerCase().includes(search.toLowerCase());
+    const external = isExternal(img.url);
+    const matchesFilter = imageFilter === 'all' || (imageFilter === 'external' && external) || (imageFilter === 'local' && !external);
+    return matchesSearch && matchesFilter;
+  }), [allImages, search, imageFilter]);
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
