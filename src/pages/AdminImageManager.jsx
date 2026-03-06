@@ -242,23 +242,33 @@ export default function AdminImageManager() {
         )}
 
         {/* Pagination and Items Per Page */}
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="mb-6 flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <span className="text-sm text-zinc-400">Show per page:</span>
             <Select value={itemsPerPage.toString()} onValueChange={(val) => {
               setItemsPerPage(parseInt(val));
               setCurrentPage(1);
             }}>
-              <SelectTrigger className="w-20 bg-zinc-900 border-zinc-800">
-                <SelectValue />
+              <SelectTrigger className="w-20 bg-zinc-900 border-zinc-800 text-white">
+                <SelectValue className="text-white" />
               </SelectTrigger>
               <SelectContent className="bg-zinc-900 border-zinc-800">
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="20">20</SelectItem>
-                <SelectItem value="50">50</SelectItem>
-                <SelectItem value="100">100</SelectItem>
+                <SelectItem value="10" className="text-white">10</SelectItem>
+                <SelectItem value="20" className="text-white">20</SelectItem>
+                <SelectItem value="50" className="text-white">50</SelectItem>
+                <SelectItem value="100" className="text-white">100</SelectItem>
               </SelectContent>
             </Select>
+            <span className="text-sm text-zinc-400">Filter:</span>
+            <select
+              value={imageFilter}
+              onChange={(e) => { setImageFilter(e.target.value); setCurrentPage(1); }}
+              className="bg-zinc-900 border border-zinc-800 text-white rounded px-3 py-1.5 text-sm"
+            >
+              <option value="all">All Images</option>
+              <option value="local">Local (Base44)</option>
+              <option value="external">External (cuterie.me)</option>
+            </select>
           </div>
           <div className="text-sm text-zinc-400">
             {filtered.length === 0 ? 'No images' : `${startIdx + 1}-${Math.min(startIdx + itemsPerPage, filtered.length)} of ${filtered.length}`}
