@@ -43,22 +43,23 @@ function CommunityCard({ member, index }) {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
 
-        {/* Profile Picture */}
-        <div className="absolute bottom-0 left-4 translate-y-1/2">
-          <div className="w-14 h-14 rounded-xl border-2 border-zinc-900 overflow-hidden bg-zinc-800">
-            {member.profile_image_url ? (
-              <img src={member.profile_image_url} alt={member.full_name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-zinc-500">
-                {member.business_name?.[0] || member.full_name?.[0] || '?'}
-              </div>
-            )}
-          </div>
+      </div>
+
+      {/* Profile Picture — sits between banner and content, outside overflow-hidden banner */}
+      <div className="px-4 -mt-9">
+        <div className="w-16 h-16 rounded-xl border-2 border-zinc-900 overflow-hidden bg-zinc-800">
+          {member.profile_image_url ? (
+            <img src={member.profile_image_url} alt={member.full_name} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-zinc-500">
+              {member.business_name?.[0] || member.full_name?.[0] || '?'}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="pt-9 px-4 pb-4">
+      <div className="pt-2 px-4 pb-4">
         <h3 className="text-white font-bold text-base capitalize leading-tight">{member.business_name}</h3>
         {member.description && (
           <p className="text-zinc-400 text-xs mt-1 line-clamp-2">{member.description}</p>
