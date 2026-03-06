@@ -57,8 +57,8 @@ export default function Home() {
   const { data: communityMembers = [] } = useQuery({
     queryKey: ['community-members'],
     queryFn: async () => {
-      const all = await base44.entities.User.list();
-      return all.filter(u => u.business_name && u.community_status === 'enabled');
+      const res = await base44.functions.invoke('getCommunityMembers', {});
+      return res.data.members || [];
     },
     enabled: settings?.community_enabled === true,
   });
