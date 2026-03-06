@@ -42,7 +42,6 @@ function CommunityCard({ member, index }) {
           <div className="w-full h-full bg-gradient-to-br from-pink-900/40 to-purple-900/40" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
-
       </div>
 
       {/* Profile Picture — sits between banner and content, outside overflow-hidden banner */}
