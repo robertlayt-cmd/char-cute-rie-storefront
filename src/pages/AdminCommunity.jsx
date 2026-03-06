@@ -28,6 +28,7 @@ export default function AdminCommunity() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [isSavingSettings, setIsSavingSettings] = useState(false);
+  const [viewingUser, setViewingUser] = useState(null);
 
   const { data: settings, isLoading: settingsLoading } = useQuery({
     queryKey: ['admin-settings'],
