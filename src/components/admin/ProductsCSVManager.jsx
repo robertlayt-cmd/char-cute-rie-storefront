@@ -97,7 +97,7 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
             idx === 0 ? (p.short_description || '') : '',
             idx === 0 ? p.base_price : '',
             idx === 0 ? (p.compare_price || '') : '',
-            idx === 0 ? (p.category_id || '') : '',
+            idx === 0 ? catName : '',
             idx === 0 ? (p.main_image_url || '') : '',
             idx === 0 ? (p.thumbnail_url || '') : '',
             idx === 0 ? (p.gallery_images || []).join('|') : '',
