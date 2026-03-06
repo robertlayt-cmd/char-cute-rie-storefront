@@ -20,10 +20,26 @@ export default function AdminCategories() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [expandedParents, setExpandedParents] = useState({});
 
+  const [imageTab, setImageTab] = useState('upload'); // 'upload' | 'product'
+  const [uploadingImage, setUploadingImage] = useState(false);
+
   const { data: categories = [] } = useQuery({
     queryKey: ['admin-categories'],
     queryFn: () => base44.entities.Category.list('display_order'),
   });
+
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ['admin-all-products'],
+    queryFn: () => base44.entities.Product.filter({ status: 'published' }),
+  });
+
+  // Products in the currently editing category (and its children)
+  const categoryProducts = useMemo(() => {
+    if (!editingCategory?.id) return [];
+    const childIds = categories.filter(c => c.parent_id === editingCategory.id).map(c => c.id);
+    const matchIds = [editingCategory.id, ...childIds];
+    return allProducts.filter(p => matchIds.includes(p.category_id) && p.main_image_url);
+  }, [editingCategory?.id, allProducts, categories]);
 
   const createCategory = useMutation({
     mutationFn: (data) => base44.entities.Category.create(data),
