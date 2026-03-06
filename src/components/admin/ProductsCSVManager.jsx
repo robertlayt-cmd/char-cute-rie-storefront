@@ -23,6 +23,12 @@ export default function ProductsCSVManager({ isOpen, onOpenChange }) {
     enabled: isOpen,
   });
 
+  const { data: categories = [] } = useQuery({
+    queryKey: ['admin-categories-csv'],
+    queryFn: () => base44.entities.Category.list(),
+    enabled: isOpen,
+  });
+
   const downloadSampleCSV = () => {
     const sampleData = [
       ['product_id', 'product_type', 'title', 'slug', 'description', 'short_description', 'base_price', 'compare_price', 'category_id', 'main_image_url', 'thumbnail_url', 'gallery_images', 'materials', 'care_instructions', 'tags', 'badge', 'is_featured', 'is_tiktok_featured', 'status', 'default_stock', 'variant_id', 'variant_name', 'variant_color', 'variant_image_url', 'variant_price_adjustment', 'variant_stock', 'variant_sku'],
