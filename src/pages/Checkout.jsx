@@ -200,12 +200,12 @@ export default function Checkout() {
         const orderNumber = sessionStorage.getItem('orderNumber');
         const pendingOrder = JSON.parse(sessionStorage.getItem('pendingOrder') || '{}');
         const createdOrder = await base44.entities.Order.create(pendingOrder);
-        const captureRes = await base44.functions.invoke('paypalCaptureOrder', {
+        await base44.functions.invoke('paypalCaptureOrder', {
           paypalOrderId: data.orderID,
           internalOrderId: createdOrder.id,
         });
-        console.log('Capture result:', captureRes.data);
-        sendConfirmationEmail(orderNumber);
+        // Send email using the actual saved order data
+        sendConfirmationEmail(orderNumber, pendingOrder);
         localStorage.removeItem('cart');
         localStorage.removeItem('appliedDiscount');
         sessionStorage.removeItem('pendingOrder');
