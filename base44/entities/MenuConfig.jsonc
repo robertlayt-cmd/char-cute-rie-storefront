@@ -1,0 +1,49 @@
+{
+  "name": "MenuConfig",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Menu item label/display text"
+    },
+    "link_type": {
+      "type": "string",
+      "enum": [
+        "category",
+        "page",
+        "external"
+      ],
+      "default": "category",
+      "description": "Type of link this menu item points to"
+    },
+    "category_id": {
+      "type": "string",
+      "description": "Reference to category (if link_type is 'category')"
+    },
+    "page_name": {
+      "type": "string",
+      "description": "Page name like 'About', 'Contact' (if link_type is 'page')"
+    },
+    "external_url": {
+      "type": "string",
+      "description": "External URL (if link_type is 'external')"
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "Parent menu item ID for nested items"
+    },
+    "display_order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "label",
+    "link_type"
+  ]
+}

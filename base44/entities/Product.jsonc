@@ -1,0 +1,118 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Product title"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly slug"
+    },
+    "description": {
+      "type": "string",
+      "description": "Full product description"
+    },
+    "short_description": {
+      "type": "string",
+      "description": "Brief description for cards"
+    },
+    "base_price": {
+      "type": "number",
+      "description": "Base price in AUD"
+    },
+    "compare_price": {
+      "type": "number",
+      "description": "Original/compare price for showing discounts"
+    },
+    "category_id": {
+      "type": "string",
+      "description": "Reference to category"
+    },
+    "main_image_url": {
+      "type": "string",
+      "description": "Primary product image (1200px wide)"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "Thumbnail product image (400px wide)"
+    },
+    "gallery_images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional product images"
+    },
+    "materials": {
+      "type": "string",
+      "description": "Materials used"
+    },
+    "care_instructions": {
+      "type": "string",
+      "description": "Care and handling instructions"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Product tags for filtering"
+    },
+    "badge": {
+      "type": "string",
+      "enum": [
+        "new",
+        "hot",
+        "limited",
+        "tiktok",
+        "bestseller",
+        ""
+      ],
+      "description": "Display badge"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show in hero carousel"
+    },
+    "is_tiktok_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured on TikTok section"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "default_stock": {
+      "type": "number",
+      "default": 0,
+      "description": "Stock level when no variants are used"
+    },
+    "total_stock": {
+      "type": "number",
+      "default": 0,
+      "description": "Calculated total stock across variants"
+    },
+    "rating": {
+      "type": "number",
+      "default": 5
+    },
+    "review_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "slug",
+    "base_price"
+  ]
+}

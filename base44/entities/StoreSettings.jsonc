@@ -1,0 +1,110 @@
+{
+  "name": "StoreSettings",
+  "type": "object",
+  "properties": {
+    "store_name": {
+      "type": "string",
+      "default": "Char'Cute'rie"
+    },
+    "logo_url": {
+      "type": "string"
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "tiktok_url": {
+      "type": "string",
+      "default": "https://www.tiktok.com/@char.cute.rie"
+    },
+    "instagram_url": {
+      "type": "string"
+    },
+    "facebook_url": {
+      "type": "string"
+    },
+    "youtube_url": {
+      "type": "string"
+    },
+    "pinterest_url": {
+      "type": "string"
+    },
+    "twitter_url": {
+      "type": "string"
+    },
+    "shipping_flat_rate": {
+      "type": "number",
+      "default": 9.95
+    },
+    "free_shipping_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "free_shipping_threshold": {
+      "type": "number",
+      "default": 75
+    },
+    "paypal_client_id": {
+      "type": "string"
+    },
+    "paypal_client_secret": {
+      "type": "string"
+    },
+    "paypal_mode": {
+      "type": "string",
+      "enum": [
+        "sandbox",
+        "live"
+      ],
+      "default": "sandbox"
+    },
+    "currency": {
+      "type": "string",
+      "default": "AUD"
+    },
+    "about_text": {
+      "type": "string"
+    },
+    "shipping_policy": {
+      "type": "string"
+    },
+    "returns_policy": {
+      "type": "string"
+    },
+    "page_shipping_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "page_returns_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "page_about_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "page_contact_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "active_theme_id": {
+      "type": "string",
+      "description": "ID of the active theme template"
+    },
+    "community_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the community section is shown on the homepage"
+    },
+    "community_title": {
+      "type": "string",
+      "default": "Community",
+      "description": "Title shown on the homepage community section"
+    }
+  },
+  "required": [
+    "store_name"
+  ]
+}

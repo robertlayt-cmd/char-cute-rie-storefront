@@ -1,0 +1,51 @@
+{
+  "name": "DiscountCode",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Discount code"
+    },
+    "discount_type": {
+      "type": "string",
+      "enum": [
+        "percentage",
+        "fixed"
+      ],
+      "default": "percentage"
+    },
+    "discount_value": {
+      "type": "number",
+      "description": "Percentage or fixed amount"
+    },
+    "minimum_order": {
+      "type": "number",
+      "default": 0
+    },
+    "max_uses": {
+      "type": "number",
+      "default": -1,
+      "description": "-1 for unlimited"
+    },
+    "times_used": {
+      "type": "number",
+      "default": 0
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "code",
+    "discount_value"
+  ]
+}

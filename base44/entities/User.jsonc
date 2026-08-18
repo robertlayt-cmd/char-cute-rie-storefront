@@ -1,0 +1,31 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "user"
+      ],
+      "default": "user"
+    },
+    "community_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "enabled",
+        "disabled"
+      ],
+      "default": "pending",
+      "description": "Admin-controlled community listing status"
+    },
+    "community_profile_snapshot": {
+      "type": "string",
+      "description": "Snapshot of profile data at time of approval (JSON string)"
+    }
+  },
+  "required": [
+    "community_profile_snapshot"
+  ]
+}

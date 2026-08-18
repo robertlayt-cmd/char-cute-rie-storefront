@@ -1,0 +1,96 @@
+{
+  "name": "ThemeTemplate",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Theme template name"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly slug for the theme"
+    },
+    "description": {
+      "type": "string",
+      "description": "Theme description"
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false,
+      "description": "Is this the default theme"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Is this theme available for use"
+    },
+    "primary_color": {
+      "type": "string",
+      "default": "330 80% 60%",
+      "description": "Primary color in HSL format"
+    },
+    "primary_foreground": {
+      "type": "string",
+      "default": "0 0% 98%",
+      "description": "Primary foreground color"
+    },
+    "secondary_color": {
+      "type": "string",
+      "default": "0 0% 96.1%",
+      "description": "Secondary color"
+    },
+    "background_color": {
+      "type": "string",
+      "default": "0 0% 100%",
+      "description": "Background color"
+    },
+    "header_style": {
+      "type": "string",
+      "enum": [
+        "dark",
+        "light",
+        "gradient"
+      ],
+      "default": "dark",
+      "description": "Header style variant"
+    },
+    "card_style": {
+      "type": "string",
+      "enum": [
+        "minimal",
+        "elevated",
+        "bordered"
+      ],
+      "default": "minimal",
+      "description": "Card design style"
+    },
+    "border_radius": {
+      "type": "string",
+      "enum": [
+        "none",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "default": "md",
+      "description": "Border radius size"
+    },
+    "custom_css": {
+      "type": "string",
+      "description": "Additional custom CSS for the theme"
+    },
+    "preview_image_url": {
+      "type": "string",
+      "description": "Preview image of the theme"
+    },
+    "display_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "name",
+    "slug"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "ProductVariant",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to parent product"
+    },
+    "name": {
+      "type": "string",
+      "description": "Variant name (e.g. Bubblegum Pink)"
+    },
+    "sku": {
+      "type": "string",
+      "description": "Stock keeping unit"
+    },
+    "color_hex": {
+      "type": "string",
+      "description": "Color hex code for swatch"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Variant-specific image"
+    },
+    "price_adjustment": {
+      "type": "number",
+      "default": 0,
+      "description": "Price adjustment from base"
+    },
+    "stock_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false
+    },
+    "display_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "product_id",
+    "name",
+    "sku"
+  ]
+}
